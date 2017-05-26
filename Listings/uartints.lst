@@ -107,1540 +107,1547 @@ ARM Macro Assembler    Page 2
    47 00000000 4000C028 
                        UART0_FBRD_R
                                EQU              0x4000C028
-   48 00000000 4000C02C 
+   48 00000000         
+   49 00000000 4000C02C 
                        UART0_LCRH_R
                                EQU              0x4000C02C
-   49 00000000 00000060 
+   50 00000000 00000080 
+                       UART_LCRH_SPS
+                               EQU              0x00000080  ; UART Stick Parity
+                                                            
+   51 00000000 00000060 
                        UART_LCRH_WLEN_8
                                EQU              0x00000060  ; 8 bit word length
                                                             
-   50 00000000 00000010 
+   52 00000000 00000010 
                        UART_LCRH_FEN
                                EQU              0x00000010  ; UART Enable FIFOs
                                                             
-   51 00000000 10000000 
-                       UART_LCRH_SPS
-                               EQU              0x10000000  ; UART Stick Parity
-                                                            
-   52 00000000 00000010 
-                       UART_LCRH_PEN
-                               EQU              0x00000010  ; UART Parity Enabl
-                                                            e
-   53 00000000 00000100 
+   53 00000000 00000004 
                        UART_LCRH_EPS
+                               EQU              0x00000004  ; UART Even parity 
+                                                            Select
+   54 00000000 00000002 
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-                               EQU              0x00000100  ; UART Even parity 
-                                                            Select
-   54 00000000 4000C030 
+                       UART_LCRH_PEN
+                               EQU              0x00000002  ; UART Parity Enabl
+                                                            e
+   55 00000000         
+   56 00000000 4000C030 
                        UART0_CTL_R
                                EQU              0x4000C030
-   55 00000000 00000020 
+   57 00000000 00000020 
                        UART_CTL_HSE
                                EQU              0x00000020  ; High-Speed Enable
                                                             
-   56 00000000 00000001 
+   58 00000000 00000001 
                        UART_CTL_UARTEN
                                EQU              0x00000001  ; UART Enable
-   57 00000000 4000C034 
+   59 00000000         
+   60 00000000 4000C034 
                        UART0_IFLS_R
                                EQU              0x4000C034
-   58 00000000 00000000 
+   61 00000000 00000000 
                        UART_IFLS_RX1_8
                                EQU              0x00000000  ; RX FIFO >= 1/8 fu
                                                             ll
-   59 00000000 00000000 
+   62 00000000 00000000 
                        UART_IFLS_TX1_8
                                EQU              0x00000000  ; TX FIFO <= 1/8 fu
                                                             ll
-   60 00000000 4000C038 
+   63 00000000         
+   64 00000000 4000C038 
                        UART0_IM_R
                                EQU              0x4000C038
-   61 00000000 00000040 
+   65 00000000 00000100 
+                       UART_IM_PEIM
+                               EQU              0x00000100  ; UART Parity Error
+                                                             Interrupt Mask
+   66 00000000 00000040 
                        UART_IM_RTIM
                                EQU              0x00000040  ; UART Receive Time
-                                                            -Out Interrupt
-   62 00000000         ; Mask
-   63 00000000 00000020 
+                                                            -Out Interrupt Mask
+                                                            
+   67 00000000 00000020 
                        UART_IM_TXIM
                                EQU              0x00000020  ; UART Transmit Int
                                                             errupt Mask
-   64 00000000 00000010 
+   68 00000000 00000010 
                        UART_IM_RXIM
                                EQU              0x00000010  ; UART Receive Inte
                                                             rrupt Mask
-   65 00000000 4000C03C 
+   69 00000000         
+   70 00000000 4000C03C 
                        UART0_RIS_R
                                EQU              0x4000C03C
-   66 00000000 00000040 
+   71 00000000 00000040 
                        UART_RIS_RTRIS
                                EQU              0x00000040  ; UART Receive Time
                                                             -Out Raw
-   67 00000000         ; Interrupt Status
-   68 00000000 00000020 
+   72 00000000         ; Interrupt Status
+   73 00000000 00000020 
                        UART_RIS_TXRIS
                                EQU              0x00000020  ; UART Transmit Raw
-                                                             Interrupt
-   69 00000000         ; Status
-   70 00000000 00000010 
-                       UART_RIS_RXRIS
-                               EQU              0x00000010  ; UART Receive Raw 
-                                                            Interrupt
-   71 00000000         ; Status
-   72 00000000 4000C044 
-                       UART0_ICR_R
 
 
 
 ARM Macro Assembler    Page 4 
 
 
+                                                             Interrupt
+   74 00000000         ; Status
+   75 00000000 00000010 
+                       UART_RIS_RXRIS
+                               EQU              0x00000010  ; UART Receive Raw 
+                                                            Interrupt
+   76 00000000         ; Status
+   77 00000000 4000C044 
+                       UART0_ICR_R
                                EQU              0x4000C044
-   73 00000000 00000040 
+   78 00000000 00000040 
                        UART_ICR_RTIC
                                EQU              0x00000040  ; Receive Time-Out 
                                                             Interrupt Clear
-   74 00000000 00000020 
+   79 00000000 00000020 
                        UART_ICR_TXIC
                                EQU              0x00000020  ; Transmit Interrup
                                                             t Clear
-   75 00000000 00000010 
+   80 00000000 00000010 
                        UART_ICR_RXIC
                                EQU              0x00000010  ; Receive Interrupt
                                                              Clear
-   76 00000000 4000CFC8 
+   81 00000000 4000CFC8 
                        UART0_CC_R
                                EQU              0x4000CFC8
-   77 00000000 0000000F 
+   82 00000000 0000000F 
                        UART_CC_CS_M
                                EQU              0x0000000F  ; UART Baud Clock S
                                                             ource
-   78 00000000 00000000 
+   83 00000000 00000000 
                        UART_CC_CS_SYSCLK
                                EQU              0x00000000  ; System clock (bas
                                                             ed on clock
-   79 00000000         ; source and divisor factor)
-   80 00000000 00000005 
+   84 00000000         ; source and divisor factor)
+   85 00000000 00000005 
                        UART_CC_CS_PIOSC
                                EQU              0x00000005  ; PIOSC
-   81 00000000 400FE138 
+   86 00000000 400FE138 
                        SYSCTL_ALTCLKCFG_R
                                EQU              0x400FE138
-   82 00000000 0000000F 
+   87 00000000 0000000F 
                        SYSCTL_ALTCLKCFG_ALTCLK_M
                                EQU              0x0000000F  ; Alternate Clock S
                                                             ource
-   83 00000000 00000000 
+   88 00000000 00000000 
                        SYSCTL_ALTCLKCFG_ALTCLK_PIOSC
                                EQU              0x00000000  ; PIOSC
-   84 00000000 400FE608 
+   89 00000000 400FE608 
                        SYSCTL_RCGCGPIO_R
                                EQU              0x400FE608
-   85 00000000 00000001 
+   90 00000000 00000001 
                        SYSCTL_RCGCGPIO_R0
                                EQU              0x00000001  ; GPIO Port A Run M
                                                             ode Clock
-   86 00000000         ; Gating Control
-   87 00000000 400FE618 
+   91 00000000         ; Gating Control
+   92 00000000 400FE618 
                        SYSCTL_RCGCUART_R
                                EQU              0x400FE618
-   88 00000000 00000001 
-                       SYSCTL_RCGCUART_R0
-                               EQU              0x00000001  ; UART Module 0 Run
-                                                             Mode Clock
-   89 00000000         ; Gating Control
-   90 00000000 400FEA08 
-                       SYSCTL_PRGPIO_R
-                               EQU              0x400FEA08
-   91 00000000 00000001 
-                       SYSCTL_PRGPIO_R0
+   93 00000000 00000001 
 
 
 
 ARM Macro Assembler    Page 5 
 
 
+                       SYSCTL_RCGCUART_R0
+                               EQU              0x00000001  ; UART Module 0 Run
+                                                             Mode Clock
+   94 00000000         ; Gating Control
+   95 00000000 400FEA08 
+                       SYSCTL_PRGPIO_R
+                               EQU              0x400FEA08
+   96 00000000 00000001 
+                       SYSCTL_PRGPIO_R0
                                EQU              0x00000001  ; GPIO Port A Perip
                                                             heral Ready
-   92 00000000 400FEA18 
+   97 00000000 400FEA18 
                        SYSCTL_PRUART_R
                                EQU              0x400FEA18
-   93 00000000 00000001 
+   98 00000000 00000001 
                        SYSCTL_PRUART_R0
                                EQU              0x00000001  ; UART Module 0 Per
                                                             ipheral Ready
-   94 00000000         
-   95 00000000                 IMPORT           DisableInterrupts ; Disable int
+   99 00000000         
+  100 00000000                 IMPORT           DisableInterrupts ; Disable int
                                                             errupts
-   96 00000000                 IMPORT           EnableInterrupts 
+  101 00000000                 IMPORT           EnableInterrupts 
                                                             ; Enable interrupts
                                                             
-   97 00000000                 IMPORT           StartCritical ; previous I bit,
+  102 00000000                 IMPORT           StartCritical ; previous I bit,
                                                              disable interrupts
                                                             
-   98 00000000                 IMPORT           EndCritical ; restore I bit to 
+  103 00000000                 IMPORT           EndCritical ; restore I bit to 
                                                             previous value
-   99 00000000                 IMPORT           WaitForInterrupt 
+  104 00000000                 IMPORT           WaitForInterrupt 
                                                             ; low power mode
-  100 00000000         
-  101 00000000         ; properties from FIFO.c
-  102 00000000         ; size of the FIFOs (must be power of 2)
-  103 00000000 00000010 
+  105 00000000         
+  106 00000000         ; properties from FIFO.c
+  107 00000000         ; size of the FIFOs (must be power of 2)
+  108 00000000 00000010 
                        FIFOSIZE
                                EQU              16          ; (copy this value 
                                                             from both places in
                                                              FIFO.s)
-  104 00000000 00000001 
+  109 00000000 00000001 
                        FIFOSUCCESS
                                EQU              1           ; return value on s
                                                             uccess
-  105 00000000 00000000 
+  110 00000000 00000000 
                        FIFOFAIL
                                EQU              0           ; return value on f
                                                             ailure
-  106 00000000         
-  107 00000000         ; functions from FIFO.s
-  108 00000000                 IMPORT           TxFifo_Init
-  109 00000000                 IMPORT           TxFifo_Put
-  110 00000000                 IMPORT           TxFifo_Get
-  111 00000000                 IMPORT           TxFifo_Size
-  112 00000000                 IMPORT           RxFifo_Init
-  113 00000000                 IMPORT           RxFifo_Put
-  114 00000000                 IMPORT           RxFifo_Get
-  115 00000000                 IMPORT           RxFifo_Size
-  116 00000000         
-  117 00000000         ; standard ASCII symbols
-  118 00000000 0000000D 
-                       CR      EQU              0x0D
-  119 00000000 0000000A 
-                       LF      EQU              0x0A
-  120 00000000 00000008 
-                       BS      EQU              0x08
-  121 00000000 0000001B 
-                       ESC     EQU              0x1B
-  122 00000000 00000020 
+  111 00000000         
+  112 00000000         ; functions from FIFO.s
+  113 00000000                 IMPORT           TxFifo_Init
+  114 00000000                 IMPORT           TxFifo_Put
+  115 00000000                 IMPORT           TxFifo_Get
+  116 00000000                 IMPORT           TxFifo_Size
+  117 00000000                 IMPORT           RxFifo_Init
+  118 00000000                 IMPORT           RxFifo_Put
+  119 00000000                 IMPORT           RxFifo_Get
+  120 00000000                 IMPORT           RxFifo_Size
+  121 00000000         
+  122 00000000         ; standard ASCII symbols
 
 
 
 ARM Macro Assembler    Page 6 
 
 
+  123 00000000 0000000D 
+                       CR      EQU              0x0D
+  124 00000000 0000000A 
+                       LF      EQU              0x0A
+  125 00000000 00000008 
+                       BS      EQU              0x08
+  126 00000000 0000001B 
+                       ESC     EQU              0x1B
+  127 00000000 00000020 
                        SPA     EQU              0x20
-  123 00000000 0000007F 
+  128 00000000 0000007F 
                        DEL     EQU              0x7F
-  124 00000000         
-  125 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+  129 00000000         
+  130 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
 2
-  126 00000000                 THUMB
-  127 00000000                 EXPORT           UART_Init
-  128 00000000                 EXPORT           UART_InChar
-  129 00000000                 EXPORT           UART_OutChar
-  130 00000000                 EXPORT           UART0_Handler
-  131 00000000                 EXPORT           UART_OutString
-  132 00000000                 EXPORT           UART_InUDec
-  133 00000000                 EXPORT           UART_OutUDec
-  134 00000000                 EXPORT           UART_InUHex
-  135 00000000                 EXPORT           UART_OutUHex
-  136 00000000                 EXPORT           UART_InString
-  137 00000000                 EXPORT           UART_HighStickParity
-  138 00000000                 EXPORT           UART_LowStickParity
-  139 00000000         ; require C function calls to preserve the 8-byte alignm
+  131 00000000                 THUMB
+  132 00000000                 EXPORT           UART_Init
+  133 00000000                 EXPORT           UART_InChar
+  134 00000000                 EXPORT           UART_OutChar
+  135 00000000                 EXPORT           UART0_Handler
+  136 00000000                 EXPORT           UART_OutString
+  137 00000000                 EXPORT           UART_InUDec
+  138 00000000                 EXPORT           UART_OutUDec
+  139 00000000                 EXPORT           UART_InUHex
+  140 00000000                 EXPORT           UART_OutUHex
+  141 00000000                 EXPORT           UART_InString
+  142 00000000                 EXPORT           UART_HighStickParity
+  143 00000000                 EXPORT           UART_LowStickParity
+  144 00000000         ; require C function calls to preserve the 8-byte alignm
                        ent of 8-byte data objects
-  140 00000000                 PRESERVE8
-  141 00000000         
-  142 00000000         ;------------UART_Init------------
-  143 00000000         ; Initialize UART0 for 9,600 baud rate (clock from 16 MH
+  145 00000000                 PRESERVE8
+  146 00000000         
+  147 00000000         ;------------UART_Init------------
+  148 00000000         ; Initialize UART0 for 9,600 baud rate (clock from 16 MH
                        z PIOSC),
-  144 00000000         ; 8 bit word length, stick parity, one stop bit, FIFOs e
+  149 00000000         ; 8 bit word length, stick parity, one stop bit, FIFOs e
                        nabled, interrupt
-  145 00000000         ; after >= 2 characters received or <= 2 characters to t
+  150 00000000         ; after >= 2 characters received or <= 2 characters to t
                        ransmit or timeout
-  146 00000000         ; Rx with pull-up
-  147 00000000         ; Input: none
-  148 00000000         ; Output: none
-  149 00000000         ; Modifies: R0, R1
-  150 00000000         UART_Init
-  151 00000000 B500            PUSH             {LR}        ; save current valu
+  151 00000000         ; Rx with pull-up
+  152 00000000         ; Input: none
+  153 00000000         ; Output: none
+  154 00000000         ; Modifies: R0, R1
+  155 00000000         UART_Init
+  156 00000000 B500            PUSH             {LR}        ; save current valu
                                                             e of LR
-  152 00000002 F7FF FFFE       BL               DisableInterrupts ; disable all
+  157 00000002 F7FF FFFE       BL               DisableInterrupts ; disable all
                                                              interrupts (critic
                                                             al section)
-  153 00000006         ; activate clock for UART0
-  154 00000006 49EB            LDR              R1, =SYSCTL_RCGCUART_R ; R1 = &
+  158 00000006         ; activate clock for UART0
+  159 00000006 49EA            LDR              R1, =SYSCTL_RCGCUART_R ; R1 = &
                                                             SYSCTL_RCGCUART_R
-  155 00000008 6808            LDR              R0, [R1]    ; R0 = [R1]
-  156 0000000A F040 0001       ORR              R0, R0, #SYSCTL_RCGCUART_R0 ; R
+  160 00000008 6808            LDR              R0, [R1]    ; R0 = [R1]
+  161 0000000A F040 0001       ORR              R0, R0, #SYSCTL_RCGCUART_R0 ; R
                                                             0 = R0|SYSCTL_RCGCU
                                                             ART_R0
-  157 0000000E 6008            STR              R0, [R1]    ; [R1] = R0
-  158 00000010         ; activate clock for port A
-  159 00000010 49E9            LDR              R1, =SYSCTL_RCGCGPIO_R ; R1 = &
-                                                            SYSCTL_RCGCGPIO_R
-  160 00000012 6808            LDR              R0, [R1]    ; R0 = [R1]
-  161 00000014 F040 0001       ORR              R0, R0, #SYSCTL_RCGCGPIO_R0 ; R
-                                                            0 = R0|SYSCTL_RCGCG
-                                                            PIO_R0
-  162 00000018 6008            STR              R0, [R1]    ; [R1] = R0
-  163 0000001A         ; initialize empty FIFOs
-  164 0000001A F7FF FFFE       BL               RxFifo_Init
-  165 0000001E F7FF FFFE       BL               TxFifo_Init
+  162 0000000E 6008            STR              R0, [R1]    ; [R1] = R0
+  163 00000010         ; activate clock for port A
+  164 00000010 49E8            LDR              R1, =SYSCTL_RCGCGPIO_R ; R1 = &
 
 
 
 ARM Macro Assembler    Page 7 
 
 
-  166 00000022         ; allow time for clock to stabilize
-  167 00000022 49E6            LDR              R1, =SYSCTL_PRUART_R ; R1 = &SY
+                                                            SYSCTL_RCGCGPIO_R
+  165 00000012 6808            LDR              R0, [R1]    ; R0 = [R1]
+  166 00000014 F040 0001       ORR              R0, R0, #SYSCTL_RCGCGPIO_R0 ; R
+                                                            0 = R0|SYSCTL_RCGCG
+                                                            PIO_R0
+  167 00000018 6008            STR              R0, [R1]    ; [R1] = R0
+  168 0000001A         ; initialize empty FIFOs
+  169 0000001A F7FF FFFE       BL               RxFifo_Init
+  170 0000001E F7FF FFFE       BL               TxFifo_Init
+  171 00000022         ; allow time for clock to stabilize
+  172 00000022 49E5            LDR              R1, =SYSCTL_PRUART_R ; R1 = &SY
                                                             SCTL_PRUART_R
-  168 00000024         UART0initloop
-  169 00000024 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+  173 00000024         UART0initloop
+  174 00000024 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
                                                             
-  170 00000026 F010 0001       ANDS             R0, R0, #SYSCTL_PRUART_R0 ; R0 
+  175 00000026 F010 0001       ANDS             R0, R0, #SYSCTL_PRUART_R0 ; R0 
                                                             = R0&SYSCTL_PRUART_
                                                             R0
-  171 0000002A D0FB            BEQ              UART0initloop ; if(R0 == 0), ke
+  176 0000002A D0FB            BEQ              UART0initloop ; if(R0 == 0), ke
                                                             ep polling
-  172 0000002C         ; disable UART
-  173 0000002C 49E4            LDR              R1, =UART0_CTL_R 
+  177 0000002C         ; disable UART
+  178 0000002C 49E3            LDR              R1, =UART0_CTL_R 
                                                             ; R1 = &UART0_CTL_R
                                                             
-  174 0000002E 6808            LDR              R0, [R1]    ; R0 = [R1]
-  175 00000030 F020 0001       BIC              R0, R0, #UART_CTL_UARTEN ; R0 =
+  179 0000002E 6808            LDR              R0, [R1]    ; R0 = [R1]
+  180 00000030 F020 0001       BIC              R0, R0, #UART_CTL_UARTEN ; R0 =
                                                              R0&~UART_CTL_UARTE
                                                             N (disable UART)
-  176 00000034 6008            STR              R0, [R1]    ; [R1] = R0
-  177 00000036         ; set the baud rate (equations on p845 of datasheet)
-  178 00000036 49E3            LDR              R1, =UART0_IBRD_R ; R1 = &UART0
+  181 00000034 6008            STR              R0, [R1]    ; [R1] = R0
+  182 00000036         ; set the baud rate (equations on p845 of datasheet)
+  183 00000036 49E2            LDR              R1, =UART0_IBRD_R ; R1 = &UART0
                                                             _IBRD_R
-  179 00000038 F04F 0068       MOV              R0, #104    ; R0 = IBRD = int(1
+  184 00000038 F04F 0068       MOV              R0, #104    ; R0 = IBRD = int(1
                                                             6,000,000 / (16 * 9
                                                             ,600)) = int(104.16
                                                             6)
-  180 0000003C 6008            STR              R0, [R1]    ; [R1] = R0
-  181 0000003E 49E2            LDR              R1, =UART0_FBRD_R ; R1 = &UART0
+  185 0000003C 6008            STR              R0, [R1]    ; [R1] = R0
+  186 0000003E 49E1            LDR              R1, =UART0_FBRD_R ; R1 = &UART0
                                                             _FBRD_R
-  182 00000040 F04F 000B       MOV              R0, #11     ; R0 = FBRD = round
+  187 00000040 F04F 000B       MOV              R0, #11     ; R0 = FBRD = round
                                                             (0.166 * 64 + 0.5) 
                                                             = 11
-  183 00000044 6008            STR              R0, [R1]    ; [R1] = R0
-  184 00000046         ; configure Line Control Register settings
-  185 00000046 49E1            LDR              R1, =UART0_LCRH_R ; R1 = &UART0
+  188 00000044 6008            STR              R0, [R1]    ; [R1] = R0
+  189 00000046         ; configure Line Control Register settings
+  190 00000046 49E0            LDR              R1, =UART0_LCRH_R ; R1 = &UART0
                                                             _LCRH_R
-  186 00000048 6808            LDR              R0, [R1]    ; R0 = [R1]
-  187 0000004A F020 00FF       BIC              R0, R0, #0xFF ; R0 = R0&~0xFF (
+  191 00000048 6808            LDR              R0, [R1]    ; R0 = [R1]
+  192 0000004A F020 00FF       BIC              R0, R0, #0xFF ; R0 = R0&~0xFF (
                                                             clear all fields)
-  188 0000004E F100 5080       ADD              R0, R0, #UART_LCRH_SPS ; Enable
-                                                             stick parity
-  189 00000052         ; 8 bit word length, stick parity HIGH, one stop bit, FI
-                       FOs
-  190 00000052 F100 0080       ADD              R0, R0, #(UART_LCRH_WLEN_8+UART
-_LCRH_FEN+UART_LCRH_PEN)
-  191 00000056         ; importante:
-  192 00000056         ; Puede ser que haya que desactivar FIFO
-  193 00000056         ;
-  194 00000056         
-  195 00000056 6008            STR              R0, [R1]    ; [R1] = R0
-  196 00000058         ; configure Interrupt FIFO Level Select Register setting
-                       s
-  197 00000058 49DD            LDR              R1, =UART0_IFLS_R ; R1 = &UART0
-                                                            _IFLS_R
-  198 0000005A 6808            LDR              R0, [R1]    ; R0 = [R1]
-  199 0000005C F020 003F       BIC              R0, R0, #0x3F ; R0 = R0&~0x3F (
-                                                            clear TX and RX int
-                                                            errupt FIFO level f
+  193 0000004E         ; 8 bit word length, LOW stick parity, one stop bit, FIF
+                       Os
+  194 0000004E F100 00F6       ADD              R0, R0, #(UART_LCRH_WLEN_8+UART
+_LCRH_FEN+UART_LCRH_PEN+UART_LCRH_EPS+UART_LCRH_SPS)
+  195 00000052         ; importante:
+  196 00000052         ; Puede ser que haya que desactivar FIFO
+  197 00000052         ;
+  198 00000052         
+  199 00000052 6008            STR              R0, [R1]    ; [R1] = R0
+  200 00000054         ; configure Interrupt FIFO Level Select Register setting
 
 
 
 ARM Macro Assembler    Page 8 
 
 
+                       s
+  201 00000054 49DD            LDR              R1, =UART0_IFLS_R ; R1 = &UART0
+                                                            _IFLS_R
+  202 00000056 6808            LDR              R0, [R1]    ; R0 = [R1]
+  203 00000058 F020 003F       BIC              R0, R0, #0x3F ; R0 = R0&~0x3F (
+                                                            clear TX and RX int
+                                                            errupt FIFO level f
                                                             ields)
-  200 00000060         ; configure interrupt for TX FIFO <= 1/8 full
-  201 00000060         ; configure interrupt for RX FIFO >= 1/8 full
-  202 00000060 F100 0000       ADD              R0, R0, #(UART_IFLS_TX1_8+UART_
+  204 0000005C         ; configure interrupt for TX FIFO <= 1/8 full
+  205 0000005C         ; configure interrupt for RX FIFO >= 1/8 full
+  206 0000005C F100 0000       ADD              R0, R0, #(UART_IFLS_TX1_8+UART_
 IFLS_RX1_8)
-  203 00000064 6008            STR              R0, [R1]    ; [R1] = R0
-  204 00000066         ; enable interrupts to be requested upon certain conditi
+  207 00000060 6008            STR              R0, [R1]    ; [R1] = R0
+  208 00000062         ; enable interrupts to be requested upon certain conditi
                        ons
-  205 00000066         ; TX FIFO interrupt: when TX FIFO <= 2 elements (<= 1/8 
+  209 00000062         ; TX FIFO interrupt: when TX FIFO <= 2 elements (<= 1/8 
                        full, configured above)
-  206 00000066         ; RX FIFO interrupt; when RX FIFO >= 2 elements (>= 1/8 
+  210 00000062         ; RX FIFO interrupt; when RX FIFO >= 2 elements (>= 1/8 
                        full, configured above)
-  207 00000066         ; RX time-out interrupt: receive FIFO not empty and no m
+  211 00000062         ; RX time-out interrupt: receive FIFO not empty and no m
                        ore data received in next 32-bit timeframe
-  208 00000066         ;               (this causes an interrupt after each key
+  212 00000062         ;               (this causes an interrupt after each key
                        stroke, rather than every other keystroke)
-  209 00000066 49DB            LDR              R1, =UART0_IM_R 
+  213 00000062 49DB            LDR              R1, =UART0_IM_R 
                                                             ; R1 = &UART0_IM_R
-  210 00000068 6808            LDR              R0, [R1]    ; R0 = [R1]
-  211 0000006A         ; enable TX and RX FIFO interrupts and RX time-out inter
-                       rupt
-  212 0000006A F040 0070       ORR              R0, R0, #(UART_IM_RXIM+UART_IM_
-TXIM+UART_IM_RTIM)
-  213 0000006E 6008            STR              R0, [R1]    ; [R1] = R0
-  214 00000070         ; UART gets its clock from the alternate clock source as
+  214 00000064 6808            LDR              R0, [R1]    ; R0 = [R1]
+  215 00000066         ; enable TX and RX FIFO interrupts, RX time-out interrup
+                       t and Parity interrupt
+  216 00000066 F440 70B8       ORR              R0, R0, #(UART_IM_RXIM+UART_IM_
+TXIM+UART_IM_RTIM+UART_IM_PEIM)
+  217 0000006A 6008            STR              R0, [R1]    ; [R1] = R0
+  218 0000006C         ; UART gets its clock from the alternate clock source as
                         defined by SYSCTL_ALTCLKCFG_R
-  215 00000070 49D9            LDR              R1, =UART0_CC_R 
+  219 0000006C 49D9            LDR              R1, =UART0_CC_R 
                                                             ; R1 = &UART0_CC_R
-  216 00000072 6808            LDR              R0, [R1]    ; R0 = [R1]
-  217 00000074 F020 000F       BIC              R0, R0, #UART_CC_CS_M ; R0 = R0
+  220 0000006E 6808            LDR              R0, [R1]    ; R0 = [R1]
+  221 00000070 F020 000F       BIC              R0, R0, #UART_CC_CS_M ; R0 = R0
                                                             &~UART_CC_CS_M (cle
                                                             ar clock source fie
                                                             ld)
-  218 00000078 F100 0005       ADD              R0, R0, #UART_CC_CS_PIOSC ; R0 
+  222 00000074 F100 0005       ADD              R0, R0, #UART_CC_CS_PIOSC ; R0 
                                                             = R0+UART_CC_CS_PIO
                                                             SC (configure for a
                                                             lternate clock sour
                                                             ce for UART0)
-  219 0000007C 6008            STR              R0, [R1]    ; [R1] = R0
-  220 0000007E         ; the alternate clock source is the PIOSC (default)
-  221 0000007E 49D7            LDR              R1, =SYSCTL_ALTCLKCFG_R ; R1 = 
+  223 00000078 6008            STR              R0, [R1]    ; [R1] = R0
+  224 0000007A         ; the alternate clock source is the PIOSC (default)
+  225 0000007A 49D7            LDR              R1, =SYSCTL_ALTCLKCFG_R ; R1 = 
                                                             &SYSCTL_ALTCLKCFG_R
                                                             
-  222 00000080 6808            LDR              R0, [R1]    ; R0 = [R1]
-  223 00000082         ; R0 = R0&~SYSCTL_ALTCLKCFG_ALTCLK_M (clear alternate cl
+  226 0000007C 6808            LDR              R0, [R1]    ; R0 = [R1]
+  227 0000007E         ; R0 = R0&~SYSCTL_ALTCLKCFG_ALTCLK_M (clear alternate cl
                        ock source field)
-  224 00000082 F020 000F       BIC              R0, R0, #SYSCTL_ALTCLKCFG_ALTCL
+  228 0000007E F020 000F       BIC              R0, R0, #SYSCTL_ALTCLKCFG_ALTCL
 K_M
-  225 00000086         ; R0 = R0+SYSCTL_ALTCLKCFG_ALTCLK_PIOSC (configure for P
+  229 00000082         ; R0 = R0+SYSCTL_ALTCLKCFG_ALTCLK_PIOSC (configure for P
                        IOSC as alternate clock source)
-  226 00000086 F100 0000       ADD              R0, R0, #SYSCTL_ALTCLKCFG_ALTCL
+  230 00000082 F100 0000       ADD              R0, R0, #SYSCTL_ALTCLKCFG_ALTCL
 K_PIOSC
-  227 0000008A 6008            STR              R0, [R1]    ; [R1] = R0
-  228 0000008C         ; enable UART
-  229 0000008C 49CC            LDR              R1, =UART0_CTL_R 
-                                                            ; R1 = &UART0_CTL_R
-                                                            
-  230 0000008E 6808            LDR              R0, [R1]    ; R0 = [R1]
-  231 00000090 F020 0020       BIC              R0, R0, #UART_CTL_HSE ; R0 = R0
 
 
 
 ARM Macro Assembler    Page 9 
 
 
+  231 00000086 6008            STR              R0, [R1]    ; [R1] = R0
+  232 00000088         ; enable UART
+  233 00000088 49CC            LDR              R1, =UART0_CTL_R 
+                                                            ; R1 = &UART0_CTL_R
+                                                            
+  234 0000008A 6808            LDR              R0, [R1]    ; R0 = [R1]
+  235 0000008C F020 0020       BIC              R0, R0, #UART_CTL_HSE ; R0 = R0
                                                             &~UART_CTL_HSE (hig
                                                             h-speed disable; di
                                                             vide clock by 16 ra
                                                             ther than 8 (defaul
                                                             t))
-  232 00000094 F040 0001       ORR              R0, R0, #UART_CTL_UARTEN ; R0 =
+  236 00000090 F040 0001       ORR              R0, R0, #UART_CTL_UARTEN ; R0 =
                                                              R0|UART_CTL_UARTEN
                                                              (enable UART)
-  233 00000098 6008            STR              R0, [R1]    ; [R1] = R0
-  234 0000009A         ; allow time for clock to stabilize
-  235 0000009A 49D1            LDR              R1, =SYSCTL_PRGPIO_R ; R1 = &SY
+  237 00000094 6008            STR              R0, [R1]    ; [R1] = R0
+  238 00000096         ; allow time for clock to stabilize
+  239 00000096 49D1            LDR              R1, =SYSCTL_PRGPIO_R ; R1 = &SY
                                                             SCTL_PRGPIO_R
-  236 0000009C         GPIOAinitloop
-  237 0000009C 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+  240 00000098         GPIOAinitloop
+  241 00000098 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
                                                             
-  238 0000009E F010 0001       ANDS             R0, R0, #SYSCTL_PRGPIO_R0 ; R0 
+  242 0000009A F010 0001       ANDS             R0, R0, #SYSCTL_PRGPIO_R0 ; R0 
                                                             = R0&SYSCTL_PRGPIO_
                                                             R0
-  239 000000A2 D0FB            BEQ              GPIOAinitloop ; if(R0 == 0), ke
+  243 0000009E D0FB            BEQ              GPIOAinitloop ; if(R0 == 0), ke
                                                             ep polling
-  240 000000A4         ; enable alternate function
-  241 000000A4 49CF            LDR              R1, =GPIO_PORTA_AFSEL_R ; R1 = 
+  244 000000A0         ; enable alternate function
+  245 000000A0 49CF            LDR              R1, =GPIO_PORTA_AFSEL_R ; R1 = 
                                                             &GPIO_PORTA_AFSEL_R
                                                             
-  242 000000A6 6808            LDR              R0, [R1]    ; R0 = [R1]
-  243 000000A8 F040 0003       ORR              R0, R0, #0x03 ; R0 = R0|0x03 (e
+  246 000000A2 6808            LDR              R0, [R1]    ; R0 = [R1]
+  247 000000A4 F040 0003       ORR              R0, R0, #0x03 ; R0 = R0|0x03 (e
                                                             nable alt funct on 
                                                             PA1-0)
-  244 000000AC 6008            STR              R0, [R1]    ; [R1] = R0
-  245 000000AE         ; activa resistencia pull-up in RX (PA0)
-  246 000000AE 49CE            LDR              R1, =GPIO_PORTA_PUR_R ; R1 = &G
+  248 000000A8 6008            STR              R0, [R1]    ; [R1] = R0
+  249 000000AA         ; activa resistencia pull-up in RX (PA0)
+  250 000000AA 49CE            LDR              R1, =GPIO_PORTA_PUR_R ; R1 = &G
                                                             PIO_PORTA_PUR_R
-  247 000000B0 F040 0001       ORR              R0, #0x01   ; set bit 0 (enable
+  251 000000AC F040 0001       ORR              R0, #0x01   ; set bit 0 (enable
                                                              pull-up res in PA0
                                                             )
-  248 000000B4 6008            STR              R0, [R1]
-  249 000000B6         ; enable digital port
-  250 000000B6 49CD            LDR              R1, =GPIO_PORTA_DEN_R ; R1 = &G
+  252 000000B0 6008            STR              R0, [R1]
+  253 000000B2         ; enable digital port
+  254 000000B2 49CD            LDR              R1, =GPIO_PORTA_DEN_R ; R1 = &G
                                                             PIO_PORTA_DEN_R
-  251 000000B8 6808            LDR              R0, [R1]    ; R0 = [R1]
-  252 000000BA F040 0003       ORR              R0, R0, #0x03 ; R0 = R0|0x03 (e
+  255 000000B4 6808            LDR              R0, [R1]    ; R0 = [R1]
+  256 000000B6 F040 0003       ORR              R0, R0, #0x03 ; R0 = R0|0x03 (e
                                                             nable digital I/O o
                                                             n PA1-0)
-  253 000000BE 6008            STR              R0, [R1]    ; [R1] = R0
-  254 000000C0         ; configure as UART
-  255 000000C0 49CB            LDR              R1, =GPIO_PORTA_PCTL_R ; R1 = &
+  257 000000BA 6008            STR              R0, [R1]    ; [R1] = R0
+  258 000000BC         ; configure as UART
+  259 000000BC 49CB            LDR              R1, =GPIO_PORTA_PCTL_R ; R1 = &
                                                             GPIO_PORTA_PCTL_R
-  256 000000C2 6808            LDR              R0, [R1]    ; R0 = [R1]
-  257 000000C4 F020 00FF       BIC              R0, R0, #0x000000FF ; R0 = R0&~
+  260 000000BE 6808            LDR              R0, [R1]    ; R0 = [R1]
+  261 000000C0 F020 00FF       BIC              R0, R0, #0x000000FF ; R0 = R0&~
                                                             0x000000FF (clear p
                                                             ort control field f
                                                             or PA1-0)
-  258 000000C8 F100 0011       ADD              R0, R0, #0x00000011 ; R0 = R0+0
-                                                            x00000011 (configur
-                                                            e PA1-0 as UART)
-  259 000000CC 6008            STR              R0, [R1]    ; [R1] = R0
-  260 000000CE         ; disable analog functionality
-  261 000000CE 49C9            LDR              R1, =GPIO_PORTA_AMSEL_R ; R1 = 
-                                                            &GPIO_PORTA_AMSEL_R
 
 
 
 ARM Macro Assembler    Page 10 
 
 
+  262 000000C4 F100 0011       ADD              R0, R0, #0x00000011 ; R0 = R0+0
+                                                            x00000011 (configur
+                                                            e PA1-0 as UART)
+  263 000000C8 6008            STR              R0, [R1]    ; [R1] = R0
+  264 000000CA         ; disable analog functionality
+  265 000000CA 49C9            LDR              R1, =GPIO_PORTA_AMSEL_R ; R1 = 
+                                                            &GPIO_PORTA_AMSEL_R
                                                             
-  262 000000D0 F04F 0000       MOV              R0, #0      ; R0 = 0 (disable a
+  266 000000CC F04F 0000       MOV              R0, #0      ; R0 = 0 (disable a
                                                             nalog functionality
                                                              on PA)
-  263 000000D4 6008            STR              R0, [R1]    ; [R1] = R0
-  264 000000D6         ; set the priority of the UART interrupt
-  265 000000D6 49C8            LDR              R1, =NVIC_PRI1_R 
+  267 000000D0 6008            STR              R0, [R1]    ; [R1] = R0
+  268 000000D2         ; set the priority of the UART interrupt
+  269 000000D2 49C8            LDR              R1, =NVIC_PRI1_R 
                                                             ; R1 = &NVIC_PRI1_R
                                                             
-  266 000000D8 6808            LDR              R0, [R1]    ; R0 = [R1]
-  267 000000DA F420 407F       BIC              R0, R0, #0x0000FF00 ; R0 = R0&~
+  270 000000D4 6808            LDR              R0, [R1]    ; R0 = [R1]
+  271 000000D6 F420 407F       BIC              R0, R0, #0x0000FF00 ; R0 = R0&~
                                                             0xFFFF00FF (clear N
                                                             VIC priority field 
                                                             for UART0 interrupt
                                                             )
-  268 000000DE F500 4080       ADD              R0, R0, #0x00004000 ; R0 = R0+0
+  272 000000DA F500 4080       ADD              R0, R0, #0x00004000 ; R0 = R0+0
                                                             x00004000 (UART0 = 
                                                             priority 2; stored 
                                                             in bits 13-15)
-  269 000000E2 6008            STR              R0, [R1]    ; [R1] = R0
-  270 000000E4         ; enable interrupt 5 in NVIC
-  271 000000E4 49C5            LDR              R1, =NVIC_EN0_R 
+  273 000000DE 6008            STR              R0, [R1]    ; [R1] = R0
+  274 000000E0         ; enable interrupt 5 in NVIC
+  275 000000E0 49C5            LDR              R1, =NVIC_EN0_R 
                                                             ; R1 = &NVIC_EN0_R
-  272 000000E6 F04F 0020       LDR              R0, =NVIC_EN0_INT5 ; R0 = NVIC_
+  276 000000E2 F04F 0020       LDR              R0, =NVIC_EN0_INT5 ; R0 = NVIC_
                                                             EN0_INT5 (zeros wri
                                                             tten to enable regi
                                                             ster have no effect
                                                             )
-  273 000000EA 6008            STR              R0, [R1]    ; [R1] = R0
-  274 000000EC F7FF FFFE       BL               EnableInterrupts ; enable all i
+  277 000000E6 6008            STR              R0, [R1]    ; [R1] = R0
+  278 000000E8 F7FF FFFE       BL               EnableInterrupts ; enable all i
                                                             nterrupts (end of c
                                                             ritical section)
-  275 000000F0 BD00            POP              {PC}        ; restore previous 
+  279 000000EC BD00            POP              {PC}        ; restore previous 
                                                             value of LR into PC
                                                              (return)
-  276 000000F2         
-  277 000000F2         ; private helper subroutine
-  278 000000F2         ; copy from hardware RX FIFO to software RX FIFO
-  279 000000F2         ; stop when hardware RX FIFO is empty or software RX FIF
+  280 000000EE         
+  281 000000EE         ; private helper subroutine
+  282 000000EE         ; copy from hardware RX FIFO to software RX FIFO
+  283 000000EE         ; stop when hardware RX FIFO is empty or software RX FIF
                        O is full
-  280 000000F2         ; Modifies: R0, R1
-  281 000000F2         copyHardwareToSoftware
-  282 000000F2 B500            PUSH             {LR}        ; save current valu
+  284 000000EE         ; Modifies: R0, R1
+  285 000000EE         copyHardwareToSoftware
+  286 000000EE B500            PUSH             {LR}        ; save current valu
                                                             e of LR
-  283 000000F4         h2sloop
-  284 000000F4         ; repeat the loop while (hardware receive FIFO not empty
+  287 000000F0         h2sloop
+  288 000000F0         ; repeat the loop while (hardware receive FIFO not empty
                        ) and (software receive FIFO not full)
-  285 000000F4 49C2            LDR              R1, =UART0_FR_R 
+  289 000000F0 49C2            LDR              R1, =UART0_FR_R 
                                                             ; R1 = &UART0_FR_R
-  286 000000F6 6808            LDR              R0, [R1]    ; R0 = [R1]
-  287 000000F8 F000 0010       AND              R0, R0, #UART_FR_RXFE ; R0 = R0
+  290 000000F2 6808            LDR              R0, [R1]    ; R0 = [R1]
+  291 000000F4 F000 0010       AND              R0, R0, #UART_FR_RXFE ; R0 = R0
                                                             &UART_FR_RXFE
-  288 000000FC 2810            CMP              R0, #UART_FR_RXFE ; is R0 (UART
-                                                            0_FR_R&UART_FR_RXFE
-                                                            ) == UART_FR_RXFE? 
-                                                            (is hardware receiv
-                                                            e FIFO empty?)
-  289 000000FE D008            BEQ              h2sdone     ; if so, skip to 'h
-                                                            2sdone'
 
 
 
 ARM Macro Assembler    Page 11 
 
 
-  290 00000100 F7FF FFFE       BL               RxFifo_Size
-  291 00000104 280F            CMP              R0, #(FIFOSIZE - 1) ; is R0 (Rx
+  292 000000F8 2810            CMP              R0, #UART_FR_RXFE ; is R0 (UART
+                                                            0_FR_R&UART_FR_RXFE
+                                                            ) == UART_FR_RXFE? 
+                                                            (is hardware receiv
+                                                            e FIFO empty?)
+  293 000000FA D008            BEQ              h2sdone     ; if so, skip to 'h
+                                                            2sdone'
+  294 000000FC F7FF FFFE       BL               RxFifo_Size
+  295 00000100 280F            CMP              R0, #(FIFOSIZE - 1) ; is R0 (Rx
                                                             Fifo_Size()) == (FI
                                                             FOSIZE - 1)? (is so
                                                             ftware receive FIFO
                                                              full?)
-  292 00000106 D004            BEQ              h2sdone     ; if so, skip to 'h
+  296 00000102 D004            BEQ              h2sdone     ; if so, skip to 'h
                                                             2sdone'
-  293 00000108         ; read a character from the hardware FIFO
-  294 00000108 49BE            LDR              R1, =UART0_DR_R 
+  297 00000104         ; read a character from the hardware FIFO
+  298 00000104 49BE            LDR              R1, =UART0_DR_R 
                                                             ; R1 = &UART0_DR_R
-  295 0000010A 6808            LDR              R0, [R1]    ; R0 = [R1]
-  296 0000010C         ; store R0 (UART0_DR_R) in software receive FIFO
-  297 0000010C F7FF FFFE       BL               RxFifo_Put
-  298 00000110 E7F0            B                h2sloop     ; unconditional bra
+  299 00000106 6808            LDR              R0, [R1]    ; R0 = [R1]
+  300 00000108         ; store R0 (UART0_DR_R) in software receive FIFO
+  301 00000108 F7FF FFFE       BL               RxFifo_Put
+  302 0000010C E7F0            B                h2sloop     ; unconditional bra
                                                             nch to 'h2sloop'
-  299 00000112         h2sdone
-  300 00000112 BD00            POP              {PC}        ; restore previous 
+  303 0000010E         h2sdone
+  304 0000010E BD00            POP              {PC}        ; restore previous 
                                                             value of LR into PC
                                                              (return)
-  301 00000114         
-  302 00000114         ; private helper subroutine
-  303 00000114         ; copy from software TX FIFO to hardware TX FIFO
-  304 00000114         ; stop when software TX FIFO is empty or hardware TX FIF
+  305 00000110         
+  306 00000110         ; private helper subroutine
+  307 00000110         ; copy from software TX FIFO to hardware TX FIFO
+  308 00000110         ; stop when software TX FIFO is empty or hardware TX FIF
                        O is full
-  305 00000114         copySoftwareToHardware
-  306 00000114 B500            PUSH             {LR}        ; save current valu
+  309 00000110         copySoftwareToHardware
+  310 00000110 B500            PUSH             {LR}        ; save current valu
                                                             e of LR
-  307 00000116         s2hloop
-  308 00000116         ; repeat the loop while (hardware transmit FIFO not full
+  311 00000112         s2hloop
+  312 00000112         ; repeat the loop while (hardware transmit FIFO not full
                        ) and (software transmit FIFO not empty)
-  309 00000116 49BA            LDR              R1, =UART0_FR_R 
+  313 00000112 49BA            LDR              R1, =UART0_FR_R 
                                                             ; R1 = &UART0_FR_R
-  310 00000118 6808            LDR              R0, [R1]    ; R0 = [R1]
-  311 0000011A F000 0020       AND              R0, R0, #UART_FR_TXFF ; R0 = R0
+  314 00000114 6808            LDR              R0, [R1]    ; R0 = [R1]
+  315 00000116 F000 0020       AND              R0, R0, #UART_FR_TXFF ; R0 = R0
                                                             &UART_FR_TXFF
-  312 0000011E 2820            CMP              R0, #UART_FR_TXFF ; is R0 (UART
+  316 0000011A 2820            CMP              R0, #UART_FR_TXFF ; is R0 (UART
                                                             0_FR_R&UART_FR_TXFF
                                                             ) == UART_FR_TXFF? 
                                                             (is hardware transm
                                                             it FIFO full?)
-  313 00000120 D00B            BEQ              s2hdone     ; if so, skip to 's
+  317 0000011C D00B            BEQ              s2hdone     ; if so, skip to 's
                                                             2hdone'
-  314 00000122 F7FF FFFE       BL               TxFifo_Size
-  315 00000126 2800            CMP              R0, #0      ; is R0 (TxFifo_Siz
+  318 0000011E F7FF FFFE       BL               TxFifo_Size
+  319 00000122 2800            CMP              R0, #0      ; is R0 (TxFifo_Siz
                                                             e()) == 0? (is soft
                                                             ware transmit FIFO 
                                                             empty?)
-  316 00000128 D007            BEQ              s2hdone     ; if so, skip to 's
+  320 00000124 D007            BEQ              s2hdone     ; if so, skip to 's
                                                             2hdone'
-  317 0000012A         ; read a character from the software FIFO
-  318 0000012A B401            PUSH             {R0}        ; allocate local va
-                                                            riable
-  319 0000012C 4668            MOV              R0, SP      ; R0 = SP (R0 point
-                                                            s to local variable
-                                                            )
-  320 0000012E F7FF FFFE       BL               TxFifo_Get  ; get from software
-                                                             transmit FIFO into
-                                                             pointer R0
+  321 00000126         ; read a character from the software FIFO
+  322 00000126 B401            PUSH             {R0}        ; allocate local va
 
 
 
 ARM Macro Assembler    Page 12 
 
 
-  321 00000132 BC01            POP              {R0}        ; pop data into R0
-  322 00000134         ; store R0 (data from TxFifo_Get()) in hardware transmit
-                        FIFO
-  323 00000134 49B3            LDR              R1, =UART0_DR_R 
-                                                            ; R1 = &UART0_DR_R
-  324 00000136 6008            STR              R0, [R1]    ; [R1] = R0
-  325 00000138 E7ED            B                s2hloop     ; unconditional bra
-                                                            nch to 'h2sloop'
-  326 0000013A         s2hdone
-  327 0000013A BD00            POP              {PC}        ; restore previous 
-                                                            value of LR into PC
-                                                             (return)
-  328 0000013C         
-  329 0000013C         ;------------UART_InChar------------
-  330 0000013C         ; input ASCII character from UART
-  331 0000013C         ; spin if RxFifo is empty
-  332 0000013C         ; Input: none
-  333 0000013C         ; Output: R0  character in from UART
-  334 0000013C         ; Very Important: The UART0 interrupt handler automatica
-                       lly
-  335 0000013C         ;  empties the hardware receive FIFO into the software F
-                       IFO as
-  336 0000013C         ;  the hardware gets data.  If the UART0 interrupt is
-  337 0000013C         ;  disabled, the software receive FIFO may become empty,
-                        and
-  338 0000013C         ;  this function will stall forever.
-  339 0000013C         ;  Ensure that the UART0 module is initialized and its
-  340 0000013C         ;  interrupt is enabled before calling this function.  D
-                       o not
-  341 0000013C         ;  use UART I/O functions within a critical section of y
-                       our
-  342 0000013C         ;  main program.
-  343 0000013C         UART_InChar
-  344 0000013C F04F 0000       MOV              R0, #0      ; initialize local 
-                                                            variable
-  345 00000140 B501            PUSH             {R0, LR}    ; save current valu
-                                                            e of LR and allocat
-                                                            e local variable
-  346 00000142         inCharLoop
-  347 00000142 4668            MOV              R0, SP      ; R0 = SP (R0 point
+                                                            riable
+  323 00000128 4668            MOV              R0, SP      ; R0 = SP (R0 point
                                                             s to local variable
                                                             )
-  348 00000144 F7FF FFFE       BL               RxFifo_Get  ; get from software
+  324 0000012A F7FF FFFE       BL               TxFifo_Get  ; get from software
+                                                             transmit FIFO into
+                                                             pointer R0
+  325 0000012E BC01            POP              {R0}        ; pop data into R0
+  326 00000130         ; store R0 (data from TxFifo_Get()) in hardware transmit
+                        FIFO
+  327 00000130 49B3            LDR              R1, =UART0_DR_R 
+                                                            ; R1 = &UART0_DR_R
+  328 00000132 6008            STR              R0, [R1]    ; [R1] = R0
+  329 00000134 E7ED            B                s2hloop     ; unconditional bra
+                                                            nch to 'h2sloop'
+  330 00000136         s2hdone
+  331 00000136 BD00            POP              {PC}        ; restore previous 
+                                                            value of LR into PC
+                                                             (return)
+  332 00000138         
+  333 00000138         ;------------UART_InChar------------
+  334 00000138         ; input ASCII character from UART
+  335 00000138         ; spin if RxFifo is empty
+  336 00000138         ; Input: none
+  337 00000138         ; Output: R0  character in from UART
+  338 00000138         ; Very Important: The UART0 interrupt handler automatica
+                       lly
+  339 00000138         ;  empties the hardware receive FIFO into the software F
+                       IFO as
+  340 00000138         ;  the hardware gets data.  If the UART0 interrupt is
+  341 00000138         ;  disabled, the software receive FIFO may become empty,
+                        and
+  342 00000138         ;  this function will stall forever.
+  343 00000138         ;  Ensure that the UART0 module is initialized and its
+  344 00000138         ;  interrupt is enabled before calling this function.  D
+                       o not
+  345 00000138         ;  use UART I/O functions within a critical section of y
+                       our
+  346 00000138         ;  main program.
+  347 00000138         UART_InChar
+  348 00000138 F04F 0000       MOV              R0, #0      ; initialize local 
+                                                            variable
+  349 0000013C B501            PUSH             {R0, LR}    ; save current valu
+                                                            e of LR and allocat
+                                                            e local variable
+  350 0000013E         inCharLoop
+  351 0000013E 4668            MOV              R0, SP      ; R0 = SP (R0 point
+                                                            s to local variable
+                                                            )
+  352 00000140 F7FF FFFE       BL               RxFifo_Get  ; get from software
                                                              receive FIFO into 
                                                             pointer R0
-  349 00000148 2800            CMP              R0, #FIFOFAIL ; is R0 (RxFifo_G
+  353 00000144 2800            CMP              R0, #FIFOFAIL ; is R0 (RxFifo_G
                                                             et()) == FIFOFAIL (
                                                             value returned when
                                                              FIFO empty)?
-  350 0000014A D0FA            BEQ              inCharLoop  ; if so, skip to 'i
+  354 00000146 D0FA            BEQ              inCharLoop  ; if so, skip to 'i
                                                             nCharLoop' (spin un
                                                             til receive a chara
-                                                            cter)
-  351 0000014C BD01            POP              {R0, PC}    ; pop data into R0 
-                                                            and restore LR into
-                                                             PC (return)
-  352 0000014E         
-  353 0000014E         ;------------UART_OutChar------------
-  354 0000014E         ; output ASCII character to UART
 
 
 
 ARM Macro Assembler    Page 13 
 
 
-  355 0000014E         ; spin if TxFifo is full
-  356 0000014E         ; Input: R0  character out to UART
-  357 0000014E         ; Output: none
-  358 0000014E         ; Modifies: R0, R1
-  359 0000014E         ; Very Important: The UART0 interrupt handler automatica
+                                                            cter)
+  355 00000148 BD01            POP              {R0, PC}    ; pop data into R0 
+                                                            and restore LR into
+                                                             PC (return)
+  356 0000014A         
+  357 0000014A         ;------------UART_OutChar------------
+  358 0000014A         ; output ASCII character to UART
+  359 0000014A         ; spin if TxFifo is full
+  360 0000014A         ; Input: R0  character out to UART
+  361 0000014A         ; Output: none
+  362 0000014A         ; Modifies: R0, R1
+  363 0000014A         ; Very Important: The UART0 interrupt handler automatica
                        lly
-  360 0000014E         ;  empties the software transmit FIFO into the hardware 
+  364 0000014A         ;  empties the software transmit FIFO into the hardware 
                        FIFO as
-  361 0000014E         ;  the hardware sends data.  If the UART0 interrupt is
-  362 0000014E         ;  disabled, the software transmit FIFO may become full,
+  365 0000014A         ;  the hardware sends data.  If the UART0 interrupt is
+  366 0000014A         ;  disabled, the software transmit FIFO may become full,
                         and
-  363 0000014E         ;  this function will stall forever.
-  364 0000014E         ;  Ensure that the UART0 module is initialized and its
-  365 0000014E         ;  interrupt is enabled before calling this function.  D
+  367 0000014A         ;  this function will stall forever.
+  368 0000014A         ;  Ensure that the UART0 module is initialized and its
+  369 0000014A         ;  interrupt is enabled before calling this function.  D
                        o not
-  366 0000014E         ;  use UART I/O functions within a critical section of y
+  370 0000014A         ;  use UART I/O functions within a critical section of y
                        our
-  367 0000014E         ;  main program.
-  368 0000014E         UART_OutChar
-  369 0000014E B510            PUSH             {R4, LR}    ; save current valu
+  371 0000014A         ;  main program.
+  372 0000014A         UART_OutChar
+  373 0000014A B510            PUSH             {R4, LR}    ; save current valu
                                                             e of R4 and LR
-  370 00000150 4604            MOV              R4, R0      ; R4 = R0 (save the
+  374 0000014C 4604            MOV              R4, R0      ; R4 = R0 (save the
                                                              output character)
-  371 00000152         outCharLoop
-  372 00000152 4620            MOV              R0, R4      ; R0 = R4 (recall t
+  375 0000014E         outCharLoop
+  376 0000014E 4620            MOV              R0, R4      ; R0 = R4 (recall t
                                                             he output character
                                                             )
-  373 00000154 F7FF FFFE       BL               TxFifo_Put  ; store R0 (output 
+  377 00000150 F7FF FFFE       BL               TxFifo_Put  ; store R0 (output 
                                                             character) in softw
                                                             are transmit FIFO
-  374 00000158 2800            CMP              R0, #FIFOFAIL ; is R0 (TxFifo_P
+  378 00000154 2800            CMP              R0, #FIFOFAIL ; is R0 (TxFifo_P
                                                             ut()) == FIFOFAIL (
                                                             value returned when
                                                              FIFO full)?
-  375 0000015A D0FA            BEQ              outCharLoop ; if so, skip to 'o
+  379 00000156 D0FA            BEQ              outCharLoop ; if so, skip to 'o
                                                             utCharLoop' (spin u
                                                             ntil space in softw
                                                             are transmit FIFO)
-  376 0000015C 4C9D            LDR              R4, =UART0_IM_R 
+  380 00000158 4C9D            LDR              R4, =UART0_IM_R 
                                                             ; R4 = &UART0_IM_R
-  377 0000015E 6820            LDR              R0, [R4]    ; R0 = [R4]
-  378 00000160 F020 0020       BIC              R0, R0, #UART_IM_TXIM ; R0 = R0
+  381 0000015A 6820            LDR              R0, [R4]    ; R0 = [R4]
+  382 0000015C F020 0020       BIC              R0, R0, #UART_IM_TXIM ; R0 = R0
                                                             &~UART_IM_TXIM (dis
                                                             able TX FIFO interr
                                                             upt)
-  379 00000164 6020            STR              R0, [R4]    ; [R4] = R0
-  380 00000166 F7FF FFD5       BL               copySoftwareToHardware ; privat
+  383 00000160 6020            STR              R0, [R4]    ; [R4] = R0
+  384 00000162 F7FF FFD5       BL               copySoftwareToHardware ; privat
                                                             e helper subroutine
                                                             
-  381 0000016A 6820            LDR              R0, [R4]    ; R0 = [R4]
-  382 0000016C F040 0020       ORR              R0, R0, #UART_IM_TXIM ; R0 = R0
+  385 00000166 6820            LDR              R0, [R4]    ; R0 = [R4]
+  386 00000168 F040 0020       ORR              R0, R0, #UART_IM_TXIM ; R0 = R0
                                                             |UART_IM_TXIM (enab
-                                                            le TX FIFO interrup
-                                                            t)
-  383 00000170 6020            STR              R0, [R4]    ; [R4] = R0
-  384 00000172 BD10            POP              {R4, PC}    ; restore previous 
-                                                            value of R4 into R4
-                                                             and LR into PC (re
-                                                            turn)
 
 
 
 ARM Macro Assembler    Page 14 
 
 
-  385 00000174         
-  386 00000174         ;------------UART0_Handler------------
-  387 00000174         ; at least one of three things has happened:
-  388 00000174         ; hardware TX FIFO goes from 3 to 2 or less items
-  389 00000174         ; hardware RX FIFO goes from 1 to 2 or more items
-  390 00000174         ; UART receiver has timed out
-  391 00000174         UART0_Handler
-  392 00000174 B500            PUSH             {LR}        ; save current valu
+                                                            le TX FIFO interrup
+                                                            t)
+  387 0000016C 6020            STR              R0, [R4]    ; [R4] = R0
+  388 0000016E BD10            POP              {R4, PC}    ; restore previous 
+                                                            value of R4 into R4
+                                                             and LR into PC (re
+                                                            turn)
+  389 00000170         
+  390 00000170         ;------------UART0_Handler------------
+  391 00000170         ; at least one of three things has happened:
+  392 00000170         ; hardware TX FIFO goes from 3 to 2 or less items
+  393 00000170         ; hardware RX FIFO goes from 1 to 2 or more items
+  394 00000170         ; UART receiver has timed out
+  395 00000170         UART0_Handler
+  396 00000170 B500            PUSH             {LR}        ; save current valu
                                                             e of LR
-  393 00000176         ; check the flags to determine which interrupt condition
+  397 00000172         ; check the flags to determine which interrupt condition
                         occurred
-  394 00000176         handlerCheck0
-  395 00000176 49A4            LDR              R1, =UART0_RIS_R 
+  398 00000172         handlerCheck0
+  399 00000172 49A4            LDR              R1, =UART0_RIS_R 
                                                             ; R1 = &UART0_RIS_R
                                                             
-  396 00000178 6808            LDR              R0, [R1]    ; R0 = [R1]
-  397 0000017A F000 0020       AND              R0, R0, #UART_RIS_TXRIS ; R0 = 
+  400 00000174 6808            LDR              R0, [R1]    ; R0 = [R1]
+  401 00000176 F000 0020       AND              R0, R0, #UART_RIS_TXRIS ; R0 = 
                                                             R0&UART_RIS_TXRIS
-  398 0000017E 2820            CMP              R0, #UART_RIS_TXRIS ; is R0 (UA
+  402 0000017A 2820            CMP              R0, #UART_RIS_TXRIS ; is R0 (UA
                                                             RT0_RIS_R&UART_RIS_
                                                             TXRIS) == UART_RIS_
                                                             TXRIS? (does hardwa
                                                             re TX FIFO have <= 
                                                             2 items?)
-  399 00000180 D10E            BNE              handlerCheck1 ; if not, skip to
+  403 0000017C D10E            BNE              handlerCheck1 ; if not, skip to
                                                              'handlerCheck1' an
                                                             d check the next fl
                                                             ag
-  400 00000182         ; acknowledge TX FIFO interrupt
-  401 00000182 49A2            LDR              R1, =UART0_ICR_R 
+  404 0000017E         ; acknowledge TX FIFO interrupt
+  405 0000017E 49A2            LDR              R1, =UART0_ICR_R 
                                                             ; R1 = &UART0_ICR_R
                                                             
-  402 00000184 F04F 0020       LDR              R0, =UART_ICR_TXIC ; R0 = UART_
+  406 00000180 F04F 0020       LDR              R0, =UART_ICR_TXIC ; R0 = UART_
                                                             ICR_TXIC (zeros wri
                                                             tten to interrupt c
                                                             lear register have 
                                                             no effect)
-  403 00000188 6008            STR              R0, [R1]    ; [R1] = R0
-  404 0000018A         ; copy from software TX FIFO to hardware TX FIFO
-  405 0000018A F7FF FFC3       BL               copySoftwareToHardware ; privat
+  407 00000184 6008            STR              R0, [R1]    ; [R1] = R0
+  408 00000186         ; copy from software TX FIFO to hardware TX FIFO
+  409 00000186 F7FF FFC3       BL               copySoftwareToHardware ; privat
                                                             e helper subroutine
                                                             
-  406 0000018E         ; if the software transmit FIFO is now empty, disable TX
+  410 0000018A         ; if the software transmit FIFO is now empty, disable TX
                         FIFO interrupt
-  407 0000018E         ; UART_OutChar() will re-enable the TX FIFO interrupt wh
+  411 0000018A         ; UART_OutChar() will re-enable the TX FIFO interrupt wh
                        en it is needed
-  408 0000018E F7FF FFFE       BL               TxFifo_Size
-  409 00000192 2800            CMP              R0, #0      ; is R0 (TxFifo_Siz
+  412 0000018A F7FF FFFE       BL               TxFifo_Size
+  413 0000018E 2800            CMP              R0, #0      ; is R0 (TxFifo_Siz
                                                             e()) == 0? (is soft
                                                             ware transmit FIFO 
                                                             empty?)
-  410 00000194 D104            BNE              handlerCheck1 ; if not, skip to
-                                                             'handlerCheck1'
-  411 00000196 498F            LDR              R1, =UART0_IM_R 
-                                                            ; R1 = &UART0_IM_R
-  412 00000198 6808            LDR              R0, [R1]    ; R0 = [R1]
-  413 0000019A F020 0020       BIC              R0, R0, #UART_IM_TXIM ; R0 = R0
-                                                            &~UART_IM_TXIM (dis
-                                                            able TX FIFO interr
+  414 00000190 D104            BNE              handlerCheck1 ; if not, skip to
 
 
 
 ARM Macro Assembler    Page 15 
 
 
+                                                             'handlerCheck1'
+  415 00000192 498F            LDR              R1, =UART0_IM_R 
+                                                            ; R1 = &UART0_IM_R
+  416 00000194 6808            LDR              R0, [R1]    ; R0 = [R1]
+  417 00000196 F020 0020       BIC              R0, R0, #UART_IM_TXIM ; R0 = R0
+                                                            &~UART_IM_TXIM (dis
+                                                            able TX FIFO interr
                                                             upt)
-  414 0000019E 6008            STR              R0, [R1]    ; [R1] = R0
-  415 000001A0         handlerCheck1
-  416 000001A0 4999            LDR              R1, =UART0_RIS_R 
+  418 0000019A 6008            STR              R0, [R1]    ; [R1] = R0
+  419 0000019C         handlerCheck1
+  420 0000019C 4999            LDR              R1, =UART0_RIS_R 
                                                             ; R1 = &UART0_RIS_R
                                                             
-  417 000001A2 6808            LDR              R0, [R1]    ; R0 = [R1]
-  418 000001A4 F000 0010       AND              R0, R0, #UART_RIS_RXRIS ; R0 = 
+  421 0000019E 6808            LDR              R0, [R1]    ; R0 = [R1]
+  422 000001A0 F000 0010       AND              R0, R0, #UART_RIS_RXRIS ; R0 = 
                                                             R0&UART_RIS_RXRIS
-  419 000001A8 2810            CMP              R0, #UART_RIS_RXRIS ; is R0 (UA
+  423 000001A4 2810            CMP              R0, #UART_RIS_RXRIS ; is R0 (UA
                                                             RT0_RIS_R&UART_RIS_
                                                             RXRIS) == UART_RIS_
                                                             RXRIS? (does hardwa
                                                             re RX FIFO have >= 
                                                             2 items?)
-  420 000001AA D105            BNE              handlerCheck2 ; if not, skip to
+  424 000001A6 D105            BNE              handlerCheck2 ; if not, skip to
                                                              'handlerCheck2' an
                                                             d check the next fl
                                                             ag
-  421 000001AC         ; acknowledge RX FIFO interrupt
-  422 000001AC 4997            LDR              R1, =UART0_ICR_R 
+  425 000001A8         ; acknowledge RX FIFO interrupt
+  426 000001A8 4997            LDR              R1, =UART0_ICR_R 
                                                             ; R1 = &UART0_ICR_R
                                                             
-  423 000001AE F04F 0010       LDR              R0, =UART_ICR_RXIC ; R0 = UART_
+  427 000001AA F04F 0010       LDR              R0, =UART_ICR_RXIC ; R0 = UART_
                                                             ICR_RXIC (zeros wri
                                                             tten to interrupt c
                                                             lear register have 
                                                             no effect)
-  424 000001B2 6008            STR              R0, [R1]    ; [R1] = R0
-  425 000001B4         ; copy from hardware RX FIFO to software RX FIFO
-  426 000001B4 F7FF FF9D       BL               copyHardwareToSoftware ; privat
+  428 000001AE 6008            STR              R0, [R1]    ; [R1] = R0
+  429 000001B0         ; copy from hardware RX FIFO to software RX FIFO
+  430 000001B0 F7FF FF9D       BL               copyHardwareToSoftware ; privat
                                                             e helper subroutine
                                                             
-  427 000001B8         handlerCheck2
-  428 000001B8 4993            LDR              R1, =UART0_RIS_R 
+  431 000001B4         handlerCheck2
+  432 000001B4 4993            LDR              R1, =UART0_RIS_R 
                                                             ; R1 = &UART0_RIS_R
                                                             
-  429 000001BA 6808            LDR              R0, [R1]    ; R0 = [R1]
-  430 000001BC F000 0040       AND              R0, R0, #UART_RIS_RTRIS ; R0 = 
+  433 000001B6 6808            LDR              R0, [R1]    ; R0 = [R1]
+  434 000001B8 F000 0040       AND              R0, R0, #UART_RIS_RTRIS ; R0 = 
                                                             R0&UART_RIS_RTRIS
-  431 000001C0 2840            CMP              R0, #UART_RIS_RTRIS ; is R0 (UA
+  435 000001BC 2840            CMP              R0, #UART_RIS_RTRIS ; is R0 (UA
                                                             RT0_RIS_R&UART_RIS_
                                                             RTRIS) == UART_RIS_
                                                             RTRIS? (did the rec
                                                             eiver timeout?)
-  432 000001C2 D105            BNE              handlerDone ; if not, skip to '
+  436 000001BE D105            BNE              handlerDone ; if not, skip to '
                                                             handlerDone'
-  433 000001C4         ; acknowledge receiver timeout interrupt
-  434 000001C4 4991            LDR              R1, =UART0_ICR_R 
+  437 000001C0         ; acknowledge receiver timeout interrupt
+  438 000001C0 4991            LDR              R1, =UART0_ICR_R 
                                                             ; R1 = &UART0_ICR_R
                                                             
-  435 000001C6 F04F 0040       LDR              R0, =UART_ICR_RTIC ; R0 = UART_
-                                                            ICR_RTIC (zeros wri
-                                                            tten to interrupt c
-                                                            lear register have 
-                                                            no effect)
-  436 000001CA 6008            STR              R0, [R1]    ; [R1] = R0
-  437 000001CC         ; copy from hardware RX FIFO to software RX FIFO
-  438 000001CC F7FF FF91       BL               copyHardwareToSoftware ; privat
+  439 000001C2 F04F 0040       LDR              R0, =UART_ICR_RTIC ; R0 = UART_
 
 
 
 ARM Macro Assembler    Page 16 
 
 
+                                                            ICR_RTIC (zeros wri
+                                                            tten to interrupt c
+                                                            lear register have 
+                                                            no effect)
+  440 000001C6 6008            STR              R0, [R1]    ; [R1] = R0
+  441 000001C8         ; copy from hardware RX FIFO to software RX FIFO
+  442 000001C8 F7FF FF91       BL               copyHardwareToSoftware ; privat
                                                             e helper subroutine
                                                             
-  439 000001D0         handlerDone
-  440 000001D0 BD00            POP              {PC}        ; restore previous 
+  443 000001CC         handlerDone
+  444 000001CC BD00            POP              {PC}        ; restore previous 
                                                             value of LR into PC
                                                              (return from inter
                                                             rupt)
-  441 000001D2         
-  442 000001D2         ;------------UART_OutString------------
-  443 000001D2         ; Output String (NULL termination)
-  444 000001D2         ; Input: R0  pointer to a NULL-terminated string to be t
+  445 000001CE         
+  446 000001CE         ;------------UART_OutString------------
+  447 000001CE         ; Output String (NULL termination)
+  448 000001CE         ; Input: R0  pointer to a NULL-terminated string to be t
                        ransferred
-  445 000001D2         ; Output: none
-  446 000001D2         UART_OutString
-  447 000001D2 B510            PUSH             {R4, LR}    ; save current valu
+  449 000001CE         ; Output: none
+  450 000001CE         UART_OutString
+  451 000001CE B510            PUSH             {R4, LR}    ; save current valu
                                                             e of R4 and LR
-  448 000001D4 4604            MOV              R4, R0      ; R4 = R0 (save the
+  452 000001D0 4604            MOV              R4, R0      ; R4 = R0 (save the
                                                              string pointer)
-  449 000001D6         outStringLoop
-  450 000001D6 7820            LDRB             R0, [R4]    ; R0 = [R4] (R0 get
+  453 000001D2         outStringLoop
+  454 000001D2 7820            LDRB             R0, [R4]    ; R0 = [R4] (R0 get
                                                             s unsigned characte
                                                             r pointed to by R4,
                                                              promoted to 32 bit
                                                             s)
-  451 000001D8 2800            CMP              R0, #0      ; is R0 (next chara
+  455 000001D4 2800            CMP              R0, #0      ; is R0 (next chara
                                                             cter in string) == 
                                                             0 (NULL)?
-  452 000001DA D004            BEQ              outStringDone ; if so, skip to 
+  456 000001D6 D004            BEQ              outStringDone ; if so, skip to 
                                                             'outStringDone'
-  453 000001DC F7FF FFFE       BL               UART_OutChar ; send the charact
+  457 000001D8 F7FF FFFE       BL               UART_OutChar ; send the charact
                                                             er to the UART
-  454 000001E0 F104 0401       ADD              R4, R4, #1  ; R4 = R4 + 1 (incr
+  458 000001DC F104 0401       ADD              R4, R4, #1  ; R4 = R4 + 1 (incr
                                                             ement string pointe
                                                             r)
-  455 000001E4 E7F7            B                outStringLoop ; unconditional b
+  459 000001E0 E7F7            B                outStringLoop ; unconditional b
                                                             ranch to 'outString
                                                             Loop'
-  456 000001E6         outStringDone
-  457 000001E6 BD10            POP              {R4, PC}    ; restore previous 
+  460 000001E2         outStringDone
+  461 000001E2 BD10            POP              {R4, PC}    ; restore previous 
                                                             value of R4 into R4
                                                              and LR into PC (re
                                                             turn)
-  458 000001E8         
-  459 000001E8         ;------------UART_InUDec------------
-  460 000001E8         ; InUDec accepts ASCII input in unsigned decimal format
-  461 000001E8         ;     and converts to a 32-bit unsigned number
-  462 000001E8         ;     valid range is 0 to 4294967295 (2^32-1)
-  463 000001E8         ; Input: none
-  464 000001E8         ; Output: R0  32-bit unsigned number
-  465 000001E8         ; If you enter a number above 4294967295, it will return
+  462 000001E4         
+  463 000001E4         ;------------UART_InUDec------------
+  464 000001E4         ; InUDec accepts ASCII input in unsigned decimal format
+  465 000001E4         ;     and converts to a 32-bit unsigned number
+  466 000001E4         ;     valid range is 0 to 4294967295 (2^32-1)
+  467 000001E4         ; Input: none
+  468 000001E4         ; Output: R0  32-bit unsigned number
+  469 000001E4         ; If you enter a number above 4294967295, it will return
                         an incorrect value
-  466 000001E8         ; Backspace will remove last digit typed
-  467 000001E8         UART_InUDec
-  468 000001E8 B530            PUSH             {R4, R5, LR} ; save current val
-                                                            ue of R4, R5, and L
-                                                            R
-  469 000001EA F04F 0400       MOV              R4, #0      ; R4 = 0 (number = 
-                                                            0)
-  470 000001EE F04F 0500       MOV              R5, #0      ; R5 = 0 (length = 
+  470 000001E4         ; Backspace will remove last digit typed
 
 
 
 ARM Macro Assembler    Page 17 
 
 
+  471 000001E4         UART_InUDec
+  472 000001E4 B530            PUSH             {R4, R5, LR} ; save current val
+                                                            ue of R4, R5, and L
+                                                            R
+  473 000001E6 F04F 0400       MOV              R4, #0      ; R4 = 0 (number = 
                                                             0)
-  471 000001F2         inUDecLoop
-  472 000001F2         ; accepts characters until <enter> is typed
-  473 000001F2 F7FF FFFE       BL               UART_InChar ; get a character f
+  474 000001EA F04F 0500       MOV              R5, #0      ; R5 = 0 (length = 
+                                                            0)
+  475 000001EE         inUDecLoop
+  476 000001EE         ; accepts characters until <enter> is typed
+  477 000001EE F7FF FFFE       BL               UART_InChar ; get a character f
                                                             rom the UART
-  474 000001F6 280D            CMP              R0, #CR     ; is R0 (most recen
+  478 000001F2 280D            CMP              R0, #CR     ; is R0 (most recen
                                                             t character) == 0x0
                                                             D (<enter>)?
-  475 000001F8 D01C            BEQ              inUDecDone  ; if so, skip to 'i
+  479 000001F4 D01C            BEQ              inUDecDone  ; if so, skip to 'i
                                                             nUDecDone'
-  476 000001FA         ; check if the input is a digit, 0-9
-  477 000001FA         ; if the character is not 0-9, it is ignored and not ech
+  480 000001F6         ; check if the input is a digit, 0-9
+  481 000001F6         ; if the character is not 0-9, it is ignored and not ech
                        oed
-  478 000001FA 2830            CMP              R0, #'0'    ; is R0 (most recen
+  482 000001F6 2830            CMP              R0, #'0'    ; is R0 (most recen
                                                             t character) < '0'?
                                                             
-  479 000001FC D30D            BLO              inUDecNAN   ; if so, skip to 'i
+  483 000001F8 D30D            BLO              inUDecNAN   ; if so, skip to 'i
                                                             nUDecNAN'
-  480 000001FE 2839            CMP              R0, #'9'    ; is R0 (most recen
+  484 000001FA 2839            CMP              R0, #'9'    ; is R0 (most recen
                                                             t character) > '9'?
                                                             
-  481 00000200 D80B            BHI              inUDecNAN   ; if so, skip to 'i
+  485 000001FC D80B            BHI              inUDecNAN   ; if so, skip to 'i
                                                             nUDecNAN'
-  482 00000202 F04F 010A       MOV              R1, #10     ; R1 = 10
-  483 00000206 FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
+  486 000001FE F04F 010A       MOV              R1, #10     ; R1 = 10
+  487 00000202 FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
                                                             r = number*10)
-  484 0000020A 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
+  488 00000206 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
                                                             ber = number*10 + c
                                                             haracter)
-  485 0000020C F1A4 0430       SUB              R4, R4, #'0' ; R4 = R4 - '0' (n
+  489 00000208 F1A4 0430       SUB              R4, R4, #'0' ; R4 = R4 - '0' (n
                                                             umber = number*10 +
                                                              character - '0')
-  486 00000210 F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
+  490 0000020C F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
                                                             th = length + 1)
-  487 00000214 F7FF FFFE       BL               UART_OutChar ; echo the charact
+  491 00000210 F7FF FFFE       BL               UART_OutChar ; echo the charact
                                                             er to the UART
-  488 00000218 E7EB            B                inUDecLoop  ; unconditional bra
+  492 00000214 E7EB            B                inUDecLoop  ; unconditional bra
                                                             nch to 'inUDecLoop'
                                                             
-  489 0000021A         inUDecNAN
-  490 0000021A         ; if the input is a backspace, then the return number is
+  493 00000216         inUDecNAN
+  494 00000216         ; if the input is a backspace, then the return number is
                        
-  491 0000021A         ; changed and a backspace is outputted to the screen
-  492 0000021A 2808            CMP              R0, #BS     ; is R0 (most recen
+  495 00000216         ; changed and a backspace is outputted to the screen
+  496 00000216 2808            CMP              R0, #BS     ; is R0 (most recen
                                                             t character) == 0x0
                                                             8 (<backspace>)?
-  493 0000021C D1E9            BNE              inUDecLoop  ; if not, skip to '
+  497 00000218 D1E9            BNE              inUDecLoop  ; if not, skip to '
                                                             inUDecLoop'
-  494 0000021E 2D00            CMP              R5, #0      ; is R5 (length) ==
+  498 0000021A 2D00            CMP              R5, #0      ; is R5 (length) ==
                                                              0?
-  495 00000220 D0E7            BEQ              inUDecLoop  ; if so, skip to 'i
+  499 0000021C D0E7            BEQ              inUDecLoop  ; if so, skip to 'i
                                                             nUDecLoop'
-  496 00000222 F04F 010A       MOV              R1, #10     ; R1 = 10
-  497 00000226 FBB4 F4F1       UDIV             R4, R4, R1  ; R4 = R4/R1 (numbe
-                                                            r = number/10)
-  498 0000022A F1A5 0501       SUB              R5, R5, #1  ; R5 = R5 - 1 (leng
-                                                            th = length - 1)
-  499 0000022E F7FF FFFE       BL               UART_OutChar ; echo the charact
-                                                            er to the UART
 
 
 
 ARM Macro Assembler    Page 18 
 
 
-  500 00000232         ;    MOV R0, #SPA                    ; R0 = SPA (<space>
+  500 0000021E F04F 010A       MOV              R1, #10     ; R1 = 10
+  501 00000222 FBB4 F4F1       UDIV             R4, R4, R1  ; R4 = R4/R1 (numbe
+                                                            r = number/10)
+  502 00000226 F1A5 0501       SUB              R5, R5, #1  ; R5 = R5 - 1 (leng
+                                                            th = length - 1)
+  503 0000022A F7FF FFFE       BL               UART_OutChar ; echo the charact
+                                                            er to the UART
+  504 0000022E         ;    MOV R0, #SPA                    ; R0 = SPA (<space>
                        )
-  501 00000232         ;    BL  UART_OutChar                ; echo additional <
+  505 0000022E         ;    BL  UART_OutChar                ; echo additional <
                        space> to the UART
-  502 00000232         ;    MOV R0, #BS                     ; R0 = BS (<backspa
+  506 0000022E         ;    MOV R0, #BS                     ; R0 = BS (<backspa
                        ce>)
-  503 00000232         ;    BL  UART_OutChar                ; echo additional <
+  507 0000022E         ;    BL  UART_OutChar                ; echo additional <
                        backspace> to the UART
-  504 00000232 E7DE            B                inUDecLoop  ; unconditional bra
+  508 0000022E E7DE            B                inUDecLoop  ; unconditional bra
                                                             nch to 'inUDecLoop'
                                                             
-  505 00000234         inUDecDone
-  506 00000234 4620            MOV              R0, R4      ; R0 = R4 (return '
+  509 00000230         inUDecDone
+  510 00000230 4620            MOV              R0, R4      ; R0 = R4 (return '
                                                             number' in R0)
-  507 00000236 BD30            POP              {R4, R5, PC} ; restore previous
+  511 00000232 BD30            POP              {R4, R5, PC} ; restore previous
                                                              value of R4 into R
                                                             4, R5 into R5, and 
                                                             LR into PC (return)
                                                             
-  508 00000238         
-  509 00000238         ;Modulus macro from Section 5.4
-  510 00000238         ;Mod and Divnd must not be the same register
-  511 00000238                 MACRO
-  512 00000238                 UMOD             $Mod,$Divnd,$Divsr ;MOD,DIVIDEN
+  512 00000234         
+  513 00000234         ;Modulus macro from Section 5.4
+  514 00000234         ;Mod and Divnd must not be the same register
+  515 00000234                 MACRO
+  516 00000234                 UMOD             $Mod,$Divnd,$Divsr ;MOD,DIVIDEN
                                                             D,DIVISOR
-  513 00000238                 UDIV             $Mod,$Divnd,$Divsr ;Mod = DIVID
+  517 00000234                 UDIV             $Mod,$Divnd,$Divsr ;Mod = DIVID
                                                             END/DIVISOR
-  514 00000238                 MUL              $Mod,$Mod,$Divsr ;Mod = DIVISOR
+  518 00000234                 MUL              $Mod,$Mod,$Divsr ;Mod = DIVISOR
                                                             *(DIVIDEND/DIVISOR)
                                                             
-  515 00000238                 SUB              $Mod,$Divnd,$Mod ;Mod = DIVIDEN
+  519 00000234                 SUB              $Mod,$Divnd,$Mod ;Mod = DIVIDEN
                                                             D-DIVISOR*(DIVIDEND
                                                             /DIVISOR)
-  516 00000238                 MEND
-  517 00000238         
-  518 00000238         ;-----------------------UART_OutUDec--------------------
+  520 00000234                 MEND
+  521 00000234         
+  522 00000234         ;-----------------------UART_OutUDec--------------------
                        ---
-  519 00000238         ; Output a 32-bit number in unsigned decimal format
-  520 00000238         ; Input: R0  32-bit number to be transferred
-  521 00000238         ; Output: none
-  522 00000238         ; Variable format 1-10 digits with no space before or af
+  523 00000234         ; Output a 32-bit number in unsigned decimal format
+  524 00000234         ; Input: R0  32-bit number to be transferred
+  525 00000234         ; Output: none
+  526 00000234         ; Variable format 1-10 digits with no space before or af
                        ter
-  523 00000238         UART_OutUDec
-  524 00000238         ; This function uses recursion to convert decimal number
+  527 00000234         UART_OutUDec
+  528 00000234         ; This function uses recursion to convert decimal number
                        
-  525 00000238         ;   of unspecified length as an ASCII string
-  526 00000238 B500            PUSH             {LR}        ; save current valu
+  529 00000234         ;   of unspecified length as an ASCII string
+  530 00000234 B500            PUSH             {LR}        ; save current valu
                                                             e of LR
-  527 0000023A 280A            CMP              R0, #10     ; is R0 (number) < 
+  531 00000236 280A            CMP              R0, #10     ; is R0 (number) < 
                                                             10?
-  528 0000023C D310            BLO              outUDecDone ; if so, skip to 'o
+  532 00000238 D310            BLO              outUDecDone ; if so, skip to 'o
                                                             utUDecDone'
-  529 0000023E         ; R0 (number) >= 10
-  530 0000023E         ; recursive call to UART_OutUDec with R0/10 (number/10)
-  531 0000023E B401            PUSH             {R0}        ; save current valu
-                                                            e of R0 (number)
-  532 00000240 F04F 010A       MOV              R1, #10     ; R1 = 10
-  533 00000244 FBB0 F0F1       UDIV             R0, R0, R1  ; R0 = R0/R1 (numbe
-                                                            r = number/10)
 
 
 
 ARM Macro Assembler    Page 19 
 
 
-  534 00000248 F7FF FFFE       BL               UART_OutUDec
-  535 0000024C BC01            POP              {R0}        ; restore previous 
+  533 0000023A         ; R0 (number) >= 10
+  534 0000023A         ; recursive call to UART_OutUDec with R0/10 (number/10)
+  535 0000023A B401            PUSH             {R0}        ; save current valu
+                                                            e of R0 (number)
+  536 0000023C F04F 010A       MOV              R1, #10     ; R1 = 10
+  537 00000240 FBB0 F0F1       UDIV             R0, R0, R1  ; R0 = R0/R1 (numbe
+                                                            r = number/10)
+  538 00000244 F7FF FFFE       BL               UART_OutUDec
+  539 00000248 BC01            POP              {R0}        ; restore previous 
                                                             value of R0 into R0
                                                             
-  536 0000024E         ; extract the ones digit of R0 (number) with R0 = R0%10
-  537 0000024E F04F 010A       MOV              R1, #10     ; R1 = 10
-  538 00000252 4602            MOV              R2, R0      ; R2 = R0 (temporar
+  540 0000024A         ; extract the ones digit of R0 (number) with R0 = R0%10
+  541 0000024A F04F 010A       MOV              R1, #10     ; R1 = 10
+  542 0000024E 4602            MOV              R2, R0      ; R2 = R0 (temporar
                                                             ily holds number)
-  539 00000254                 UMOD             R0, R2, R1  ; R0 = R2%R1 (numbe
+  543 00000250                 UMOD             R0, R2, R1  ; R0 = R2%R1 (numbe
                                                             r = number%10)
-  513 00000254 FBB2 F0F1       UDIV             R0,R2,R1    ;Mod = DIVIDEND/DIV
+  517 00000250 FBB2 F0F1       UDIV             R0,R2,R1    ;Mod = DIVIDEND/DIV
                                                             ISOR
-  514 00000258 FB00 F001       MUL              R0,R0,R1    ;Mod = DIVISOR*(DIV
+  518 00000254 FB00 F001       MUL              R0,R0,R1    ;Mod = DIVISOR*(DIV
                                                             IDEND/DIVISOR)
-  515 0000025C EBA2 0000       SUB              R0,R2,R0    ;Mod = DIVIDEND-DIV
+  519 00000258 EBA2 0000       SUB              R0,R2,R0    ;Mod = DIVIDEND-DIV
                                                             ISOR*(DIVIDEND/DIVI
                                                             SOR)
-  540 00000260         outUDecDone
-  541 00000260         ; R0 (number) is between 0 and 9
-  542 00000260 F100 0030       ADD              R0, R0, #'0' ; R0 = R0 + '0' (n
+  544 0000025C         outUDecDone
+  545 0000025C         ; R0 (number) is between 0 and 9
+  546 0000025C F100 0030       ADD              R0, R0, #'0' ; R0 = R0 + '0' (n
                                                             umber = number + '0
                                                             ')
-  543 00000264 F7FF FFFE       BL               UART_OutChar ; send the charact
+  547 00000260 F7FF FFFE       BL               UART_OutChar ; send the charact
                                                             er to the UART
-  544 00000268 BD00            POP              {PC}        ; restore previous 
+  548 00000264 BD00            POP              {PC}        ; restore previous 
                                                             value of LR into PC
                                                              (return)
-  545 0000026A         
-  546 0000026A         ;---------------------UART_InUHex-----------------------
+  549 00000266         
+  550 00000266         ;---------------------UART_InUHex-----------------------
                        -----------------
-  547 0000026A         ; Accepts ASCII input in unsigned hexadecimal (base 16) 
+  551 00000266         ; Accepts ASCII input in unsigned hexadecimal (base 16) 
                        format
-  548 0000026A         ; Input: none
-  549 0000026A         ; Output: R0  32-bit unsigned number
-  550 0000026A         ; No '$' or '0x' need be entered, just the 1 to 8 hex di
+  552 00000266         ; Input: none
+  553 00000266         ; Output: R0  32-bit unsigned number
+  554 00000266         ; No '$' or '0x' need be entered, just the 1 to 8 hex di
                        gits
-  551 0000026A         ; It will convert lower case a-f to uppercase A-F
-  552 0000026A         ;     and converts to a 32-bit unsigned number
-  553 0000026A         ;     value range is 0 to FFFFFFFF
-  554 0000026A         ; If you enter a number above FFFFFFFF, it will return a
+  555 00000266         ; It will convert lower case a-f to uppercase A-F
+  556 00000266         ;     and converts to a 32-bit unsigned number
+  557 00000266         ;     value range is 0 to FFFFFFFF
+  558 00000266         ; If you enter a number above FFFFFFFF, it will return a
                        n incorrect value
-  555 0000026A         ; Backspace will remove last digit typed
-  556 0000026A         UART_InUHex
-  557 0000026A B530            PUSH             {R4, R5, LR} ; save current val
+  559 00000266         ; Backspace will remove last digit typed
+  560 00000266         UART_InUHex
+  561 00000266 B530            PUSH             {R4, R5, LR} ; save current val
                                                             ue of R4, R5, and L
                                                             R
-  558 0000026C F04F 0400       MOV              R4, #0      ; R4 = 0 (number = 
+  562 00000268 F04F 0400       MOV              R4, #0      ; R4 = 0 (number = 
                                                             0)
-  559 00000270 F04F 0500       MOV              R5, #0      ; R5 = 0 (length = 
+  563 0000026C F04F 0500       MOV              R5, #0      ; R5 = 0 (length = 
                                                             0)
-  560 00000274         inUHexLoop
-  561 00000274         ; accepts characters until <enter> is typed
-  562 00000274 F7FF FFFE       BL               UART_InChar ; get a character f
-                                                            rom the UART
-  563 00000278 280D            CMP              R0, #CR     ; is R0 (most recen
-                                                            t character) == 0x0
-                                                            D (<enter>)?
-  564 0000027A D040            BEQ              inUHexDone  ; if so, skip to 'i
-                                                            nUHexDone'
+  564 00000270         inUHexLoop
+  565 00000270         ; accepts characters until <enter> is typed
 
 
 
 ARM Macro Assembler    Page 20 
 
 
-  565 0000027C         ; check if the input is a digit, 0-9
-  566 0000027C         ; if the character is not 0-9, check for other valid inp
+  566 00000270 F7FF FFFE       BL               UART_InChar ; get a character f
+                                                            rom the UART
+  567 00000274 280D            CMP              R0, #CR     ; is R0 (most recen
+                                                            t character) == 0x0
+                                                            D (<enter>)?
+  568 00000276 D040            BEQ              inUHexDone  ; if so, skip to 'i
+                                                            nUHexDone'
+  569 00000278         ; check if the input is a digit, 0-9
+  570 00000278         ; if the character is not 0-9, check for other valid inp
                        ut
-  567 0000027C 2830            CMP              R0, #'0'    ; is R0 (most recen
+  571 00000278 2830            CMP              R0, #'0'    ; is R0 (most recen
                                                             t character) < '0'?
                                                             
-  568 0000027E D30D            BLO              inUHexNotDigit ; if so, skip to
+  572 0000027A D30D            BLO              inUHexNotDigit ; if so, skip to
                                                              'inUHexNotDigit'
-  569 00000280 2839            CMP              R0, #'9'    ; is R0 (most recen
+  573 0000027C 2839            CMP              R0, #'9'    ; is R0 (most recen
                                                             t character) > '9'?
                                                             
-  570 00000282 D80B            BHI              inUHexNotDigit ; if so, skip to
+  574 0000027E D80B            BHI              inUHexNotDigit ; if so, skip to
                                                              'inUHexNotDigit'
-  571 00000284 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
-  572 00000288 FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
+  575 00000280 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
+  576 00000284 FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
                                                             r = number*16)
-  573 0000028C 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
+  577 00000288 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
                                                             ber = number*16 + c
                                                             haracter)
-  574 0000028E F1A4 0430       SUB              R4, R4, #'0' ; R4 = R4 - '0' (n
+  578 0000028A F1A4 0430       SUB              R4, R4, #'0' ; R4 = R4 - '0' (n
                                                             umber = number*16 +
                                                              character - '0')
-  575 00000292 F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
+  579 0000028E F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
                                                             th = length + 1)
-  576 00000296 F7FF FFFE       BL               UART_OutChar ; echo the charact
+  580 00000292 F7FF FFFE       BL               UART_OutChar ; echo the charact
                                                             er to the UART
-  577 0000029A E7EB            B                inUHexLoop  ; unconditional bra
+  581 00000296 E7EB            B                inUHexLoop  ; unconditional bra
                                                             nch to 'inUHexLoop'
                                                             
-  578 0000029C         inUHexNotDigit
-  579 0000029C         ; check if the input is an uppercase letter, 'A'-'F'
-  580 0000029C 2841            CMP              R0, #'A'    ; is R0 (most recen
+  582 00000298         inUHexNotDigit
+  583 00000298         ; check if the input is an uppercase letter, 'A'-'F'
+  584 00000298 2841            CMP              R0, #'A'    ; is R0 (most recen
                                                             t character) < 'A'?
                                                             
-  581 0000029E D30F            BLO              inUHexNotUpper ; if so, skip to
+  585 0000029A D30F            BLO              inUHexNotUpper ; if so, skip to
                                                              'inUHexNotUpper'
-  582 000002A0 2846            CMP              R0, #'F'    ; is R0 (most recen
+  586 0000029C 2846            CMP              R0, #'F'    ; is R0 (most recen
                                                             t character) > 'F'?
                                                             
-  583 000002A2 D80D            BHI              inUHexNotUpper ; if so, skip to
+  587 0000029E D80D            BHI              inUHexNotUpper ; if so, skip to
                                                              'inUHexNotUpper'
-  584 000002A4 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
-  585 000002A8 FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
+  588 000002A0 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
+  589 000002A4 FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
                                                             r = number*16)
-  586 000002AC 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
+  590 000002A8 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
                                                             ber = number*16 + c
                                                             haracter)
-  587 000002AE F1A4 0441       SUB              R4, R4, #'A' ; R4 = R4 - '0' (n
+  591 000002AA F1A4 0441       SUB              R4, R4, #'A' ; R4 = R4 - '0' (n
                                                             umber = number*16 +
                                                              character - 'A')
-  588 000002B2 F104 040A       ADD              R4, R4, #0xA ; R4 = R4 + 0xA (n
+  592 000002AE F104 040A       ADD              R4, R4, #0xA ; R4 = R4 + 0xA (n
                                                             umber = number*16 +
-                                                             character - 'A' + 
-                                                            10)
-  589 000002B6 F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
-                                                            th = length + 1)
-  590 000002BA F7FF FFFE       BL               UART_OutChar ; echo the charact
-                                                            er to the UART
-  591 000002BE E7D9            B                inUHexLoop  ; unconditional bra
 
 
 
 ARM Macro Assembler    Page 21 
 
 
+                                                             character - 'A' + 
+                                                            10)
+  593 000002B2 F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
+                                                            th = length + 1)
+  594 000002B6 F7FF FFFE       BL               UART_OutChar ; echo the charact
+                                                            er to the UART
+  595 000002BA E7D9            B                inUHexLoop  ; unconditional bra
                                                             nch to 'inUHexLoop'
                                                             
-  592 000002C0         inUHexNotUpper
-  593 000002C0         ; check if the input is a lowercase letter, 'a'-'f'
-  594 000002C0 2861            CMP              R0, #'a'    ; is R0 (most recen
+  596 000002BC         inUHexNotUpper
+  597 000002BC         ; check if the input is a lowercase letter, 'a'-'f'
+  598 000002BC 2861            CMP              R0, #'a'    ; is R0 (most recen
                                                             t character) < 'a'?
                                                             
-  595 000002C2 D30F            BLO              inUHexOther ; if so, skip to 'i
+  599 000002BE D30F            BLO              inUHexOther ; if so, skip to 'i
                                                             nUHexOther'
-  596 000002C4 2866            CMP              R0, #'f'    ; is R0 (most recen
+  600 000002C0 2866            CMP              R0, #'f'    ; is R0 (most recen
                                                             t character) > 'f'?
                                                             
-  597 000002C6 D80D            BHI              inUHexOther ; if so, skip to 'i
+  601 000002C2 D80D            BHI              inUHexOther ; if so, skip to 'i
                                                             nUHexOther'
-  598 000002C8 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
-  599 000002CC FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
+  602 000002C4 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
+  603 000002C8 FB04 F401       MUL              R4, R4, R1  ; R4 = R4*R1 (numbe
                                                             r = number*16)
-  600 000002D0 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
+  604 000002CC 4404            ADD              R4, R4, R0  ; R4 = R4 + R0 (num
                                                             ber = number*16 + c
                                                             haracter)
-  601 000002D2 F1A4 0461       SUB              R4, R4, #'a' ; R4 = R4 - '0' (n
+  605 000002CE F1A4 0461       SUB              R4, R4, #'a' ; R4 = R4 - '0' (n
                                                             umber = number*16 +
                                                              character - 'a')
-  602 000002D6 F104 040A       ADD              R4, R4, #0xA ; R4 = R4 + 0xA (n
+  606 000002D2 F104 040A       ADD              R4, R4, #0xA ; R4 = R4 + 0xA (n
                                                             umber = number*16 +
                                                              character - 'a' + 
                                                             10)
-  603 000002DA F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
+  607 000002D6 F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
                                                             th = length + 1)
-  604 000002DE F7FF FFFE       BL               UART_OutChar ; echo the charact
+  608 000002DA F7FF FFFE       BL               UART_OutChar ; echo the charact
                                                             er to the UART
-  605 000002E2 E7C7            B                inUHexLoop  ; unconditional bra
+  609 000002DE E7C7            B                inUHexLoop  ; unconditional bra
                                                             nch to 'inUHexLoop'
                                                             
-  606 000002E4         inUHexOther
-  607 000002E4         ; if the input is a backspace, then the return number is
+  610 000002E0         inUHexOther
+  611 000002E0         ; if the input is a backspace, then the return number is
                        
-  608 000002E4         ; changed and a backspace is outputted to the screen
-  609 000002E4 2808            CMP              R0, #BS     ; is R0 (most recen
+  612 000002E0         ; changed and a backspace is outputted to the screen
+  613 000002E0 2808            CMP              R0, #BS     ; is R0 (most recen
                                                             t character) == 0x0
                                                             8 (<backspace>)?
-  610 000002E6 D1C5            BNE              inUHexLoop  ; if not, skip to '
+  614 000002E2 D1C5            BNE              inUHexLoop  ; if not, skip to '
                                                             inUHexLoop'
-  611 000002E8 2D00            CMP              R5, #0      ; is R5 (length) ==
+  615 000002E4 2D00            CMP              R5, #0      ; is R5 (length) ==
                                                              0?
-  612 000002EA D0C3            BEQ              inUHexLoop  ; if so, skip to 'i
+  616 000002E6 D0C3            BEQ              inUHexLoop  ; if so, skip to 'i
                                                             nUHexLoop'
-  613 000002EC F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
-  614 000002F0 FBB4 F4F1       UDIV             R4, R4, R1  ; R4 = R4/R1 (numbe
+  617 000002E8 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
+  618 000002EC FBB4 F4F1       UDIV             R4, R4, R1  ; R4 = R4/R1 (numbe
                                                             r = number/16)
-  615 000002F4 F1A5 0501       SUB              R5, R5, #1  ; R5 = R5 - 1 (leng
+  619 000002F0 F1A5 0501       SUB              R5, R5, #1  ; R5 = R5 - 1 (leng
                                                             th = length - 1)
-  616 000002F8 F7FF FFFE       BL               UART_OutChar ; echo the charact
-                                                            er to the UART
-  617 000002FC         ;    MOV R0, #SPA                    ; R0 = SPA (<space>
-                       )
-  618 000002FC         ;    BL  UART_OutChar                ; echo additional <
-                       space> to the UART
-  619 000002FC         ;    MOV R0, #BS                     ; R0 = BS (<backspa
 
 
 
 ARM Macro Assembler    Page 22 
 
 
+  620 000002F4 F7FF FFFE       BL               UART_OutChar ; echo the charact
+                                                            er to the UART
+  621 000002F8         ;    MOV R0, #SPA                    ; R0 = SPA (<space>
+                       )
+  622 000002F8         ;    BL  UART_OutChar                ; echo additional <
+                       space> to the UART
+  623 000002F8         ;    MOV R0, #BS                     ; R0 = BS (<backspa
                        ce>)
-  620 000002FC         ;    BL  UART_OutChar                ; echo additional <
+  624 000002F8         ;    BL  UART_OutChar                ; echo additional <
                        backspace> to the UART
-  621 000002FC E7BA            B                inUHexLoop  ; unconditional bra
+  625 000002F8 E7BA            B                inUHexLoop  ; unconditional bra
                                                             nch to 'inUHexLoop'
                                                             
-  622 000002FE         inUHexDone
-  623 000002FE 4620            MOV              R0, R4      ; R0 = R4 (return '
+  626 000002FA         inUHexDone
+  627 000002FA 4620            MOV              R0, R4      ; R0 = R4 (return '
                                                             number' in R0)
-  624 00000300 BD30            POP              {R4, R5, PC} ; restore previous
+  628 000002FC BD30            POP              {R4, R5, PC} ; restore previous
                                                              value of R4 into R
                                                             4, R5 into R5, and 
                                                             LR into PC (return)
                                                             
-  625 00000302         
-  626 00000302         ;--------------------------UART_OutUHex-----------------
+  629 000002FE         
+  630 000002FE         ;--------------------------UART_OutUHex-----------------
                        -----------
-  627 00000302         ; Output a 32-bit number in unsigned hexadecimal format
-  628 00000302         ; Input: R0  32-bit number to be transferred
-  629 00000302         ; Output: none
-  630 00000302         ; Variable format 1 to 8 digits with no space before or 
+  631 000002FE         ; Output a 32-bit number in unsigned hexadecimal format
+  632 000002FE         ; Input: R0  32-bit number to be transferred
+  633 000002FE         ; Output: none
+  634 000002FE         ; Variable format 1 to 8 digits with no space before or 
                        after
-  631 00000302         UART_OutUHex
-  632 00000302         ; This function uses recursion to convert the number of
-  633 00000302         ;   unspecified length as an ASCII string
-  634 00000302 B500            PUSH             {LR}        ; save current valu
+  635 000002FE         UART_OutUHex
+  636 000002FE         ; This function uses recursion to convert the number of
+  637 000002FE         ;   unspecified length as an ASCII string
+  638 000002FE B500            PUSH             {LR}        ; save current valu
                                                             e of LR
-  635 00000304 2810            CMP              R0, #0x10   ; is R0 (number) < 
+  639 00000300 2810            CMP              R0, #0x10   ; is R0 (number) < 
                                                             16?
-  636 00000306 D315            BLO              outUHexOneDigit ; if so, skip t
+  640 00000302 D315            BLO              outUHexOneDigit ; if so, skip t
                                                             o 'outUHexOneDigit'
                                                             
-  637 00000308         outUHexManyDigits
-  638 00000308         ; R0 (number) >= 16
-  639 00000308         ; recursive call to UART_OutUHex with R0/0x10 (number/0x
+  641 00000304         outUHexManyDigits
+  642 00000304         ; R0 (number) >= 16
+  643 00000304         ; recursive call to UART_OutUHex with R0/0x10 (number/0x
                        10)
-  640 00000308 B401            PUSH             {R0}        ; save current valu
+  644 00000304 B401            PUSH             {R0}        ; save current valu
                                                             e of R0 (number)
-  641 0000030A F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
-  642 0000030E FBB0 F0F1       UDIV             R0, R0, R1  ; R0 = R0/R1 (numbe
+  645 00000306 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
+  646 0000030A FBB0 F0F1       UDIV             R0, R0, R1  ; R0 = R0/R1 (numbe
                                                             r = number/0x10)
-  643 00000312 F7FF FFFE       BL               UART_OutUHex
-  644 00000316 BC01            POP              {R0}        ; restore previous 
+  647 0000030E F7FF FFFE       BL               UART_OutUHex
+  648 00000312 BC01            POP              {R0}        ; restore previous 
                                                             value of R0 into R0
                                                             
-  645 00000318         ; recursive call to UART_OutUHex with R0%0x10 (number%0x
+  649 00000314         ; recursive call to UART_OutUHex with R0%0x10 (number%0x
                        10)
-  646 00000318 B401            PUSH             {R0}        ; save current valu
+  650 00000314 B401            PUSH             {R0}        ; save current valu
                                                             e of R0 (number)
-  647 0000031A F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
-  648 0000031E 4602            MOV              R2, R0      ; R2 = R0 (temporar
+  651 00000316 F04F 0110       MOV              R1, #0x10   ; R1 = 0x10 = 16
+  652 0000031A 4602            MOV              R2, R0      ; R2 = R0 (temporar
                                                             ily holds number)
-  649 00000320                 UMOD             R0, R2, R1  ; R0 = R2%R1 (numbe
-                                                            r = number%0x10)
-  513 00000320 FBB2 F0F1       UDIV             R0,R2,R1    ;Mod = DIVIDEND/DIV
-                                                            ISOR
-  514 00000324 FB00 F001       MUL              R0,R0,R1    ;Mod = DIVISOR*(DIV
-                                                            IDEND/DIVISOR)
-  515 00000328 EBA2 0000       SUB              R0,R2,R0    ;Mod = DIVIDEND-DIV
 
 
 
 ARM Macro Assembler    Page 23 
 
 
+  653 0000031C                 UMOD             R0, R2, R1  ; R0 = R2%R1 (numbe
+                                                            r = number%0x10)
+  517 0000031C FBB2 F0F1       UDIV             R0,R2,R1    ;Mod = DIVIDEND/DIV
+                                                            ISOR
+  518 00000320 FB00 F001       MUL              R0,R0,R1    ;Mod = DIVISOR*(DIV
+                                                            IDEND/DIVISOR)
+  519 00000324 EBA2 0000       SUB              R0,R2,R0    ;Mod = DIVIDEND-DIV
                                                             ISOR*(DIVIDEND/DIVI
                                                             SOR)
-  650 0000032C F7FF FFFE       BL               UART_OutUHex
-  651 00000330 BC01            POP              {R0}        ; restore previous 
+  654 00000328 F7FF FFFE       BL               UART_OutUHex
+  655 0000032C BC01            POP              {R0}        ; restore previous 
                                                             value of R0 into R0
                                                             
-  652 00000332 E00C            B                outUHexDone ; unconditional bra
+  656 0000032E E00C            B                outUHexDone ; unconditional bra
                                                             nch to 'outUHexDone
                                                             '
-  653 00000334         outUHexOneDigit
-  654 00000334         ; R0 (number) is between 0 and 15
-  655 00000334 280A            CMP              R0, #0xA    ; is R0 (number) < 
+  657 00000330         outUHexOneDigit
+  658 00000330         ; R0 (number) is between 0 and 15
+  659 00000330 280A            CMP              R0, #0xA    ; is R0 (number) < 
                                                             10?
-  656 00000336 D306            BLO              outUHexOneNumber ; if so, skip 
+  660 00000332 D306            BLO              outUHexOneNumber ; if so, skip 
                                                             to 'outUHexOneNumbe
                                                             r'
-  657 00000338         outUHexOneLetter
-  658 00000338         ; R0 (number) is between 10 and 15
-  659 00000338         ; convert R0 to a character between 'A' and 'F'
-  660 00000338 F1A0 000A       SUB              R0, R0, #0xA ; R0 = R0 - 10 (nu
+  661 00000334         outUHexOneLetter
+  662 00000334         ; R0 (number) is between 10 and 15
+  663 00000334         ; convert R0 to a character between 'A' and 'F'
+  664 00000334 F1A0 000A       SUB              R0, R0, #0xA ; R0 = R0 - 10 (nu
                                                             mber = number - 0xA
                                                             )
-  661 0000033C F100 0041       ADD              R0, R0, #'A' ; R0 = R0 + 'A' (n
+  665 00000338 F100 0041       ADD              R0, R0, #'A' ; R0 = R0 + 'A' (n
                                                             umber = number - 0x
                                                             A + 'A')
-  662 00000340 F7FF FFFE       BL               UART_OutChar ; send the charact
+  666 0000033C F7FF FFFE       BL               UART_OutChar ; send the charact
                                                             er to the UART
-  663 00000344 E003            B                outUHexDone ; unconditional bra
+  667 00000340 E003            B                outUHexDone ; unconditional bra
                                                             nch to 'outUHexDone
                                                             '
-  664 00000346         outUHexOneNumber
-  665 00000346         ; R0 (number) is between 0 and 9
-  666 00000346         ; convert R0 to a character between '0' and '9'
-  667 00000346 F100 0030       ADD              R0, R0, #'0' ; R0 = R0 + 'A' (n
+  668 00000342         outUHexOneNumber
+  669 00000342         ; R0 (number) is between 0 and 9
+  670 00000342         ; convert R0 to a character between '0' and '9'
+  671 00000342 F100 0030       ADD              R0, R0, #'0' ; R0 = R0 + 'A' (n
                                                             umber = number + '0
                                                             ')
-  668 0000034A F7FF FFFE       BL               UART_OutChar ; send the charact
+  672 00000346 F7FF FFFE       BL               UART_OutChar ; send the charact
                                                             er to the UART
-  669 0000034E         outUHexDone
-  670 0000034E BD00            POP              {PC}        ; restore previous 
+  673 0000034A         outUHexDone
+  674 0000034A BD00            POP              {PC}        ; restore previous 
                                                             value of LR into PC
                                                              (return)
-  671 00000350         
-  672 00000350         ;------------UART_InString------------
-  673 00000350         ; Accepts ASCII characters from the serial port
-  674 00000350         ;    and adds them to a string until <enter> is typed
-  675 00000350         ;    or until max length of the string is reached.
-  676 00000350         ; It echoes each character as it is inputted.
-  677 00000350         ; If a backspace is inputted, the string is modified
-  678 00000350         ;    and the backspace is echoed
-  679 00000350         ; terminates the string with a null character
-  680 00000350         ; uses busy-waiting synchronization on RDRF
-  681 00000350         ; Input: R0  pointer to empty buffer
-  682 00000350         ;        R1  number of non-NULL characters that can
-  683 00000350         ;            fit in the buffer (in other words size-1)
-  684 00000350         ; Output: R0  pointer to NULL-terminated string
-  685 00000350         ; -- Modified by Agustinus Darmawan + Mingjie Qiu --
-  686 00000350         UART_InString
-  687 00000350 B570            PUSH             {R4, R5, R6, LR} ; save current
+  675 0000034C         
+  676 0000034C         ;------------UART_InString------------
+  677 0000034C         ; Accepts ASCII characters from the serial port
+  678 0000034C         ;    and adds them to a string until <enter> is typed
+  679 0000034C         ;    or until max length of the string is reached.
+  680 0000034C         ; It echoes each character as it is inputted.
+  681 0000034C         ; If a backspace is inputted, the string is modified
+  682 0000034C         ;    and the backspace is echoed
+  683 0000034C         ; terminates the string with a null character
+  684 0000034C         ; uses busy-waiting synchronization on RDRF
 
 
 
 ARM Macro Assembler    Page 24 
 
 
+  685 0000034C         ; Input: R0  pointer to empty buffer
+  686 0000034C         ;        R1  number of non-NULL characters that can
+  687 0000034C         ;            fit in the buffer (in other words size-1)
+  688 0000034C         ; Output: R0  pointer to NULL-terminated string
+  689 0000034C         ; -- Modified by Agustinus Darmawan + Mingjie Qiu --
+  690 0000034C         UART_InString
+  691 0000034C B570            PUSH             {R4, R5, R6, LR} ; save current
                                                              value of R4, R5, R
                                                             6, and LR
-  688 00000352 4604            MOV              R4, R0      ; R4 = R0 (save the
+  692 0000034E 4604            MOV              R4, R0      ; R4 = R0 (save the
                                                              buffer pointer par
                                                             ameter)
-  689 00000354 F04F 0500       MOV              R5, #0      ; R5 = 0 (length = 
+  693 00000350 F04F 0500       MOV              R5, #0      ; R5 = 0 (length = 
                                                             0)
-  690 00000358 460E            MOV              R6, R1      ; R6 = R1 (save the
+  694 00000354 460E            MOV              R6, R1      ; R6 = R1 (save the
                                                              max length paramet
                                                             er)
-  691 0000035A         inStringLoop
-  692 0000035A         ; accepts characters until <enter> is typed
-  693 0000035A F7FF FFFE       BL               UART_InChar ; get a character f
+  695 00000356         inStringLoop
+  696 00000356         ; accepts characters until <enter> is typed
+  697 00000356 F7FF FFFE       BL               UART_InChar ; get a character f
                                                             rom the UART
-  694 0000035E 280D            CMP              R0, #CR     ; is R0 (most recen
+  698 0000035A 280D            CMP              R0, #CR     ; is R0 (most recen
                                                             t character) == 0x0
                                                             D (<enter>)?
-  695 00000360 D014            BEQ              inStringDone ; if so, skip to '
+  699 0000035C D014            BEQ              inStringDone ; if so, skip to '
                                                             inStringDone'
-  696 00000362         ; if the input is a backspace, then the return string is
+  700 0000035E         ; if the input is a backspace, then the return string is
                        
-  697 00000362         ; changed and a backspace is outputted to the screen
-  698 00000362 2808            CMP              R0, #BS     ; is R0 (most recen
+  701 0000035E         ; changed and a backspace is outputted to the screen
+  702 0000035E 2808            CMP              R0, #BS     ; is R0 (most recen
                                                             t character) == 0x0
                                                             8 (<backspace>)?
-  699 00000364 D108            BNE              inStringCont ; if not, skip to 
+  703 00000360 D108            BNE              inStringCont ; if not, skip to 
                                                             'inStringCont'
-  700 00000366 2D00            CMP              R5, #0      ; is R5 (length) ==
+  704 00000362 2D00            CMP              R5, #0      ; is R5 (length) ==
                                                              0?
-  701 00000368 D0F7            BEQ              inStringLoop ; if so, skip to '
+  705 00000364 D0F7            BEQ              inStringLoop ; if so, skip to '
                                                             inStringLoop'
-  702 0000036A F1A4 0401       SUB              R4, R4, #1  ; R4 = R4 - 1 (buff
+  706 00000366 F1A4 0401       SUB              R4, R4, #1  ; R4 = R4 - 1 (buff
                                                             erPt = bufferPt - 1
                                                             )
-  703 0000036E F1A5 0501       SUB              R5, R5, #1  ; R5 = R5 - 1 (leng
+  707 0000036A F1A5 0501       SUB              R5, R5, #1  ; R5 = R5 - 1 (leng
                                                             th = length - 1)
-  704 00000372 F7FF FFFE       BL               UART_OutChar ; echo the charact
+  708 0000036E F7FF FFFE       BL               UART_OutChar ; echo the charact
                                                             er to the UART
-  705 00000376         ;    MOV R0, #SPA                    ; R0 = SPA (<space>
+  709 00000372         ;    MOV R0, #SPA                    ; R0 = SPA (<space>
                        )
-  706 00000376         ;    BL  UART_OutChar                ; echo additional <
+  710 00000372         ;    BL  UART_OutChar                ; echo additional <
                        space> to the UART
-  707 00000376         ;    MOV R0, #BS                     ; R0 = BS (<backspa
+  711 00000372         ;    MOV R0, #BS                     ; R0 = BS (<backspa
                        ce>)
-  708 00000376         ;    BL  UART_OutChar                ; echo additional <
+  712 00000372         ;    BL  UART_OutChar                ; echo additional <
                        backspace> to the UART
-  709 00000376 E7F0            B                inStringLoop ; unconditional br
+  713 00000372 E7F0            B                inStringLoop ; unconditional br
                                                             anch to 'inStringLo
                                                             op'
-  710 00000378         inStringCont
-  711 00000378         ; if the buffer has room for another character, add the
-  712 00000378         ; incoming character to the buffer
-  713 00000378 42B5            CMP              R5, R6      ; is R5 (length) ==
-                                                             R6 (max length)?
-  714 0000037A D0EE            BEQ              inStringLoop ; if so, skip to '
-                                                            inUDecLoop'
-  715 0000037C 7020            STRB             R0, [R4]    ; [R4] = R0 (store 
-                                                            8 least significant
-                                                             bits of R0 into lo
+  714 00000374         inStringCont
+  715 00000374         ; if the buffer has room for another character, add the
+  716 00000374         ; incoming character to the buffer
 
 
 
 ARM Macro Assembler    Page 25 
 
 
+  717 00000374 42B5            CMP              R5, R6      ; is R5 (length) ==
+                                                             R6 (max length)?
+  718 00000376 D0EE            BEQ              inStringLoop ; if so, skip to '
+                                                            inUDecLoop'
+  719 00000378 7020            STRB             R0, [R4]    ; [R4] = R0 (store 
+                                                            8 least significant
+                                                             bits of R0 into lo
                                                             cation pointed to b
                                                             y R4)
-  716 0000037E F104 0401       ADD              R4, R4, #1  ; R4 = R4 + 1 (buff
+  720 0000037A F104 0401       ADD              R4, R4, #1  ; R4 = R4 + 1 (buff
                                                             erPt = bufferPt + 1
                                                             )
-  717 00000382 F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
+  721 0000037E F105 0501       ADD              R5, R5, #1  ; R5 = R5 + 1 (leng
                                                             th = length + 1)
-  718 00000386 F7FF FFFE       BL               UART_OutChar ; echo the charact
+  722 00000382 F7FF FFFE       BL               UART_OutChar ; echo the charact
                                                             er to the UART
-  719 0000038A E7E6            B                inStringLoop ; unconditional br
+  723 00000386 E7E6            B                inStringLoop ; unconditional br
                                                             anch to 'inStringLo
                                                             op'
-  720 0000038C         inStringDone
-  721 0000038C         ; NULL terminate the string
-  722 0000038C F04F 0000       MOV              R0, #0      ; R0 = 0 = NULL
-  723 00000390 7020            STRB             R0, [R4]    ; [R4] = R0 (store 
+  724 00000388         inStringDone
+  725 00000388         ; NULL terminate the string
+  726 00000388 F04F 0000       MOV              R0, #0      ; R0 = 0 = NULL
+  727 0000038C 7020            STRB             R0, [R4]    ; [R4] = R0 (store 
                                                             R0 (NULL) into loca
                                                             tion pointed to by 
                                                             R4)
-  724 00000392 4620            MOV              R0, R4      ; R0 = R4 (return t
+  728 0000038E 4620            MOV              R0, R4      ; R0 = R4 (return t
                                                             he buffer pointer i
                                                             n R0)
-  725 00000394 BD70            POP              {R4, R5, R6, PC} ; restore prev
+  729 00000390 BD70            POP              {R4, R5, R6, PC} ; restore prev
                                                             ious value of R4 in
                                                             to R4, R5 into R5, 
                                                             R6 into R6, and LR 
                                                             into PC (return)
-  726 00000396         
-  727 00000396         ;;------------UART_HighStickParity------------
-  728 00000396         ; Configura el SPS, EPS y PEN del UART0
-  729 00000396         ; para que el bit de paridad envie 1
-  730 00000396         UART_HighStickParity
-  731 00000396 B503            PUSH             {R0, R1, LR} ; save current val
+  730 00000392         
+  731 00000392         ;;------------UART_HighStickParity------------
+  732 00000392         ; Configura el SPS, EPS y PEN del UART0
+  733 00000392         ; para que el bit de paridad envie 1
+  734 00000392         UART_HighStickParity
+  735 00000392 B503            PUSH             {R0, R1, LR} ; save current val
                                                             ue of R0, R1 and LR
                                                             
-  732 00000398 490C            LDR              R1, =UART0_LCRH_R ; R1 = &UART0
+  736 00000394 490C            LDR              R1, =UART0_LCRH_R ; R1 = &UART0
                                                             _LCRH_R
-  733 0000039A 6808            LDR              R0, [R1]    ; R0 = [R1]
-  734 0000039C F420 7080       BIC              R0, R0, #UART_LCRH_EPS 
+  737 00000396 6808            LDR              R0, [R1]    ; R0 = [R1]
+  738 00000398 F020 0004       BIC              R0, R0, #UART_LCRH_EPS 
                                                             ; HIGH Stick Parity
                                                             
-  735 000003A0 6008            STR              R0, [R1]    ; [R1] = R0
-  736 000003A2 BD03            POP              {R0, R1, PC} ; restore previous
+  739 0000039C 6008            STR              R0, [R1]    ; [R1] = R0
+  740 0000039E BD03            POP              {R0, R1, PC} ; restore previous
                                                              value of R0 into R
                                                             0, R1 into R1, and 
                                                             LR into PC (return)
                                                             
-  737 000003A4         ;;------------UART_LowStickParity------------
-  738 000003A4         ; Configura el SPS, EPS y PEN del UART0
-  739 000003A4         ; para que el bit de paridad envie 0
-  740 000003A4         UART_LowStickParity
-  741 000003A4 B503            PUSH             {R0, R1, LR} ; save current val
-                                                            ue of R0, R1 and LR
-                                                            
-  742 000003A6 4909            LDR              R1, =UART0_LCRH_R ; R1 = &UART0
-                                                            _LCRH_R
-  743 000003A8 6808            LDR              R0, [R1]    ; R0 = [R1]
-  744 000003AA F440 7080       ORR              R0, R0, #UART_LCRH_EPS 
-                                                            ; LOW Stick Parity
+  741 000003A0         ;;------------UART_LowStickParity------------
+  742 000003A0         ; Configura el SPS, EPS y PEN del UART0
+  743 000003A0         ; para que el bit de paridad envie 0
+  744 000003A0         UART_LowStickParity
+  745 000003A0 B503            PUSH             {R0, R1, LR} ; save current val
 
 
 
 ARM Macro Assembler    Page 26 
 
 
-  745 000003AE 6008            STR              R0, [R1]    ; [R1] = R0
-  746 000003B0 BD03            POP              {R0, R1, PC} ; restore previous
+                                                            ue of R0, R1 and LR
+                                                            
+  746 000003A2 4909            LDR              R1, =UART0_LCRH_R ; R1 = &UART0
+                                                            _LCRH_R
+  747 000003A4 6808            LDR              R0, [R1]    ; R0 = [R1]
+  748 000003A6 F040 0004       ORR              R0, R0, #UART_LCRH_EPS 
+                                                            ; LOW Stick Parity
+  749 000003AA 6008            STR              R0, [R1]    ; [R1] = R0
+  750 000003AC BD03            POP              {R0, R1, PC} ; restore previous
                                                              value of R0 into R
                                                             0, R1 into R1, and 
                                                             LR into PC (return)
                                                             
-  747 000003B2         
-  748 000003B2         
-  749 000003B2 00 00           ALIGN                        ; make sure the end
+  751 000003AE         
+  752 000003AE         
+  753 000003AE 00 00           ALIGN                        ; make sure the end
                                                              of this section is
                                                              aligned
-  750 000003B4                 END                          ; end of file
+  754 000003B0                 END                          ; end of file
               400FE618 
               400FE608 
               400FEA18 
@@ -1680,60 +1687,60 @@ Relocatable symbols
 
 Symbol: .text
    Definitions
-      At line 125 in file UARTInts.s
+      At line 130 in file UARTInts.s
    Uses
       None
 Comment: .text unused
-GPIOAinitloop 0000009C
+GPIOAinitloop 00000098
 
 Symbol: GPIOAinitloop
    Definitions
-      At line 236 in file UARTInts.s
+      At line 240 in file UARTInts.s
    Uses
-      At line 239 in file UARTInts.s
+      At line 243 in file UARTInts.s
 Comment: GPIOAinitloop used once
-UART0_Handler 00000174
+UART0_Handler 00000170
 
 Symbol: UART0_Handler
    Definitions
-      At line 391 in file UARTInts.s
+      At line 395 in file UARTInts.s
    Uses
-      At line 130 in file UARTInts.s
+      At line 135 in file UARTInts.s
 Comment: UART0_Handler used once
 UART0initloop 00000024
 
 Symbol: UART0initloop
    Definitions
-      At line 168 in file UARTInts.s
+      At line 173 in file UARTInts.s
    Uses
-      At line 171 in file UARTInts.s
+      At line 176 in file UARTInts.s
 Comment: UART0initloop used once
-UART_HighStickParity 00000396
+UART_HighStickParity 00000392
 
 Symbol: UART_HighStickParity
    Definitions
-      At line 730 in file UARTInts.s
+      At line 734 in file UARTInts.s
    Uses
-      At line 137 in file UARTInts.s
+      At line 142 in file UARTInts.s
 Comment: UART_HighStickParity used once
-UART_InChar 0000013C
+UART_InChar 00000138
 
 Symbol: UART_InChar
    Definitions
-      At line 343 in file UARTInts.s
+      At line 347 in file UARTInts.s
    Uses
-      At line 128 in file UARTInts.s
-      At line 473 in file UARTInts.s
-      At line 562 in file UARTInts.s
-      At line 693 in file UARTInts.s
+      At line 133 in file UARTInts.s
+      At line 477 in file UARTInts.s
+      At line 566 in file UARTInts.s
+      At line 697 in file UARTInts.s
 
-UART_InString 00000350
+UART_InString 0000034C
 
 Symbol: UART_InString
    Definitions
-      At line 686 in file UARTInts.s
+      At line 690 in file UARTInts.s
    Uses
-      At line 136 in file UARTInts.s
+      At line 141 in file UARTInts.s
 Comment: UART_InString used once
 
 
@@ -1741,65 +1748,65 @@ Comment: UART_InString used once
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
-UART_InUDec 000001E8
+UART_InUDec 000001E4
 
 Symbol: UART_InUDec
    Definitions
-      At line 467 in file UARTInts.s
+      At line 471 in file UARTInts.s
    Uses
-      At line 132 in file UARTInts.s
+      At line 137 in file UARTInts.s
 Comment: UART_InUDec used once
-UART_InUHex 0000026A
+UART_InUHex 00000266
 
 Symbol: UART_InUHex
    Definitions
-      At line 556 in file UARTInts.s
+      At line 560 in file UARTInts.s
    Uses
-      At line 134 in file UARTInts.s
+      At line 139 in file UARTInts.s
 Comment: UART_InUHex used once
 UART_Init 00000000
 
 Symbol: UART_Init
    Definitions
-      At line 150 in file UARTInts.s
+      At line 155 in file UARTInts.s
    Uses
-      At line 127 in file UARTInts.s
+      At line 132 in file UARTInts.s
 Comment: UART_Init used once
-UART_LowStickParity 000003A4
+UART_LowStickParity 000003A0
 
 Symbol: UART_LowStickParity
    Definitions
-      At line 740 in file UARTInts.s
+      At line 744 in file UARTInts.s
    Uses
-      At line 138 in file UARTInts.s
+      At line 143 in file UARTInts.s
 Comment: UART_LowStickParity used once
-UART_OutChar 0000014E
+UART_OutChar 0000014A
 
 Symbol: UART_OutChar
    Definitions
-      At line 368 in file UARTInts.s
+      At line 372 in file UARTInts.s
    Uses
-      At line 129 in file UARTInts.s
-      At line 453 in file UARTInts.s
-      At line 487 in file UARTInts.s
-      At line 499 in file UARTInts.s
-      At line 543 in file UARTInts.s
-      At line 576 in file UARTInts.s
-      At line 590 in file UARTInts.s
-      At line 604 in file UARTInts.s
-      At line 616 in file UARTInts.s
-      At line 662 in file UARTInts.s
-      At line 668 in file UARTInts.s
-      At line 704 in file UARTInts.s
-      At line 718 in file UARTInts.s
+      At line 134 in file UARTInts.s
+      At line 457 in file UARTInts.s
+      At line 491 in file UARTInts.s
+      At line 503 in file UARTInts.s
+      At line 547 in file UARTInts.s
+      At line 580 in file UARTInts.s
+      At line 594 in file UARTInts.s
+      At line 608 in file UARTInts.s
+      At line 620 in file UARTInts.s
+      At line 666 in file UARTInts.s
+      At line 672 in file UARTInts.s
+      At line 708 in file UARTInts.s
+      At line 722 in file UARTInts.s
 
-UART_OutString 000001D2
+UART_OutString 000001CE
 
 Symbol: UART_OutString
    Definitions
-      At line 446 in file UARTInts.s
+      At line 450 in file UARTInts.s
    Uses
-      At line 131 in file UARTInts.s
+      At line 136 in file UARTInts.s
 
 
 
@@ -1807,61 +1814,61 @@ ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 Relocatable symbols
 
 Comment: UART_OutString used once
-UART_OutUDec 00000238
+UART_OutUDec 00000234
 
 Symbol: UART_OutUDec
    Definitions
-      At line 523 in file UARTInts.s
+      At line 527 in file UARTInts.s
    Uses
-      At line 133 in file UARTInts.s
-      At line 534 in file UARTInts.s
+      At line 138 in file UARTInts.s
+      At line 538 in file UARTInts.s
 
-UART_OutUHex 00000302
+UART_OutUHex 000002FE
 
 Symbol: UART_OutUHex
    Definitions
-      At line 631 in file UARTInts.s
+      At line 635 in file UARTInts.s
    Uses
-      At line 135 in file UARTInts.s
-      At line 643 in file UARTInts.s
-      At line 650 in file UARTInts.s
+      At line 140 in file UARTInts.s
+      At line 647 in file UARTInts.s
+      At line 654 in file UARTInts.s
 
-copyHardwareToSoftware 000000F2
+copyHardwareToSoftware 000000EE
 
 Symbol: copyHardwareToSoftware
    Definitions
-      At line 281 in file UARTInts.s
+      At line 285 in file UARTInts.s
    Uses
-      At line 426 in file UARTInts.s
-      At line 438 in file UARTInts.s
+      At line 430 in file UARTInts.s
+      At line 442 in file UARTInts.s
 
-copySoftwareToHardware 00000114
+copySoftwareToHardware 00000110
 
 Symbol: copySoftwareToHardware
    Definitions
-      At line 305 in file UARTInts.s
+      At line 309 in file UARTInts.s
    Uses
-      At line 380 in file UARTInts.s
-      At line 405 in file UARTInts.s
+      At line 384 in file UARTInts.s
+      At line 409 in file UARTInts.s
 
-h2sdone 00000112
+h2sdone 0000010E
 
 Symbol: h2sdone
    Definitions
-      At line 299 in file UARTInts.s
+      At line 303 in file UARTInts.s
    Uses
-      At line 289 in file UARTInts.s
-      At line 292 in file UARTInts.s
+      At line 293 in file UARTInts.s
+      At line 296 in file UARTInts.s
 
-h2sloop 000000F4
+h2sloop 000000F0
 
 Symbol: h2sloop
    Definitions
-      At line 283 in file UARTInts.s
+      At line 287 in file UARTInts.s
    Uses
-      At line 298 in file UARTInts.s
+      At line 302 in file UARTInts.s
 Comment: h2sloop used once
-handlerCheck0 00000176
+handlerCheck0 00000172
 
 Symbol: handlerCheck0
    Definitions
@@ -1871,64 +1878,64 @@ Symbol: handlerCheck0
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 394 in file UARTInts.s
+      At line 398 in file UARTInts.s
    Uses
       None
 Comment: handlerCheck0 unused
-handlerCheck1 000001A0
+handlerCheck1 0000019C
 
 Symbol: handlerCheck1
    Definitions
-      At line 415 in file UARTInts.s
+      At line 419 in file UARTInts.s
    Uses
-      At line 399 in file UARTInts.s
-      At line 410 in file UARTInts.s
+      At line 403 in file UARTInts.s
+      At line 414 in file UARTInts.s
 
-handlerCheck2 000001B8
+handlerCheck2 000001B4
 
 Symbol: handlerCheck2
    Definitions
-      At line 427 in file UARTInts.s
+      At line 431 in file UARTInts.s
    Uses
-      At line 420 in file UARTInts.s
+      At line 424 in file UARTInts.s
 Comment: handlerCheck2 used once
-handlerDone 000001D0
+handlerDone 000001CC
 
 Symbol: handlerDone
    Definitions
-      At line 439 in file UARTInts.s
+      At line 443 in file UARTInts.s
    Uses
-      At line 432 in file UARTInts.s
+      At line 436 in file UARTInts.s
 Comment: handlerDone used once
-inCharLoop 00000142
+inCharLoop 0000013E
 
 Symbol: inCharLoop
    Definitions
-      At line 346 in file UARTInts.s
-   Uses
       At line 350 in file UARTInts.s
+   Uses
+      At line 354 in file UARTInts.s
 Comment: inCharLoop used once
-inStringCont 00000378
+inStringCont 00000374
 
 Symbol: inStringCont
    Definitions
-      At line 710 in file UARTInts.s
+      At line 714 in file UARTInts.s
    Uses
-      At line 699 in file UARTInts.s
+      At line 703 in file UARTInts.s
 Comment: inStringCont used once
-inStringDone 0000038C
+inStringDone 00000388
 
 Symbol: inStringDone
    Definitions
-      At line 720 in file UARTInts.s
+      At line 724 in file UARTInts.s
    Uses
-      At line 695 in file UARTInts.s
+      At line 699 in file UARTInts.s
 Comment: inStringDone used once
-inStringLoop 0000035A
+inStringLoop 00000356
 
 Symbol: inStringLoop
    Definitions
-      At line 691 in file UARTInts.s
+      At line 695 in file UARTInts.s
    Uses
 
 
@@ -1936,65 +1943,65 @@ Symbol: inStringLoop
 ARM Macro Assembler    Page 5 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 701 in file UARTInts.s
-      At line 709 in file UARTInts.s
-      At line 714 in file UARTInts.s
-      At line 719 in file UARTInts.s
+      At line 705 in file UARTInts.s
+      At line 713 in file UARTInts.s
+      At line 718 in file UARTInts.s
+      At line 723 in file UARTInts.s
 
-inUDecDone 00000234
+inUDecDone 00000230
 
 Symbol: inUDecDone
    Definitions
-      At line 505 in file UARTInts.s
+      At line 509 in file UARTInts.s
    Uses
-      At line 475 in file UARTInts.s
+      At line 479 in file UARTInts.s
 Comment: inUDecDone used once
-inUDecLoop 000001F2
+inUDecLoop 000001EE
 
 Symbol: inUDecLoop
    Definitions
-      At line 471 in file UARTInts.s
+      At line 475 in file UARTInts.s
    Uses
-      At line 488 in file UARTInts.s
-      At line 493 in file UARTInts.s
-      At line 495 in file UARTInts.s
-      At line 504 in file UARTInts.s
+      At line 492 in file UARTInts.s
+      At line 497 in file UARTInts.s
+      At line 499 in file UARTInts.s
+      At line 508 in file UARTInts.s
 
-inUDecNAN 0000021A
+inUDecNAN 00000216
 
 Symbol: inUDecNAN
    Definitions
-      At line 489 in file UARTInts.s
+      At line 493 in file UARTInts.s
    Uses
-      At line 479 in file UARTInts.s
-      At line 481 in file UARTInts.s
+      At line 483 in file UARTInts.s
+      At line 485 in file UARTInts.s
 
-inUHexDone 000002FE
+inUHexDone 000002FA
 
 Symbol: inUHexDone
    Definitions
-      At line 622 in file UARTInts.s
+      At line 626 in file UARTInts.s
    Uses
-      At line 564 in file UARTInts.s
+      At line 568 in file UARTInts.s
 Comment: inUHexDone used once
-inUHexLoop 00000274
+inUHexLoop 00000270
 
 Symbol: inUHexLoop
    Definitions
-      At line 560 in file UARTInts.s
+      At line 564 in file UARTInts.s
    Uses
-      At line 577 in file UARTInts.s
-      At line 591 in file UARTInts.s
-      At line 605 in file UARTInts.s
-      At line 610 in file UARTInts.s
-      At line 612 in file UARTInts.s
-      At line 621 in file UARTInts.s
+      At line 581 in file UARTInts.s
+      At line 595 in file UARTInts.s
+      At line 609 in file UARTInts.s
+      At line 614 in file UARTInts.s
+      At line 616 in file UARTInts.s
+      At line 625 in file UARTInts.s
 
-inUHexNotDigit 0000029C
+inUHexNotDigit 00000298
 
 Symbol: inUHexNotDigit
    Definitions
-      At line 578 in file UARTInts.s
+      At line 582 in file UARTInts.s
 
 
 
@@ -2002,64 +2009,64 @@ ARM Macro Assembler    Page 6 Alphabetic symbol ordering
 Relocatable symbols
 
    Uses
-      At line 568 in file UARTInts.s
-      At line 570 in file UARTInts.s
+      At line 572 in file UARTInts.s
+      At line 574 in file UARTInts.s
 
-inUHexNotUpper 000002C0
+inUHexNotUpper 000002BC
 
 Symbol: inUHexNotUpper
    Definitions
-      At line 592 in file UARTInts.s
+      At line 596 in file UARTInts.s
    Uses
-      At line 581 in file UARTInts.s
-      At line 583 in file UARTInts.s
+      At line 585 in file UARTInts.s
+      At line 587 in file UARTInts.s
 
-inUHexOther 000002E4
+inUHexOther 000002E0
 
 Symbol: inUHexOther
    Definitions
-      At line 606 in file UARTInts.s
+      At line 610 in file UARTInts.s
    Uses
-      At line 595 in file UARTInts.s
-      At line 597 in file UARTInts.s
+      At line 599 in file UARTInts.s
+      At line 601 in file UARTInts.s
 
-outCharLoop 00000152
+outCharLoop 0000014E
 
 Symbol: outCharLoop
    Definitions
-      At line 371 in file UARTInts.s
-   Uses
       At line 375 in file UARTInts.s
+   Uses
+      At line 379 in file UARTInts.s
 Comment: outCharLoop used once
-outStringDone 000001E6
+outStringDone 000001E2
 
 Symbol: outStringDone
    Definitions
-      At line 456 in file UARTInts.s
+      At line 460 in file UARTInts.s
    Uses
-      At line 452 in file UARTInts.s
+      At line 456 in file UARTInts.s
 Comment: outStringDone used once
-outStringLoop 000001D6
+outStringLoop 000001D2
 
 Symbol: outStringLoop
    Definitions
-      At line 449 in file UARTInts.s
+      At line 453 in file UARTInts.s
    Uses
-      At line 455 in file UARTInts.s
+      At line 459 in file UARTInts.s
 Comment: outStringLoop used once
-outUDecDone 00000260
+outUDecDone 0000025C
 
 Symbol: outUDecDone
    Definitions
-      At line 540 in file UARTInts.s
+      At line 544 in file UARTInts.s
    Uses
-      At line 528 in file UARTInts.s
+      At line 532 in file UARTInts.s
 Comment: outUDecDone used once
-outUHexDone 0000034E
+outUHexDone 0000034A
 
 Symbol: outUHexDone
    Definitions
-      At line 669 in file UARTInts.s
+      At line 673 in file UARTInts.s
 
 
 
@@ -2067,57 +2074,57 @@ ARM Macro Assembler    Page 7 Alphabetic symbol ordering
 Relocatable symbols
 
    Uses
-      At line 652 in file UARTInts.s
-      At line 663 in file UARTInts.s
+      At line 656 in file UARTInts.s
+      At line 667 in file UARTInts.s
 
-outUHexManyDigits 00000308
+outUHexManyDigits 00000304
 
 Symbol: outUHexManyDigits
    Definitions
-      At line 637 in file UARTInts.s
+      At line 641 in file UARTInts.s
    Uses
       None
 Comment: outUHexManyDigits unused
-outUHexOneDigit 00000334
+outUHexOneDigit 00000330
 
 Symbol: outUHexOneDigit
    Definitions
-      At line 653 in file UARTInts.s
+      At line 657 in file UARTInts.s
    Uses
-      At line 636 in file UARTInts.s
+      At line 640 in file UARTInts.s
 Comment: outUHexOneDigit used once
-outUHexOneLetter 00000338
+outUHexOneLetter 00000334
 
 Symbol: outUHexOneLetter
    Definitions
-      At line 657 in file UARTInts.s
+      At line 661 in file UARTInts.s
    Uses
       None
 Comment: outUHexOneLetter unused
-outUHexOneNumber 00000346
+outUHexOneNumber 00000342
 
 Symbol: outUHexOneNumber
    Definitions
-      At line 664 in file UARTInts.s
+      At line 668 in file UARTInts.s
    Uses
-      At line 656 in file UARTInts.s
+      At line 660 in file UARTInts.s
 Comment: outUHexOneNumber used once
-s2hdone 0000013A
+s2hdone 00000136
 
 Symbol: s2hdone
    Definitions
-      At line 326 in file UARTInts.s
+      At line 330 in file UARTInts.s
    Uses
-      At line 313 in file UARTInts.s
-      At line 316 in file UARTInts.s
+      At line 317 in file UARTInts.s
+      At line 320 in file UARTInts.s
 
-s2hloop 00000116
+s2hloop 00000112
 
 Symbol: s2hloop
    Definitions
-      At line 307 in file UARTInts.s
+      At line 311 in file UARTInts.s
    Uses
-      At line 325 in file UARTInts.s
+      At line 329 in file UARTInts.s
 Comment: s2hloop used once
 46 symbols
 
@@ -2130,27 +2137,27 @@ BS 00000008
 
 Symbol: BS
    Definitions
-      At line 120 in file UARTInts.s
+      At line 125 in file UARTInts.s
    Uses
-      At line 492 in file UARTInts.s
-      At line 609 in file UARTInts.s
-      At line 698 in file UARTInts.s
+      At line 496 in file UARTInts.s
+      At line 613 in file UARTInts.s
+      At line 702 in file UARTInts.s
 
 CR 0000000D
 
 Symbol: CR
    Definitions
-      At line 118 in file UARTInts.s
+      At line 123 in file UARTInts.s
    Uses
-      At line 474 in file UARTInts.s
-      At line 563 in file UARTInts.s
-      At line 694 in file UARTInts.s
+      At line 478 in file UARTInts.s
+      At line 567 in file UARTInts.s
+      At line 698 in file UARTInts.s
 
 DEL 0000007F
 
 Symbol: DEL
    Definitions
-      At line 123 in file UARTInts.s
+      At line 128 in file UARTInts.s
    Uses
       None
 Comment: DEL unused
@@ -2158,7 +2165,7 @@ ESC 0000001B
 
 Symbol: ESC
    Definitions
-      At line 121 in file UARTInts.s
+      At line 126 in file UARTInts.s
    Uses
       None
 Comment: ESC unused
@@ -2166,24 +2173,24 @@ FIFOFAIL 00000000
 
 Symbol: FIFOFAIL
    Definitions
-      At line 105 in file UARTInts.s
+      At line 110 in file UARTInts.s
    Uses
-      At line 349 in file UARTInts.s
-      At line 374 in file UARTInts.s
+      At line 353 in file UARTInts.s
+      At line 378 in file UARTInts.s
 
 FIFOSIZE 00000010
 
 Symbol: FIFOSIZE
    Definitions
-      At line 103 in file UARTInts.s
+      At line 108 in file UARTInts.s
    Uses
-      At line 291 in file UARTInts.s
+      At line 295 in file UARTInts.s
 Comment: FIFOSIZE used once
 FIFOSUCCESS 00000001
 
 Symbol: FIFOSUCCESS
    Definitions
-      At line 104 in file UARTInts.s
+      At line 109 in file UARTInts.s
    Uses
 
 
@@ -2199,7 +2206,7 @@ Symbol: GPIO_PORTA_AFSEL_R
    Definitions
       At line 36 in file UARTInts.s
    Uses
-      At line 241 in file UARTInts.s
+      At line 245 in file UARTInts.s
 Comment: GPIO_PORTA_AFSEL_R used once
 GPIO_PORTA_AMSEL_R 40058528
 
@@ -2207,7 +2214,7 @@ Symbol: GPIO_PORTA_AMSEL_R
    Definitions
       At line 39 in file UARTInts.s
    Uses
-      At line 261 in file UARTInts.s
+      At line 265 in file UARTInts.s
 Comment: GPIO_PORTA_AMSEL_R used once
 GPIO_PORTA_DEN_R 4005851C
 
@@ -2215,7 +2222,7 @@ Symbol: GPIO_PORTA_DEN_R
    Definitions
       At line 38 in file UARTInts.s
    Uses
-      At line 250 in file UARTInts.s
+      At line 254 in file UARTInts.s
 Comment: GPIO_PORTA_DEN_R used once
 GPIO_PORTA_PCTL_R 4005852C
 
@@ -2223,7 +2230,7 @@ Symbol: GPIO_PORTA_PCTL_R
    Definitions
       At line 40 in file UARTInts.s
    Uses
-      At line 255 in file UARTInts.s
+      At line 259 in file UARTInts.s
 Comment: GPIO_PORTA_PCTL_R used once
 GPIO_PORTA_PUR_R 40058510
 
@@ -2231,13 +2238,13 @@ Symbol: GPIO_PORTA_PUR_R
    Definitions
       At line 37 in file UARTInts.s
    Uses
-      At line 246 in file UARTInts.s
+      At line 250 in file UARTInts.s
 Comment: GPIO_PORTA_PUR_R used once
 LF 0000000A
 
 Symbol: LF
    Definitions
-      At line 119 in file UARTInts.s
+      At line 124 in file UARTInts.s
    Uses
       None
 Comment: LF unused
@@ -2247,7 +2254,7 @@ Symbol: NVIC_EN0_INT5
    Definitions
       At line 33 in file UARTInts.s
    Uses
-      At line 272 in file UARTInts.s
+      At line 276 in file UARTInts.s
 Comment: NVIC_EN0_INT5 used once
 NVIC_EN0_R E000E100
 
@@ -2261,7 +2268,7 @@ Symbol: NVIC_EN0_R
    Definitions
       At line 34 in file UARTInts.s
    Uses
-      At line 271 in file UARTInts.s
+      At line 275 in file UARTInts.s
 Comment: NVIC_EN0_R used once
 NVIC_PRI1_R E000E404
 
@@ -2269,13 +2276,13 @@ Symbol: NVIC_PRI1_R
    Definitions
       At line 35 in file UARTInts.s
    Uses
-      At line 265 in file UARTInts.s
+      At line 269 in file UARTInts.s
 Comment: NVIC_PRI1_R used once
 SPA 00000020
 
 Symbol: SPA
    Definitions
-      At line 122 in file UARTInts.s
+      At line 127 in file UARTInts.s
    Uses
       None
 Comment: SPA unused
@@ -2283,33 +2290,33 @@ SYSCTL_ALTCLKCFG_ALTCLK_M 0000000F
 
 Symbol: SYSCTL_ALTCLKCFG_ALTCLK_M
    Definitions
-      At line 82 in file UARTInts.s
+      At line 87 in file UARTInts.s
    Uses
-      At line 224 in file UARTInts.s
+      At line 228 in file UARTInts.s
 Comment: SYSCTL_ALTCLKCFG_ALTCLK_M used once
 SYSCTL_ALTCLKCFG_ALTCLK_PIOSC 00000000
 
 Symbol: SYSCTL_ALTCLKCFG_ALTCLK_PIOSC
    Definitions
-      At line 83 in file UARTInts.s
+      At line 88 in file UARTInts.s
    Uses
-      At line 226 in file UARTInts.s
+      At line 230 in file UARTInts.s
 Comment: SYSCTL_ALTCLKCFG_ALTCLK_PIOSC used once
 SYSCTL_ALTCLKCFG_R 400FE138
 
 Symbol: SYSCTL_ALTCLKCFG_R
    Definitions
-      At line 81 in file UARTInts.s
+      At line 86 in file UARTInts.s
    Uses
-      At line 221 in file UARTInts.s
+      At line 225 in file UARTInts.s
 Comment: SYSCTL_ALTCLKCFG_R used once
 SYSCTL_PRGPIO_R 400FEA08
 
 Symbol: SYSCTL_PRGPIO_R
    Definitions
-      At line 90 in file UARTInts.s
+      At line 95 in file UARTInts.s
    Uses
-      At line 235 in file UARTInts.s
+      At line 239 in file UARTInts.s
 Comment: SYSCTL_PRGPIO_R used once
 SYSCTL_PRGPIO_R0 00000001
 
@@ -2321,65 +2328,65 @@ Symbol: SYSCTL_PRGPIO_R0
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Absolute symbols
 
-      At line 91 in file UARTInts.s
+      At line 96 in file UARTInts.s
    Uses
-      At line 238 in file UARTInts.s
+      At line 242 in file UARTInts.s
 Comment: SYSCTL_PRGPIO_R0 used once
 SYSCTL_PRUART_R 400FEA18
 
 Symbol: SYSCTL_PRUART_R
    Definitions
-      At line 92 in file UARTInts.s
+      At line 97 in file UARTInts.s
    Uses
-      At line 167 in file UARTInts.s
+      At line 172 in file UARTInts.s
 Comment: SYSCTL_PRUART_R used once
 SYSCTL_PRUART_R0 00000001
 
 Symbol: SYSCTL_PRUART_R0
    Definitions
-      At line 93 in file UARTInts.s
+      At line 98 in file UARTInts.s
    Uses
-      At line 170 in file UARTInts.s
+      At line 175 in file UARTInts.s
 Comment: SYSCTL_PRUART_R0 used once
 SYSCTL_RCGCGPIO_R 400FE608
 
 Symbol: SYSCTL_RCGCGPIO_R
    Definitions
-      At line 84 in file UARTInts.s
+      At line 89 in file UARTInts.s
    Uses
-      At line 159 in file UARTInts.s
+      At line 164 in file UARTInts.s
 Comment: SYSCTL_RCGCGPIO_R used once
 SYSCTL_RCGCGPIO_R0 00000001
 
 Symbol: SYSCTL_RCGCGPIO_R0
    Definitions
-      At line 85 in file UARTInts.s
+      At line 90 in file UARTInts.s
    Uses
-      At line 161 in file UARTInts.s
+      At line 166 in file UARTInts.s
 Comment: SYSCTL_RCGCGPIO_R0 used once
 SYSCTL_RCGCUART_R 400FE618
 
 Symbol: SYSCTL_RCGCUART_R
    Definitions
-      At line 87 in file UARTInts.s
+      At line 92 in file UARTInts.s
    Uses
-      At line 154 in file UARTInts.s
+      At line 159 in file UARTInts.s
 Comment: SYSCTL_RCGCUART_R used once
 SYSCTL_RCGCUART_R0 00000001
 
 Symbol: SYSCTL_RCGCUART_R0
    Definitions
-      At line 88 in file UARTInts.s
+      At line 93 in file UARTInts.s
    Uses
-      At line 156 in file UARTInts.s
+      At line 161 in file UARTInts.s
 Comment: SYSCTL_RCGCUART_R0 used once
 UART0_CC_R 4000CFC8
 
 Symbol: UART0_CC_R
    Definitions
-      At line 76 in file UARTInts.s
+      At line 81 in file UARTInts.s
    Uses
-      At line 215 in file UARTInts.s
+      At line 219 in file UARTInts.s
 
 
 
@@ -2391,10 +2398,10 @@ UART0_CTL_R 4000C030
 
 Symbol: UART0_CTL_R
    Definitions
-      At line 54 in file UARTInts.s
+      At line 56 in file UARTInts.s
    Uses
-      At line 173 in file UARTInts.s
-      At line 229 in file UARTInts.s
+      At line 178 in file UARTInts.s
+      At line 233 in file UARTInts.s
 
 UART0_DR_R 4000C000
 
@@ -2402,8 +2409,8 @@ Symbol: UART0_DR_R
    Definitions
       At line 41 in file UARTInts.s
    Uses
-      At line 294 in file UARTInts.s
-      At line 323 in file UARTInts.s
+      At line 298 in file UARTInts.s
+      At line 327 in file UARTInts.s
 
 UART0_FBRD_R 4000C028
 
@@ -2411,7 +2418,7 @@ Symbol: UART0_FBRD_R
    Definitions
       At line 47 in file UARTInts.s
    Uses
-      At line 181 in file UARTInts.s
+      At line 186 in file UARTInts.s
 Comment: UART0_FBRD_R used once
 UART0_FR_R 4000C018
 
@@ -2419,8 +2426,8 @@ Symbol: UART0_FR_R
    Definitions
       At line 42 in file UARTInts.s
    Uses
-      At line 285 in file UARTInts.s
-      At line 309 in file UARTInts.s
+      At line 289 in file UARTInts.s
+      At line 313 in file UARTInts.s
 
 UART0_IBRD_R 4000C024
 
@@ -2428,23 +2435,23 @@ Symbol: UART0_IBRD_R
    Definitions
       At line 46 in file UARTInts.s
    Uses
-      At line 178 in file UARTInts.s
+      At line 183 in file UARTInts.s
 Comment: UART0_IBRD_R used once
 UART0_ICR_R 4000C044
 
 Symbol: UART0_ICR_R
    Definitions
-      At line 72 in file UARTInts.s
+      At line 77 in file UARTInts.s
    Uses
-      At line 401 in file UARTInts.s
-      At line 422 in file UARTInts.s
-      At line 434 in file UARTInts.s
+      At line 405 in file UARTInts.s
+      At line 426 in file UARTInts.s
+      At line 438 in file UARTInts.s
 
 UART0_IFLS_R 4000C034
 
 Symbol: UART0_IFLS_R
    Definitions
-      At line 57 in file UARTInts.s
+      At line 60 in file UARTInts.s
 
 
 
@@ -2452,59 +2459,59 @@ ARM Macro Assembler    Page 6 Alphabetic symbol ordering
 Absolute symbols
 
    Uses
-      At line 197 in file UARTInts.s
+      At line 201 in file UARTInts.s
 Comment: UART0_IFLS_R used once
 UART0_IM_R 4000C038
 
 Symbol: UART0_IM_R
    Definitions
-      At line 60 in file UARTInts.s
+      At line 64 in file UARTInts.s
    Uses
-      At line 209 in file UARTInts.s
-      At line 376 in file UARTInts.s
-      At line 411 in file UARTInts.s
+      At line 213 in file UARTInts.s
+      At line 380 in file UARTInts.s
+      At line 415 in file UARTInts.s
 
 UART0_LCRH_R 4000C02C
 
 Symbol: UART0_LCRH_R
    Definitions
-      At line 48 in file UARTInts.s
+      At line 49 in file UARTInts.s
    Uses
-      At line 185 in file UARTInts.s
-      At line 732 in file UARTInts.s
-      At line 742 in file UARTInts.s
+      At line 190 in file UARTInts.s
+      At line 736 in file UARTInts.s
+      At line 746 in file UARTInts.s
 
 UART0_RIS_R 4000C03C
 
 Symbol: UART0_RIS_R
    Definitions
-      At line 65 in file UARTInts.s
+      At line 70 in file UARTInts.s
    Uses
-      At line 395 in file UARTInts.s
-      At line 416 in file UARTInts.s
-      At line 428 in file UARTInts.s
+      At line 399 in file UARTInts.s
+      At line 420 in file UARTInts.s
+      At line 432 in file UARTInts.s
 
 UART_CC_CS_M 0000000F
 
 Symbol: UART_CC_CS_M
    Definitions
-      At line 77 in file UARTInts.s
+      At line 82 in file UARTInts.s
    Uses
-      At line 217 in file UARTInts.s
+      At line 221 in file UARTInts.s
 Comment: UART_CC_CS_M used once
 UART_CC_CS_PIOSC 00000005
 
 Symbol: UART_CC_CS_PIOSC
    Definitions
-      At line 80 in file UARTInts.s
+      At line 85 in file UARTInts.s
    Uses
-      At line 218 in file UARTInts.s
+      At line 222 in file UARTInts.s
 Comment: UART_CC_CS_PIOSC used once
 UART_CC_CS_SYSCLK 00000000
 
 Symbol: UART_CC_CS_SYSCLK
    Definitions
-      At line 78 in file UARTInts.s
+      At line 83 in file UARTInts.s
    Uses
       None
 Comment: UART_CC_CS_SYSCLK unused
@@ -2518,18 +2525,18 @@ Absolute symbols
 
 Symbol: UART_CTL_HSE
    Definitions
-      At line 55 in file UARTInts.s
+      At line 57 in file UARTInts.s
    Uses
-      At line 231 in file UARTInts.s
+      At line 235 in file UARTInts.s
 Comment: UART_CTL_HSE used once
 UART_CTL_UARTEN 00000001
 
 Symbol: UART_CTL_UARTEN
    Definitions
-      At line 56 in file UARTInts.s
+      At line 58 in file UARTInts.s
    Uses
-      At line 175 in file UARTInts.s
-      At line 232 in file UARTInts.s
+      At line 180 in file UARTInts.s
+      At line 236 in file UARTInts.s
 
 UART_FR_RXFE 00000010
 
@@ -2537,8 +2544,8 @@ Symbol: UART_FR_RXFE
    Definitions
       At line 45 in file UARTInts.s
    Uses
-      At line 287 in file UARTInts.s
-      At line 288 in file UARTInts.s
+      At line 291 in file UARTInts.s
+      At line 292 in file UARTInts.s
 
 UART_FR_RXFF 00000040
 
@@ -2554,24 +2561,24 @@ Symbol: UART_FR_TXFF
    Definitions
       At line 44 in file UARTInts.s
    Uses
-      At line 311 in file UARTInts.s
-      At line 312 in file UARTInts.s
+      At line 315 in file UARTInts.s
+      At line 316 in file UARTInts.s
 
 UART_ICR_RTIC 00000040
 
 Symbol: UART_ICR_RTIC
    Definitions
-      At line 73 in file UARTInts.s
+      At line 78 in file UARTInts.s
    Uses
-      At line 435 in file UARTInts.s
+      At line 439 in file UARTInts.s
 Comment: UART_ICR_RTIC used once
 UART_ICR_RXIC 00000010
 
 Symbol: UART_ICR_RXIC
    Definitions
-      At line 75 in file UARTInts.s
+      At line 80 in file UARTInts.s
    Uses
-      At line 423 in file UARTInts.s
+      At line 427 in file UARTInts.s
 Comment: UART_ICR_RXIC used once
 UART_ICR_TXIC 00000020
 
@@ -2583,128 +2590,143 @@ Absolute symbols
 
 Symbol: UART_ICR_TXIC
    Definitions
-      At line 74 in file UARTInts.s
+      At line 79 in file UARTInts.s
    Uses
-      At line 402 in file UARTInts.s
+      At line 406 in file UARTInts.s
 Comment: UART_ICR_TXIC used once
 UART_IFLS_RX1_8 00000000
 
 Symbol: UART_IFLS_RX1_8
    Definitions
-      At line 58 in file UARTInts.s
+      At line 61 in file UARTInts.s
    Uses
-      At line 202 in file UARTInts.s
+      At line 206 in file UARTInts.s
 Comment: UART_IFLS_RX1_8 used once
 UART_IFLS_TX1_8 00000000
 
 Symbol: UART_IFLS_TX1_8
    Definitions
-      At line 59 in file UARTInts.s
+      At line 62 in file UARTInts.s
    Uses
-      At line 202 in file UARTInts.s
+      At line 206 in file UARTInts.s
 Comment: UART_IFLS_TX1_8 used once
+UART_IM_PEIM 00000100
+
+Symbol: UART_IM_PEIM
+   Definitions
+      At line 65 in file UARTInts.s
+   Uses
+      At line 216 in file UARTInts.s
+Comment: UART_IM_PEIM used once
 UART_IM_RTIM 00000040
 
 Symbol: UART_IM_RTIM
    Definitions
-      At line 61 in file UARTInts.s
+      At line 66 in file UARTInts.s
    Uses
-      At line 212 in file UARTInts.s
+      At line 216 in file UARTInts.s
 Comment: UART_IM_RTIM used once
 UART_IM_RXIM 00000010
 
 Symbol: UART_IM_RXIM
    Definitions
-      At line 64 in file UARTInts.s
+      At line 68 in file UARTInts.s
    Uses
-      At line 212 in file UARTInts.s
+      At line 216 in file UARTInts.s
 Comment: UART_IM_RXIM used once
 UART_IM_TXIM 00000020
 
 Symbol: UART_IM_TXIM
    Definitions
-      At line 63 in file UARTInts.s
+      At line 67 in file UARTInts.s
    Uses
-      At line 212 in file UARTInts.s
-      At line 378 in file UARTInts.s
+      At line 216 in file UARTInts.s
       At line 382 in file UARTInts.s
-      At line 413 in file UARTInts.s
+      At line 386 in file UARTInts.s
+      At line 417 in file UARTInts.s
 
-UART_LCRH_EPS 00000100
+UART_LCRH_EPS 00000004
 
-Symbol: UART_LCRH_EPS
-   Definitions
-      At line 53 in file UARTInts.s
-   Uses
-      At line 734 in file UARTInts.s
-      At line 744 in file UARTInts.s
-
-UART_LCRH_FEN 00000010
 
 
 
 ARM Macro Assembler    Page 9 Alphabetic symbol ordering
 Absolute symbols
 
+Symbol: UART_LCRH_EPS
+   Definitions
+      At line 53 in file UARTInts.s
+   Uses
+      At line 194 in file UARTInts.s
+      At line 738 in file UARTInts.s
+      At line 748 in file UARTInts.s
+
+UART_LCRH_FEN 00000010
 
 Symbol: UART_LCRH_FEN
    Definitions
-      At line 50 in file UARTInts.s
+      At line 52 in file UARTInts.s
    Uses
-      At line 190 in file UARTInts.s
+      At line 194 in file UARTInts.s
 Comment: UART_LCRH_FEN used once
-UART_LCRH_PEN 00000010
+UART_LCRH_PEN 00000002
 
 Symbol: UART_LCRH_PEN
    Definitions
-      At line 52 in file UARTInts.s
+      At line 54 in file UARTInts.s
    Uses
-      At line 190 in file UARTInts.s
+      At line 194 in file UARTInts.s
 Comment: UART_LCRH_PEN used once
-UART_LCRH_SPS 10000000
+UART_LCRH_SPS 00000080
 
 Symbol: UART_LCRH_SPS
    Definitions
-      At line 51 in file UARTInts.s
+      At line 50 in file UARTInts.s
    Uses
-      At line 188 in file UARTInts.s
+      At line 194 in file UARTInts.s
 Comment: UART_LCRH_SPS used once
 UART_LCRH_WLEN_8 00000060
 
 Symbol: UART_LCRH_WLEN_8
    Definitions
-      At line 49 in file UARTInts.s
+      At line 51 in file UARTInts.s
    Uses
-      At line 190 in file UARTInts.s
+      At line 194 in file UARTInts.s
 Comment: UART_LCRH_WLEN_8 used once
 UART_RIS_RTRIS 00000040
 
 Symbol: UART_RIS_RTRIS
    Definitions
-      At line 66 in file UARTInts.s
+      At line 71 in file UARTInts.s
    Uses
-      At line 430 in file UARTInts.s
-      At line 431 in file UARTInts.s
+      At line 434 in file UARTInts.s
+      At line 435 in file UARTInts.s
 
 UART_RIS_RXRIS 00000010
 
 Symbol: UART_RIS_RXRIS
    Definitions
-      At line 70 in file UARTInts.s
+      At line 75 in file UARTInts.s
    Uses
-      At line 418 in file UARTInts.s
-      At line 419 in file UARTInts.s
+      At line 422 in file UARTInts.s
+      At line 423 in file UARTInts.s
 
 UART_RIS_TXRIS 00000020
 
+
+
+ARM Macro Assembler    Page 10 Alphabetic symbol ordering
+Absolute symbols
+
+
 Symbol: UART_RIS_TXRIS
    Definitions
-      At line 68 in file UARTInts.s
+      At line 73 in file UARTInts.s
    Uses
-      At line 397 in file UARTInts.s
-      At line 398 in file UARTInts.s
+      At line 401 in file UARTInts.s
+      At line 402 in file UARTInts.s
 
-63 symbols
+64 symbols
 
 
 
@@ -2715,23 +2737,23 @@ DisableInterrupts 00000000
 
 Symbol: DisableInterrupts
    Definitions
-      At line 95 in file UARTInts.s
+      At line 100 in file UARTInts.s
    Uses
-      At line 152 in file UARTInts.s
+      At line 157 in file UARTInts.s
 Comment: DisableInterrupts used once
 EnableInterrupts 00000000
 
 Symbol: EnableInterrupts
    Definitions
-      At line 96 in file UARTInts.s
+      At line 101 in file UARTInts.s
    Uses
-      At line 274 in file UARTInts.s
+      At line 278 in file UARTInts.s
 Comment: EnableInterrupts used once
 EndCritical 00000000
 
 Symbol: EndCritical
    Definitions
-      At line 98 in file UARTInts.s
+      At line 103 in file UARTInts.s
    Uses
       None
 Comment: EndCritical unused
@@ -2739,33 +2761,33 @@ RxFifo_Get 00000000
 
 Symbol: RxFifo_Get
    Definitions
-      At line 114 in file UARTInts.s
+      At line 119 in file UARTInts.s
    Uses
-      At line 348 in file UARTInts.s
+      At line 352 in file UARTInts.s
 Comment: RxFifo_Get used once
 RxFifo_Init 00000000
 
 Symbol: RxFifo_Init
    Definitions
-      At line 112 in file UARTInts.s
+      At line 117 in file UARTInts.s
    Uses
-      At line 164 in file UARTInts.s
+      At line 169 in file UARTInts.s
 Comment: RxFifo_Init used once
 RxFifo_Put 00000000
 
 Symbol: RxFifo_Put
    Definitions
-      At line 113 in file UARTInts.s
+      At line 118 in file UARTInts.s
    Uses
-      At line 297 in file UARTInts.s
+      At line 301 in file UARTInts.s
 Comment: RxFifo_Put used once
 RxFifo_Size 00000000
 
 Symbol: RxFifo_Size
    Definitions
-      At line 115 in file UARTInts.s
+      At line 120 in file UARTInts.s
    Uses
-      At line 290 in file UARTInts.s
+      At line 294 in file UARTInts.s
 Comment: RxFifo_Size used once
 StartCritical 00000000
 
@@ -2777,7 +2799,7 @@ ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 External symbols
 
    Definitions
-      At line 97 in file UARTInts.s
+      At line 102 in file UARTInts.s
    Uses
       None
 Comment: StartCritical unused
@@ -2785,42 +2807,42 @@ TxFifo_Get 00000000
 
 Symbol: TxFifo_Get
    Definitions
-      At line 110 in file UARTInts.s
+      At line 115 in file UARTInts.s
    Uses
-      At line 320 in file UARTInts.s
+      At line 324 in file UARTInts.s
 Comment: TxFifo_Get used once
 TxFifo_Init 00000000
 
 Symbol: TxFifo_Init
    Definitions
-      At line 108 in file UARTInts.s
+      At line 113 in file UARTInts.s
    Uses
-      At line 165 in file UARTInts.s
+      At line 170 in file UARTInts.s
 Comment: TxFifo_Init used once
 TxFifo_Put 00000000
 
 Symbol: TxFifo_Put
    Definitions
-      At line 109 in file UARTInts.s
+      At line 114 in file UARTInts.s
    Uses
-      At line 373 in file UARTInts.s
+      At line 377 in file UARTInts.s
 Comment: TxFifo_Put used once
 TxFifo_Size 00000000
 
 Symbol: TxFifo_Size
    Definitions
-      At line 111 in file UARTInts.s
+      At line 116 in file UARTInts.s
    Uses
-      At line 314 in file UARTInts.s
-      At line 408 in file UARTInts.s
+      At line 318 in file UARTInts.s
+      At line 412 in file UARTInts.s
 
 WaitForInterrupt 00000000
 
 Symbol: WaitForInterrupt
    Definitions
-      At line 99 in file UARTInts.s
+      At line 104 in file UARTInts.s
    Uses
       None
 Comment: WaitForInterrupt unused
 13 symbols
-458 symbols in table
+459 symbols in table

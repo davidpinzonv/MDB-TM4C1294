@@ -77,7 +77,7 @@ NotFull    STRB R0,[R2]         ;save
 ;Input: call by reference to a place to store removed data
 ; Output: R0 1 if successful
 ;            0 if unsuccessful, because it was empty
-RxFifo_Get PUSH {R4,R5,LR}
+RxFifo_Get PUSH {R2,R3,R4,R5,LR}
            LDR  R1,=RxPutPt
            LDR  R1,[R1]    ;RxPutPt
            LDR  R2,=RxGetPt
@@ -94,7 +94,7 @@ NotEmpty   LDRSB R4,[R3]   ;read from RxFifo
            BNE  NoWrap2
            LDR  R3,=RxFifo   ;wrap
 NoWrap2    STR  R3,[R2]    ;update RxGetPt
-done       POP  {R4,R5,PC}
+done       POP  {R2,R3,R4,R5,PC}
 
 ;Returns the number of elements in the RxFifo
 ; Input:  none

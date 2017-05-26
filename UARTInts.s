@@ -45,23 +45,28 @@ UART_FR_TXFF       EQU 0x00000020   ; UART Transmit FIFO Full
 UART_FR_RXFE       EQU 0x00000010   ; UART Receive FIFO Empty
 UART0_IBRD_R       EQU 0x4000C024
 UART0_FBRD_R       EQU 0x4000C028
+	
 UART0_LCRH_R       EQU 0x4000C02C
+UART_LCRH_SPS	   EQU 0x00000080	; UART Stick Parity
 UART_LCRH_WLEN_8   EQU 0x00000060   ; 8 bit word length
 UART_LCRH_FEN      EQU 0x00000010   ; UART Enable FIFOs
-UART_LCRH_SPS	   EQU 0x10000000	; UART Stick Parity
-UART_LCRH_PEN	   EQU 0x00000010	; UART Parity Enable
-UART_LCRH_EPS	   EQU 0x00000100	; UART Even parity Select
+UART_LCRH_EPS	   EQU 0x00000004	; UART Even parity Select
+UART_LCRH_PEN	   EQU 0x00000002	; UART Parity Enable
+	
 UART0_CTL_R        EQU 0x4000C030
 UART_CTL_HSE       EQU 0x00000020   ; High-Speed Enable
 UART_CTL_UARTEN    EQU 0x00000001   ; UART Enable
+	
 UART0_IFLS_R       EQU 0x4000C034
 UART_IFLS_RX1_8    EQU 0x00000000   ; RX FIFO >= 1/8 full
 UART_IFLS_TX1_8    EQU 0x00000000   ; TX FIFO <= 1/8 full
+	
 UART0_IM_R         EQU 0x4000C038
-UART_IM_RTIM       EQU 0x00000040   ; UART Receive Time-Out Interrupt
-                                    ; Mask
+UART_IM_PEIM	   EQU 0x00000100	; UART Parity Error Interrupt Mask
+UART_IM_RTIM       EQU 0x00000040   ; UART Receive Time-Out Interrupt Mask
 UART_IM_TXIM       EQU 0x00000020   ; UART Transmit Interrupt Mask
 UART_IM_RXIM       EQU 0x00000010   ; UART Receive Interrupt Mask
+
 UART0_RIS_R        EQU 0x4000C03C
 UART_RIS_RTRIS     EQU 0x00000040   ; UART Receive Time-Out Raw
                                     ; Interrupt Status
@@ -185,9 +190,8 @@ UART0initloop
     LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #0xFF               ; R0 = R0&~0xFF (clear all fields)
-	ADD R0, R0, #UART_LCRH_SPS		; Enable stick parity
-                                    ; 8 bit word length, stick parity HIGH, one stop bit, FIFOs
-    ADD R0, R0, #(UART_LCRH_WLEN_8+UART_LCRH_FEN+UART_LCRH_PEN)
+                                    ; 8 bit word length, LOW stick parity, one stop bit, FIFOs
+    ADD R0, R0, #(UART_LCRH_WLEN_8+UART_LCRH_FEN+UART_LCRH_PEN+UART_LCRH_EPS+UART_LCRH_SPS)
 	; importante:
 	; Puede ser que haya que desactivar FIFO
 	;
@@ -208,8 +212,8 @@ UART0initloop
     ;               (this causes an interrupt after each keystroke, rather than every other keystroke)
     LDR R1, =UART0_IM_R             ; R1 = &UART0_IM_R
     LDR R0, [R1]                    ; R0 = [R1]
-                                    ; enable TX and RX FIFO interrupts and RX time-out interrupt
-    ORR R0, R0, #(UART_IM_RXIM+UART_IM_TXIM+UART_IM_RTIM)
+                                    ; enable TX and RX FIFO interrupts, RX time-out interrupt and Parity interrupt
+    ORR R0, R0, #(UART_IM_RXIM+UART_IM_TXIM+UART_IM_RTIM+UART_IM_PEIM)
     STR R0, [R1]                    ; [R1] = R0
     ; UART gets its clock from the alternate clock source as defined by SYSCTL_ALTCLKCFG_R
     LDR R1, =UART0_CC_R             ; R1 = &UART0_CC_R

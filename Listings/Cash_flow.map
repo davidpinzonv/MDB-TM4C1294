@@ -21,11 +21,11 @@ Section Cross References
 
 Removing Unused input sections from the image.
 
-    Removing mdb.o(DATA), (37 bytes).
-    Removing mdb.o(.text), (76 bytes).
+    Removing mdb.o(DATA), (72 bytes).
+    Removing mdb.o(.text), (112 bytes).
     Removing startup.o(HEAP), (0 bytes).
 
-3 unused section(s) (total 113 bytes) removed from the image.
+3 unused section(s) (total 184 bytes) removed from the image.
 
 ==============================================================================
 
@@ -49,16 +49,16 @@ Image Symbol Table
     $v0                                      0x0000032c   Number         0  pll.o(.text)
     .text                                    0x000004a0   Section       28  startup.o(.text)
     $v0                                      0x000004a0   Number         0  startup.o(.text)
-    .text                                    0x000004bc   Section     1040  uartints.o(.text)
+    .text                                    0x000004bc   Section     1036  uartints.o(.text)
     $v0                                      0x000004bc   Number         0  uartints.o(.text)
-    .text                                    0x000008cc   Section      304  vmc_mdb_main.o(.text)
-    InStrPrompt                              0x000008cc   Data          11  vmc_mdb_main.o(.text)
-    OutStrPrompt                             0x000008d7   Data          12  vmc_mdb_main.o(.text)
-    InUDecPrompt                             0x000008e3   Data           9  vmc_mdb_main.o(.text)
-    OutUDecPrompt                            0x000008ec   Data          10  vmc_mdb_main.o(.text)
-    InUHexPrompt                             0x000008f6   Data           9  vmc_mdb_main.o(.text)
-    OutUHexPrompt                            0x000008ff   Data          10  vmc_mdb_main.o(.text)
-    $v0                                      0x0000090c   Number         0  vmc_mdb_main.o(.text)
+    .text                                    0x000008c8   Section      304  vmc_mdb_main.o(.text)
+    InStrPrompt                              0x000008c8   Data          11  vmc_mdb_main.o(.text)
+    OutStrPrompt                             0x000008d3   Data          12  vmc_mdb_main.o(.text)
+    InUDecPrompt                             0x000008df   Data           9  vmc_mdb_main.o(.text)
+    OutUDecPrompt                            0x000008e8   Data          10  vmc_mdb_main.o(.text)
+    InUHexPrompt                             0x000008f2   Data           9  vmc_mdb_main.o(.text)
+    OutUHexPrompt                            0x000008fb   Data          10  vmc_mdb_main.o(.text)
+    $v0                                      0x00000908   Number         0  vmc_mdb_main.o(.text)
     DATA                                     0x20000000   Section       48  fifo.o(DATA)
     RxPutPt                                  0x20000000   Data           4  fifo.o(DATA)
     RxGetPt                                  0x20000004   Data           4  fifo.o(DATA)
@@ -197,18 +197,18 @@ Image Symbol Table
     EndCritical                              0x000004b1   Thumb Code     0  startup.o(.text)
     WaitForInterrupt                         0x000004b7   Thumb Code     0  startup.o(.text)
     UART_Init                                0x000004bd   Thumb Code     0  uartints.o(.text)
-    UART_InChar                              0x000005f9   Thumb Code     0  uartints.o(.text)
-    UART_OutChar                             0x0000060b   Thumb Code     0  uartints.o(.text)
-    UART0_Handler                            0x00000631   Thumb Code     0  uartints.o(.text)
-    UART_OutString                           0x0000068f   Thumb Code     0  uartints.o(.text)
-    UART_InUDec                              0x000006a5   Thumb Code     0  uartints.o(.text)
-    UART_OutUDec                             0x000006f5   Thumb Code     0  uartints.o(.text)
-    UART_InUHex                              0x00000727   Thumb Code     0  uartints.o(.text)
-    UART_OutUHex                             0x000007bf   Thumb Code     0  uartints.o(.text)
-    UART_InString                            0x0000080d   Thumb Code     0  uartints.o(.text)
-    UART_HighStickParity                     0x00000853   Thumb Code     0  uartints.o(.text)
-    UART_LowStickParity                      0x00000861   Thumb Code     0  uartints.o(.text)
-    Start                                    0x00000921   Thumb Code     0  vmc_mdb_main.o(.text)
+    UART_InChar                              0x000005f5   Thumb Code     0  uartints.o(.text)
+    UART_OutChar                             0x00000607   Thumb Code     0  uartints.o(.text)
+    UART0_Handler                            0x0000062d   Thumb Code     0  uartints.o(.text)
+    UART_OutString                           0x0000068b   Thumb Code     0  uartints.o(.text)
+    UART_InUDec                              0x000006a1   Thumb Code     0  uartints.o(.text)
+    UART_OutUDec                             0x000006f1   Thumb Code     0  uartints.o(.text)
+    UART_InUHex                              0x00000723   Thumb Code     0  uartints.o(.text)
+    UART_OutUHex                             0x000007bb   Thumb Code     0  uartints.o(.text)
+    UART_InString                            0x00000809   Thumb Code     0  uartints.o(.text)
+    UART_HighStickParity                     0x0000084f   Thumb Code     0  uartints.o(.text)
+    UART_LowStickParity                      0x0000085d   Thumb Code     0  uartints.o(.text)
+    Start                                    0x0000091d   Thumb Code     0  vmc_mdb_main.o(.text)
     String                                   0x20000030   Data          37  vmc_mdb_main.o(DATA)
     Number                                   0x20000055   Data           4  vmc_mdb_main.o(DATA)
 
@@ -220,9 +220,9 @@ Memory Map of the image
 
   Image Entry point : 0x00000209
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000a58, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000a54, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x000009fc, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x000009f8, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -230,8 +230,8 @@ Memory Map of the image
     0x00000220   0x0000010c   Code   RO            2    .text               fifo.o
     0x0000032c   0x00000174   Code   RO           11    .text               pll.o
     0x000004a0   0x0000001c   Code   RO           17    .text               startup.o
-    0x000004bc   0x00000410   Code   RO           23    .text               uartints.o
-    0x000008cc   0x00000130   Code   RO           27    .text               vmc_mdb_main.o
+    0x000004bc   0x0000040c   Code   RO           23    .text               uartints.o
+    0x000008c8   0x00000130   Code   RO           27    .text               vmc_mdb_main.o
 
 
     Execution Region ER_RW (Base: 0x20000000, Size: 0x0000005c, Max: 0xffffffff, ABSOLUTE)
@@ -260,11 +260,11 @@ Image component sizes
        268         32          0         48          0        376   fifo.o
        372         76          0          0          0        344   pll.o
        572        522          0          0       1024       1028   startup.o
-      1040         94          0          0          0        612   uartints.o
+      1036         94          0          0          0        612   uartints.o
        304         98          0         41          0        316   vmc_mdb_main.o
 
     ----------------------------------------------------------------------
-      2556        822          0         92       1028       2676   Object Totals
+      2552        822          0         92       1028       2676   Object Totals
          0          0          0          0          0          0   (incl. Generated)
          0          0          0          3          4          0   (incl. Padding)
 
@@ -279,15 +279,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2556        822          0         92       1028       2676   Grand Totals
-      2556        822          0         92       1028       2676   ELF Image Totals
-      2556        822          0         92          0          0   ROM Totals
+      2552        822          0         92       1028       2676   Grand Totals
+      2552        822          0         92       1028       2676   ELF Image Totals
+      2552        822          0         92          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 2556 (   2.50kB)
+    Total RO  Size (Code + RO Data)                 2552 (   2.49kB)
     Total RW  Size (RW Data + ZI Data)              1120 (   1.09kB)
-    Total ROM Size (Code + RO Data + RW Data)       2648 (   2.59kB)
+    Total ROM Size (Code + RO Data + RW Data)       2644 (   2.58kB)
 
 ==============================================================================
 

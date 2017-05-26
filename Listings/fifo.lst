@@ -124,8 +124,8 @@ ARM Macro Assembler    Page 2
                        ta
    78 0000003A         ; Output: R0 1 if successful
    79 0000003A         ;            0 if unsuccessful, because it was empty
-   80 0000003A B530    RxFifo_Get
-                               PUSH             {R4,R5,LR}
+   80 0000003A B53C    RxFifo_Get
+                               PUSH             {R2,R3,R4,R5,LR}
    81 0000003C 492C            LDR              R1,=RxPutPt
    82 0000003E 6809            LDR              R1,[R1]     ;RxPutPt
 
@@ -153,7 +153,7 @@ ARM Macro Assembler    Page 3
    94 0000005C D100            BNE              NoWrap2
    95 0000005E 4B23            LDR              R3,=RxFifo  ;wrap
    96 00000060 6013    NoWrap2 STR              R3,[R2]     ;update RxGetPt
-   97 00000062 BD30    done    POP              {R4,R5,PC}
+   97 00000062 BD3C    done    POP              {R2,R3,R4,R5,PC}
    98 00000064         
    99 00000064         ;Returns the number of elements in the RxFifo
   100 00000064         ; Input:  none

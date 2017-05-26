@@ -1,0 +1,1260 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; PLL.s
+    2 00000000         ; Runs on TM4C1294
+    3 00000000         ; A software function to change the bus frequency using 
+                       the PLL.
+    4 00000000         ; The EQU statement allows the function PLL_Init() to in
+                       itialize
+    5 00000000         ; the PLL to the desired frequency.
+    6 00000000         ; Daniel Valvano
+    7 00000000         ; April 1, 2014
+    8 00000000         
+    9 00000000         ;  This example accompanies the book
+   10 00000000         ;  "Embedded Systems: Introduction to Arm Cortex M Micro
+                       controllers",
+   11 00000000         ;  ISBN: 978-1469998749, Jonathan Valvano, copyright (c)
+                        2014
+   12 00000000         ;  Program 4.6, Section 4.3
+   13 00000000         ;  "Embedded Systems: Real Time Interfacing to Arm Corte
+                       x M Microcontrollers",
+   14 00000000         ;  ISBN: 978-1463590154, Jonathan Valvano, copyright (c)
+                        2014
+   15 00000000         ;  Program 2.10, Figure 2.37
+   16 00000000         ;
+   17 00000000         ;Copyright 2014 by Jonathan W. Valvano, valvano@mail.ute
+                       xas.edu
+   18 00000000         ;   You may use, edit, run or distribute this file
+   19 00000000         ;   as long as the above copyright notice remains
+   20 00000000         ;THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHET
+                       HER EXPRESS, IMPLIED
+   21 00000000         ;OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WA
+                       RRANTIES OF
+   22 00000000         ;MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE AP
+                       PLY TO THIS SOFTWARE.
+   23 00000000         ;VALVANO SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR 
+                       SPECIAL, INCIDENTAL,
+   24 00000000         ;OR CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+   25 00000000         ;For more information about my classes, my research, and
+                        my books, see
+   26 00000000         ;http://users.ece.utexas.edu/~valvano/
+   27 00000000         
+   28 00000000         ; The EQU statement PSYSDIV initializes
+   29 00000000         ; the PLL to the desired frequency.
+   30 00000000 00000003 
+                       PSYSDIV EQU              3
+   31 00000000         ; bus frequency is 480MHz/(PSYSDIV+1) = 480MHz/(3+1) = 1
+                       20 MHz
+   32 00000000         ; IMPORTANT: See Step 6) of PLL_Init().  If you change s
+                       omething, change 480 MHz.
+   33 00000000         ; IMPORTANT: You can use the 10-bit PSYSDIV value to gen
+                       erate an extremely slow
+   34 00000000         ; clock, but this may cause the debugger to be unable to
+                        connect to the processor
+   35 00000000         ; and return it to full speed.  If this happens, you wil
+                       l need to erase the whole
+   36 00000000         ; flash or somehow slow down the debugger.  You should a
+                       lso insert some mechanism
+   37 00000000         ; to return the processor to full speed such as a key wa
+                       keup or a button pressed
+   38 00000000         ; during reset.  The debugger starts to have problems co
+                       nnecting when the system
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   39 00000000         ; clock is about 600,000 Hz or slower; although insertin
+                       g a failsafe mechanism
+   40 00000000         ; will completely prevent this problem.
+   41 00000000         ; IMPORTANT: Several peripherals (including but not nece
+                       ssarily limited to ADC,
+   42 00000000         ; USB, Ethernet, etc.) require a particular minimum cloc
+                       k speed.  You may need to
+   43 00000000         ; use the 16 MHz PIOSC as the clock for these modules in
+                       stead of the PLL.
+   44 00000000         
+   45 00000000 400FE050 
+                       SYSCTL_RIS_R
+                               EQU              0x400FE050
+   46 00000000 00000100 
+                       SYSCTL_RIS_MOSCPUPRIS
+                               EQU              0x00000100  ; MOSC Power Up Raw
+                                                             Interrupt Status
+   47 00000000 400FE07C 
+                       SYSCTL_MOSCCTL_R
+                               EQU              0x400FE07C
+   48 00000000 00000008 
+                       SYSCTL_MOSCCTL_PWRDN
+                               EQU              0x00000008  ; Power Down
+   49 00000000 00000004 
+                       SYSCTL_MOSCCTL_NOXTAL
+                               EQU              0x00000004  ; No Crystal Connec
+                                                            ted
+   50 00000000 400FE0B0 
+                       SYSCTL_RSCLKCFG_R
+                               EQU              0x400FE0B0
+   51 00000000 80000000 
+                       SYSCTL_RSCLKCFG_MEMTIMU
+                               EQU              0x80000000  ; Memory Timing Reg
+                                                            ister Update
+   52 00000000 40000000 
+                       SYSCTL_RSCLKCFG_NEWFREQ
+                               EQU              0x40000000  ; New PLLFREQ Accep
+                                                            t
+   53 00000000 10000000 
+                       SYSCTL_RSCLKCFG_USEPLL
+                               EQU              0x10000000  ; Use PLL
+   54 00000000 0F000000 
+                       SYSCTL_RSCLKCFG_PLLSRC_M
+                               EQU              0x0F000000  ; PLL Source
+   55 00000000 03000000 
+                       SYSCTL_RSCLKCFG_PLLSRC_MOSC
+                               EQU              0x03000000  ; MOSC is the PLL i
+                                                            nput clock source
+   56 00000000 00F00000 
+                       SYSCTL_RSCLKCFG_OSCSRC_M
+                               EQU              0x00F00000  ; Oscillator Source
+                                                            
+   57 00000000 00300000 
+                       SYSCTL_RSCLKCFG_OSCSRC_MOSC
+                               EQU              0x00300000  ; MOSC is oscillato
+                                                            r source
+   58 00000000 000003FF 
+                       SYSCTL_RSCLKCFG_PSYSDIV_M
+                               EQU              0x000003FF  ; PLL System Clock 
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+                                                            Divisor
+   59 00000000 400FE0C0 
+                       SYSCTL_MEMTIM0_R
+                               EQU              0x400FE0C0
+   60 00000000 400FE144 
+                       SYSCTL_DSCLKCFG_R
+                               EQU              0x400FE144
+   61 00000000 00F00000 
+                       SYSCTL_DSCLKCFG_DSOSCSRC_M
+                               EQU              0x00F00000  ; Deep Sleep Oscill
+                                                            ator Source
+   62 00000000 00300000 
+                       SYSCTL_DSCLKCFG_DSOSCSRC_MOSC
+                               EQU              0x00300000  ; MOSC
+   63 00000000 400FE160 
+                       SYSCTL_PLLFREQ0_R
+                               EQU              0x400FE160
+   64 00000000 00800000 
+                       SYSCTL_PLLFREQ0_PLLPWR
+                               EQU              0x00800000  ; PLL Power
+   65 00000000 000FFC00 
+                       SYSCTL_PLLFREQ0_MFRAC_M
+                               EQU              0x000FFC00  ; PLL M Fractional 
+                                                            Value
+   66 00000000 000003FF 
+                       SYSCTL_PLLFREQ0_MINT_M
+                               EQU              0x000003FF  ; PLL M Integer Val
+                                                            ue
+   67 00000000 0000000A 
+                       SYSCTL_PLLFREQ0_MFRAC_S
+                               EQU              10
+   68 00000000 00000000 
+                       SYSCTL_PLLFREQ0_MINT_S
+                               EQU              0
+   69 00000000 400FE164 
+                       SYSCTL_PLLFREQ1_R
+                               EQU              0x400FE164
+   70 00000000 00001F00 
+                       SYSCTL_PLLFREQ1_Q_M
+                               EQU              0x00001F00  ; PLL Q Value
+   71 00000000 0000001F 
+                       SYSCTL_PLLFREQ1_N_M
+                               EQU              0x0000001F  ; PLL N Value
+   72 00000000 00000008 
+                       SYSCTL_PLLFREQ1_Q_S
+                               EQU              8
+   73 00000000 00000000 
+                       SYSCTL_PLLFREQ1_N_S
+                               EQU              0
+   74 00000000 400FE168 
+                       SYSCTL_PLLSTAT_R
+                               EQU              0x400FE168
+   75 00000000 00000001 
+                       SYSCTL_PLLSTAT_LOCK
+                               EQU              0x00000001  ; PLL Lock
+   76 00000000         
+   77 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   78 00000000                 THUMB
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+   79 00000000                 EXPORT           PLL_Init
+   80 00000000         
+   81 00000000         ;------------PLL_Init------------
+   82 00000000         ; Configure the system to get its clock from the PLL.
+   83 00000000         ; Input: none
+   84 00000000         ; Output: none
+   85 00000000         ; Modifies: R0, R1, R2, R3
+   86 00000000         PLL_Init
+   87 00000000         ; 1) Once POR has completed, the PIOSC is acting as the 
+                       system clock.  Just in case
+   88 00000000         ;    this function has been called previously, be sure t
+                       hat the system is not being
+   89 00000000         ;    clocked from the PLL while the PLL is being reconfi
+                       gured.
+   90 00000000 4949            LDR              R1, =SYSCTL_RSCLKCFG_R ; R1 = S
+                                                            YSCTL_RSCLKCFG_R (p
+                                                            ointer)
+   91 00000002 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+   92 00000004 F020 5080       BIC              R0, R0, #SYSCTL_RSCLKCFG_USEPLL
+ 
+                                                            ; R0 = R0&~SYSCTL_R
+                                                            SCLKCFG_USEPLL (cle
+                                                            ar USEPLL bit to by
+                                                            pass PLL)
+   93 00000008 6008            STR              R0, [R1]    ; [R1] = R0
+   94 0000000A         ; 2) Power up the MOSC by clearing the NOXTAL bit in the
+                        SYSCTL_MOSCCTL_R register.
+   95 0000000A         ; 3) Since crystal mode is required, clear the PWRDN bit
+                       .  The datasheet says to do
+   96 0000000A         ;    these two operations in a single write access to SY
+                       SCTL_MOSCCTL_R.
+   97 0000000A 4948            LDR              R1, =SYSCTL_MOSCCTL_R ; R1 = SY
+                                                            SCTL_MOSCCTL_R (poi
+                                                            nter)
+   98 0000000C 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+   99 0000000E F020 0004       BIC              R0, R0, #SYSCTL_MOSCCTL_NOXTAL 
+                                                            ; R0 = R0&~SYSCTL_M
+                                                            OSCCTL_NOXTAL (clea
+                                                            r NOXTAL bit to use
+                                                             external 25 MHz cr
+                                                            ystal)
+  100 00000012 F020 0008       BIC              R0, R0, #SYSCTL_MOSCCTL_PWRDN ;
+                                                             R0 = R0&~SYSCTL_MO
+                                                            SCCTL_PWRDN (clear 
+                                                            PWRDN bit to power 
+                                                            up main oscillator)
+                                                            
+  101 00000016 6008            STR              R0, [R1]    ; [R1] = R0 (both c
+                                                            hanges in one write
+                                                             access)
+  102 00000018         ;    Wait for the MOSCPUPRIS bit to be set in the SYSCTL
+                       _RIS_R register, indicating
+  103 00000018         ;    that MOSC crystal mode is ready.
+  104 00000018 4945            LDR              R1, =SYSCTL_RIS_R ; R1 = SYSCTL
+                                                            _RIS_R (pointer)
+  105 0000001A         PLL_Init_step3loop
+  106 0000001A 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+                                                            
+  107 0000001C F410 7080       ANDS             R0, R0, #SYSCTL_RIS_MOSCPUPRIS 
+                                                            ; R0 = R0&SYSCTL_RI
+                                                            S_MOSCPUPRIS
+  108 00000020 D0FB            BEQ              PLL_Init_step3loop ; if(R0 == 0
+                                                            ), keep polling
+  109 00000022         ; 4) Set both the OSCSRC and PLLSRC fields to 0x3 in the
+                        SYSCTL_RSCLKCFG_R register
+  110 00000022         ;    at offset 0x0B0.
+  111 00000022 4941            LDR              R1, =SYSCTL_RSCLKCFG_R ; R1 = S
+                                                            YSCTL_RSCLKCFG_R (p
+                                                            ointer)
+  112 00000024 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  113 00000026 F420 0070       BIC              R0, R0, #SYSCTL_RSCLKCFG_OSCSRC
+_M 
+                                                            ; R0 = R0&~SYSCTL_R
+                                                            SCLKCFG_OSCSRC_M (c
+                                                            lear system run/sle
+                                                            ep clock source fie
+                                                            ld)
+  114 0000002A F500 1040       ADD              R0, R0, #SYSCTL_RSCLKCFG_OSCSRC
+_MOSC 
+                                                            ; R0 = R0 + SYSCTL_
+                                                            RSCLKCFG_OSCSRC_MOS
+                                                            C (configure to tem
+                                                            porarily get run/sl
+                                                            eep clock from 25 M
+                                                            Hz main oscillator)
+                                                            
+  115 0000002E F020 6070       BIC              R0, R0, #SYSCTL_RSCLKCFG_PLLSRC
+_M 
+                                                            ; R0 = R0&~SYSCTL_R
+                                                            SCLKCFG_PLLSRC_M (c
+                                                            lear PLL clock sour
+                                                            ce field)
+  116 00000032 F100 7040       ADD              R0, R0, #SYSCTL_RSCLKCFG_PLLSRC
+_MOSC 
+                                                            ; R0 = R0 + SYSCTL_
+                                                            RSCLKCFG_PLLSRC_MOS
+                                                            C (configure for PL
+                                                            L clock from main o
+                                                            scillator)
+  117 00000036 6008            STR              R0, [R1]    ; [R1] = R0
+  118 00000038         ; 5) If the application also requires the MOSC to be the
+                        deep-sleep clock source,
+  119 00000038         ;    then program the DSOSCSRC field in the SYSCTL_DSCLK
+                       CFG_R register to 0x3.
+  120 00000038 493E            LDR              R1, =SYSCTL_DSCLKCFG_R ; R1 = S
+                                                            YSCTL_DSCLKCFG_R (p
+                                                            ointer)
+  121 0000003A 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  122 0000003C F420 0070       BIC              R0, R0, #SYSCTL_DSCLKCFG_DSOSCS
+RC_M 
+                                                            ; R0 = R0&~SYSCTL_D
+                                                            SCLKCFG_DSOSCSRC_M 
+                                                            (clear system deep-
+                                                            sleep clock source 
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+                                                            field)
+  123 00000040 F500 1040       ADD              R0, R0, #SYSCTL_DSCLKCFG_DSOSCS
+RC_MOSC 
+                                                            ; R0 = R0 + SYSCTL_
+                                                            DSCLKCFG_DSOSCSRC_M
+                                                            OSC (configure to g
+                                                            et deep-sleep clock
+                                                             from main oscillat
+                                                            or)
+  124 00000044 6008            STR              R0, [R1]    ; [R1] = R0
+  125 00000046         ; 6) Write the SYSCTL_PLLFREQ0_R and SYSCTL_PLLFREQ1_R r
+                       egisters with the values of
+  126 00000046         ;    Q, N, MINT, and MFRAC to configure the desired VCO 
+                       frequency setting.
+  127 00000046         ;    ************
+  128 00000046         ;    The datasheet implies that the VCO frequency can go
+                        as high as 25.575 GHz
+  129 00000046         ;    with MINT=1023 and a 25 MHz crystal.  This is clear
+                       ly unreasonable.  For lack
+  130 00000046         ;    of a recommended VCO frequency, this program sets Q
+                       , N, and MINT for a VCO
+  131 00000046         ;    frequency of 480 MHz with MFRAC=0 to reduce jitter.
+                         To run at a frequency
+  132 00000046         ;    that is not an integer divisor of 480 MHz, change t
+                       his section.
+  133 00000046         ;    fVC0 = (fXTAL/(Q + 1)/(N + 1))*(MINT + (MFRAC/1,024
+                       ))
+  134 00000046         ;    fVCO = 480,000,000 Hz (arbitrary, but presumably as
+                        small as needed)
+  135 00000046 017D7840 
+                       FXTAL   EQU              25000000    ; fixed, this cryst
+                                                            al is soldered to t
+                                                            he Connected Launch
+                                                            pad
+  136 00000046 00000000 
+                       Q       EQU              0
+  137 00000046 00000004 
+                       N       EQU              4           ; chosen for refere
+                                                            nce frequency withi
+                                                            n 4 to 30 MHz
+  138 00000046 00000060 
+                       MINT    EQU              96          ; 480,000,000 = (25
+                                                            ,000,000/(0 + 1)/(4
+                                                             + 1))*(96 + (0/1,0
+                                                            24))
+  139 00000046 00000000 
+                       MFRAC   EQU              0           ; zero to reduce ji
+                                                            tter
+  140 00000046         ;    SysClk = fVCO / (PSYSDIV + 1)
+  141 00000046 07270E00 
+                       SYSCLK  EQU              (FXTAL/(Q+1)/(N+1))*(MINT+MFRAC
+/1024)/(PSYSDIV+1)
+  142 00000046 493C            LDR              R1, =SYSCTL_PLLFREQ0_R ; R1 = S
+                                                            YSCTL_PLLFREQ0_R (p
+                                                            ointer)
+  143 00000048 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  144 0000004A 4B3C            LDR              R3, =SYSCTL_PLLFREQ0_MFRAC_M ; 
+                                                            R3 = SYSCTL_PLLFREQ
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+                                                            0_MFRAC_M (mask)
+  145 0000004C EA20 0003       BIC              R0, R0, R3  ; R0 = R0&~SYSCTL_P
+                                                            LLFREQ0_MFRAC_M (cl
+                                                            ear MFRAC field)
+  146 00000050 F04F 0300       LDR              R3, =(MFRAC<<SYSCTL_PLLFREQ0_MF
+RAC_S) 
+                                                            ; R3 = (MFRAC<<SYSC
+                                                            TL_PLLFREQ0_MFRAC_S
+                                                            ) (shifted value)
+  147 00000054 4418            ADD              R0, R0, R3  ; R0 = R0 + (MFRAC<
+                                                            <SYSCTL_PLLFREQ0_MF
+                                                            RAC_S) (configure M
+                                                            FRAC as defined abo
+                                                            ve)
+  148 00000056 F240 33FF       LDR              R3, =SYSCTL_PLLFREQ0_MINT_M ; R
+                                                            3 = SYSCTL_PLLFREQ0
+                                                            _MINT_M (mask)
+  149 0000005A EA20 0003       BIC              R0, R0, R3  ; R0 = R0&~SYSCTL_P
+                                                            LLFREQ0_MINT_M (cle
+                                                            ar MINT field)
+  150 0000005E F100 0060       ADD              R0, R0, #(MINT<<SYSCTL_PLLFREQ0
+_MINT_S) 
+                                                            ; R0 = R0 + (MINT<<
+                                                            SYSCTL_PLLFREQ0_MIN
+                                                            T_S) (configure MIN
+                                                            T as defined above)
+                                                            
+  151 00000062 6008            STR              R0, [R1]    ; [R1] = R0 (MFRAC 
+                                                            and MINT changed bu
+                                                            t not locked in yet
+                                                            )
+  152 00000064 4936            LDR              R1, =SYSCTL_PLLFREQ1_R ; R1 = S
+                                                            YSCTL_PLLFREQ1_R (p
+                                                            ointer)
+  153 00000066 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  154 00000068 F420 50F8       BIC              R0, R0, #SYSCTL_PLLFREQ1_Q_M ; 
+                                                            R0 = R0&~SYSCTL_PLL
+                                                            FREQ1_Q_M (clear Q 
+                                                            field)
+  155 0000006C F100 0000       ADD              R0, R0, #(Q<<SYSCTL_PLLFREQ1_Q_
+S) 
+                                                            ; R0 = R0 + (Q<<SYS
+                                                            CTL_PLLFREQ1_Q_S) (
+                                                            configure Q as defi
+                                                            ned above)
+  156 00000070 F020 001F       BIC              R0, R0, #SYSCTL_PLLFREQ1_N_M ; 
+                                                            R0 = R0&~SYSCTL_PLL
+                                                            FREQ1_N_M (clear N 
+                                                            field)
+  157 00000074 F100 0004       ADD              R0, R0, #(N<<SYSCTL_PLLFREQ1_N_
+S) 
+                                                            ; R0 = R0 + (N<<SYS
+                                                            CTL_PLLFREQ1_N_S) (
+                                                            configure N as defi
+                                                            ned above)
+  158 00000078 6008            STR              R0, [R1]    ; [R1] = R0 (Q and 
+                                                            N changed but not l
+                                                            ocked in yet)
+
+
+
+ARM Macro Assembler    Page 8 
+
+
+  159 0000007A 492F            LDR              R1, =SYSCTL_PLLFREQ0_R ; R1 = S
+                                                            YSCTL_PLLFREQ0_R (p
+                                                            ointer)
+  160 0000007C 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  161 0000007E F440 0000       ORR              R0, R0, #SYSCTL_PLLFREQ0_PLLPWR
+ 
+                                                            ; R0 = R0|SYSCTL_PL
+                                                            LFREQ0_PLLPWR (turn
+                                                             on power to PLL)
+  162 00000082 6008            STR              R0, [R1]    ; [R1] = R0
+  163 00000084 4928            LDR              R1, =SYSCTL_RSCLKCFG_R ; R1 = S
+                                                            YSCTL_RSCLKCFG_R (p
+                                                            ointer)
+  164 00000086 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  165 00000088 F040 4080       ORR              R0, R0, #SYSCTL_RSCLKCFG_NEWFRE
+Q 
+                                                            ; R0 = R0|SYSCTL_RS
+                                                            CLKCFG_NEWFREQ (loc
+                                                            k in register chang
+                                                            es)
+  166 0000008C 6008            STR              R0, [R1]    ; [R1] = R0
+  167 0000008E         ; 7) Write the SYSCTL_MEMTIM0_R register to correspond t
+                       o the new clock setting.
+  168 0000008E         ;    ************
+  169 0000008E         ;    Set the timing parameters to the main Flash and EEP
+                       ROM memories, which
+  170 0000008E         ;    depend on the system clock frequency.  See Table 5-
+                       12 in datasheet.
+  171 0000008E 492D            LDR              R1, =SYSCTL_MEMTIM0_R ; R1 = SY
+                                                            SCTL_MEMTIM0_R (poi
+                                                            nter)
+  172 00000090 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  173 00000092 4B2D            LDR              R3, =0x03EF03EF ; R3 = 0x03EF03
+                                                            EF (mask)
+  174 00000094 EA20 0003       BIC              R0, R0, R3  ; R0 = R0&~0x03EF03
+                                                            EF (clear EBCHT, EB
+                                                            CE, EWS, FBCHT, FBC
+                                                            E, and FWS fields)
+  175 00000098 4A2C            LDR              R2, =SYSCLK ; R2 = (FXTAL/(Q+1)
+                                                            /(N+1))*(MINT+MFRAC
+                                                            /1024)/(PSYSDIV+1)
+  176 0000009A 4B2C            LDR              R3, =120000000 ; R3 = 120,000,0
+                                                            00 (value)
+  177 0000009C 429A            CMP              R2, R3      ; is R2 (SysClk) <=
+                                                             R3 (120,000,000 Hz
+                                                            )?
+  178 0000009E D900            BLS              PLL_Init_step7fullspeed ; if so
+                                                            , skip to the next 
+                                                            test
+  179 000000A0         PLL_Init_step7toofast                ; 120 MHz < SysClk:
+                                                             "too fast"
+  180 000000A0         ; A setting is invalid, and the PLL cannot clock the sys
+                       tem faster than 120 MHz.
+  181 000000A0         ; Skip the rest of the initialization, leaving the syste
+                       m clocked from the MOSC,
+  182 000000A0         ; which is a 25 MHz crystal.
+
+
+
+ARM Macro Assembler    Page 9 
+
+
+  183 000000A0 4770            BX               LR          ; return
+  184 000000A2         PLL_Init_step7fullspeed              ; 100 MHz < SysClk 
+                                                            <= 120 MHz: "full s
+                                                            peed"
+  185 000000A2 4B2B            LDR              R3, =100000000 ; R3 = 100,000,0
+                                                            00 (value)
+  186 000000A4 429A            CMP              R2, R3      ; is R2 (SysClk) <=
+                                                             R3 (100,000,000 Hz
+                                                            )?
+  187 000000A6 D902            BLS              PLL_Init_step7veryfast ; if so,
+                                                             skip to the next t
+                                                            est
+  188 000000A8 4B2A            LDR              R3, =0x01850185 ; R3 = 0x018501
+                                                            85 (shifted values)
+                                                            
+  189 000000AA 4418            ADD              R0, R0, R3  ; R0 = R0 + 0x01850
+                                                            185 (FBCHT/EBCHT = 
+                                                            6, FBCE/EBCE = 0, F
+                                                            WS/EWS = 5)
+  190 000000AC E01F            B                PLL_Init_step7done ; unconditio
+                                                            nal branch to the e
+                                                            nd
+  191 000000AE         PLL_Init_step7veryfast               ; 80 MHz < SysClk <
+                                                            = 100 MHz: "very fa
+                                                            st"
+  192 000000AE 4B2A            LDR              R3, =80000000 ; R3 = 80,000,000
+                                                             (value)
+  193 000000B0 429A            CMP              R2, R3      ; is R2 (SysClk) <=
+                                                             R3 (80,000,000 Hz)
+                                                            ?
+  194 000000B2 D902            BLS              PLL_Init_step7fast ; if so, ski
+                                                            p to the next test
+  195 000000B4 4B29            LDR              R3, =0x01440144 ; R3 = 0x014401
+                                                            44 (shifted values)
+                                                            
+  196 000000B6 4418            ADD              R0, R0, R3  ; R0 = R0 + 0x01440
+                                                            144 (FBCHT/EBCHT = 
+                                                            5, FBCE/EBCE = 0, F
+                                                            WS/EWS = 4)
+  197 000000B8 E019            B                PLL_Init_step7done ; unconditio
+                                                            nal branch to the e
+                                                            nd
+  198 000000BA         PLL_Init_step7fast                   ; 60 MHz < SysClk <
+                                                            = 80 MHz: "fast"
+  199 000000BA 4B29            LDR              R3, =60000000 ; R3 = 60,000,000
+                                                             (value)
+  200 000000BC 429A            CMP              R2, R3      ; is R2 (SysClk) <=
+                                                             R3 (60,000,000 Hz)
+                                                            ?
+  201 000000BE D902            BLS              PLL_Init_step7medium ; if so, s
+                                                            kip to the next tes
+                                                            t
+  202 000000C0 4B28            LDR              R3, =0x01030103 ; R3 = 0x010301
+                                                            03 (shifted values)
+                                                            
+  203 000000C2 4418            ADD              R0, R0, R3  ; R0 = R0 + 0x01030
+                                                            103 (FBCHT/EBCHT = 
+                                                            4, FBCE/EBCE = 0, F
+                                                            WS/EWS = 3)
+
+
+
+ARM Macro Assembler    Page 10 
+
+
+  204 000000C4 E013            B                PLL_Init_step7done ; unconditio
+                                                            nal branch to the e
+                                                            nd
+  205 000000C6         PLL_Init_step7medium                 ; 40 MHz < SysClk <
+                                                            = 60 MHz: "medium"
+  206 000000C6 4B28            LDR              R3, =40000000 ; R3 = 40,000,000
+                                                             (value)
+  207 000000C8 429A            CMP              R2, R3      ; is R2 (SysClk) <=
+                                                             R3 (40,000,000 Hz)
+                                                            ?
+  208 000000CA D902            BLS              PLL_Init_step7slow ; if so, ski
+                                                            p to the next test
+  209 000000CC F100 10C2       ADD              R0, R0, #0x00C200C2 ; R0 = R0 +
+                                                             0x00C200C2 (FBCHT/
+                                                            EBCHT = 3, FBCE/EBC
+                                                            E = 0, FWS/EWS = 2)
+                                                            
+  210 000000D0 E00D            B                PLL_Init_step7done ; unconditio
+                                                            nal branch to the e
+                                                            nd
+  211 000000D2         PLL_Init_step7slow                   ; 16 MHz < SysClk <
+                                                            = 40 MHz: "slow"
+  212 000000D2 4B26            LDR              R3, =16000000 ; R3 = 16,000,000
+                                                             (value)
+  213 000000D4 429A            CMP              R2, R3      ; is R2 (SysClk) <=
+                                                             R3 (16,000,000 Hz)
+                                                            ?
+  214 000000D6 D902            BLS              PLL_Init_step7veryslow ; if so,
+                                                             skip to the next t
+                                                            est
+  215 000000D8 F100 1081       ADD              R0, R0, #0x00810081 ; R0 = R0 +
+                                                             0x00810081 (FBCHT/
+                                                            EBCHT = 2, FBCE/EBC
+                                                            E = 1, FWS/EWS = 1)
+                                                            
+  216 000000DC E007            B                PLL_Init_step7done ; unconditio
+                                                            nal branch to the e
+                                                            nd
+  217 000000DE         PLL_Init_step7veryslow               ; SysClk == 16 MHz:
+                                                             "very slow"
+  218 000000DE 4B23            LDR              R3, =16000000 ; R3 = 16,000,000
+                                                             (value)
+  219 000000E0 429A            CMP              R2, R3      ; is R2 (SysClk) < 
+                                                            R3 (16,000,000 Hz)?
+                                                            
+  220 000000E2 D302            BLO              PLL_Init_step7extremelyslow ; i
+                                                            f so, skip to the n
+                                                            ext test
+  221 000000E4 F100 1020       ADD              R0, R0, #0x00200020 ; R0 = R0 +
+                                                             0x00200020 (FBCHT/
+                                                            EBCHT = 0, FBCE/EBC
+                                                            E = 1, FWS/EWS = 0)
+                                                            
+  222 000000E8 E001            B                PLL_Init_step7done ; unconditio
+                                                            nal branch to the e
+                                                            nd
+  223 000000EA         PLL_Init_step7extremelyslow          ; SysClk < 16 MHz: 
+                                                            "extremely slow"
+  224 000000EA F100 0000       ADD              R0, R0, #0x00000000 ; R0 = R0 +
+
+
+
+ARM Macro Assembler    Page 11 
+
+
+                                                             0x00000000 (FBCHT/
+                                                            EBCHT = 0, FBCE/EBC
+                                                            E = 0, FWS/EWS = 0)
+                                                            
+  225 000000EE         PLL_Init_step7done
+  226 000000EE 6008            STR              R0, [R1]    ; [R1] = R0 (SYSCTL
+                                                            _MEMTIM0_R changed 
+                                                            but not locked in y
+                                                            et)
+  227 000000F0         ; 8) Wait for the SYSCTL_PLLSTAT_R register to indicate 
+                       that the PLL has reached
+  228 000000F0         ;    lock at the new operating point (or that a timeout 
+                       period has passed and lock
+  229 000000F0         ;    has failed, in which case an error condition exists
+                        and this sequence is
+  230 000000F0         ;    abandoned and error processing is initiated).
+  231 000000F0 491F            LDR              R1, =SYSCTL_PLLSTAT_R ; R1 = SY
+                                                            SCTL_PLLSTAT_R (poi
+                                                            nter)
+  232 000000F2 F04F 0200       MOV              R2, #0      ; R2 = 0 (timeout c
+                                                            ounter)
+  233 000000F6 F64F 73FF       MOV              R3, #0xFFFF ; R3 = 0xFFFF (valu
+                                                            e)
+  234 000000FA         PLL_Init_step8loop
+  235 000000FA 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  236 000000FC F010 0001       ANDS             R0, R0, #SYSCTL_PLLSTAT_LOCK ; 
+                                                            R0 = R0&SYSCTL_PLLS
+                                                            TAT_LOCK
+  237 00000100 D104            BNE              PLL_Init_step8done ; if(R0 != 0
+                                                            ), done polling
+  238 00000102 F102 0201       ADD              R2, R2, #1  ; R2 = R2 + 1 (incr
+                                                            ement timeout count
+                                                            er)
+  239 00000106 429A            CMP              R2, R3      ; if(R2 < 0xFFFF), 
+                                                            keep polling
+  240 00000108 D3F7            BLO              PLL_Init_step8loop
+  241 0000010A         ; The PLL never locked or is not powered.
+  242 0000010A         ; Skip the rest of the initialization, leaving the syste
+                       m clocked from the MOSC,
+  243 0000010A         ; which is a 25 MHz crystal.
+  244 0000010A 4770            BX               LR          ; return
+  245 0000010C         PLL_Init_step8done
+  246 0000010C         ; 9)Write the SYSCTL_RSCLKCFG_R register's PSYSDIV value
+                       , set the USEPLL bit to
+  247 0000010C         ;   enabled, and set the MEMTIMU bit.
+  248 0000010C 4906            LDR              R1, =SYSCTL_RSCLKCFG_R ; R1 = S
+                                                            YSCTL_RSCLKCFG_R (p
+                                                            ointer)
+  249 0000010E 6808            LDR              R0, [R1]    ; R0 = [R1] (value)
+                                                            
+  250 00000110 F240 33FF       LDR              R3, =SYSCTL_RSCLKCFG_PSYSDIV_M 
+                                                            ; R3 = SYSCTL_RSCLK
+                                                            CFG_PSYSDIV_M (mask
+                                                            )
+  251 00000114 EA20 0003       BIC              R0, R0, R3  ; R0 = R0&~SYSCTL_R
+                                                            SCLKCFG_PSYSDIV_M (
+                                                            clear PSYSDIV field
+                                                            )
+
+
+
+ARM Macro Assembler    Page 12 
+
+
+  252 00000118 F100 0003       ADD              R0, R0, #(PSYSDIV&SYSCTL_RSCLKC
+FG_PSYSDIV_M) 
+                                                            ; R0 = R0 + (PSYSDI
+                                                            V&SYSCTL_RSCLKCFG_P
+                                                            SYSDIV_M) (configur
+                                                            e PSYSDIV as define
+                                                            d above)
+  253 0000011C F040 4000       ORR              R0, R0, #SYSCTL_RSCLKCFG_MEMTIM
+U 
+                                                            ; R0 = R0|SYSCTL_RS
+                                                            CLKCFG_MEMTIMU (set
+                                                             MEMTIMU bit to upd
+                                                            ate memory timing p
+                                                            arameters)
+  254 00000120 F040 5080       ORR              R0, R0, #SYSCTL_RSCLKCFG_USEPLL
+ 
+                                                            ; R0 = R0|SYSCTL_RS
+                                                            CLKCFG_USEPLL (set 
+                                                            USEPLL bit to get c
+                                                            lock from PLL)
+  255 00000124 6008            STR              R0, [R1]    ; [R1] = R0 (execut
+                                                            ion and access are 
+                                                            suspended while mem
+                                                            ory timing updates 
+                                                            occur)
+  256 00000126 4770            BX               LR          ; return
+  257 00000128         
+  258 00000128                 ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned
+  259 00000128                 END                          ; end of file
+              400FE0B0 
+              400FE07C 
+              400FE050 
+              400FE144 
+              400FE160 
+              000FFC00 
+              400FE164 
+              400FE0C0 
+              03EF03EF 
+              07270E00 
+              05F5E100 
+              01850185 
+              04C4B400 
+              01440144 
+              03938700 
+              01030103 
+              02625A00 
+              00F42400 
+              400FE168 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\pll.d -o.\objects\pll.o -IC:\Users\mode_\Documents\Fm
+at\MicroControladores\KeilProjects\temp\RTE\_Target_1 -IC:\Keil_v5\ARM\PACK\Kei
+l\TM4C_DFP\1.1.0\Device\Include\TM4C129 -IC:\Keil_v5\ARM\CMSIS\Include --predef
+ine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 522" --predefine="TM4C1
+294NCPDT SETA 1" --list=.\listings\pll.lst PLL.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 77 in file PLL.s
+   Uses
+      None
+Comment: .text unused
+PLL_Init 00000000
+
+Symbol: PLL_Init
+   Definitions
+      At line 86 in file PLL.s
+   Uses
+      At line 79 in file PLL.s
+Comment: PLL_Init used once
+PLL_Init_step3loop 0000001A
+
+Symbol: PLL_Init_step3loop
+   Definitions
+      At line 105 in file PLL.s
+   Uses
+      At line 108 in file PLL.s
+Comment: PLL_Init_step3loop used once
+PLL_Init_step7done 000000EE
+
+Symbol: PLL_Init_step7done
+   Definitions
+      At line 225 in file PLL.s
+   Uses
+      At line 190 in file PLL.s
+      At line 197 in file PLL.s
+      At line 204 in file PLL.s
+      At line 210 in file PLL.s
+      At line 216 in file PLL.s
+      At line 222 in file PLL.s
+
+PLL_Init_step7extremelyslow 000000EA
+
+Symbol: PLL_Init_step7extremelyslow
+   Definitions
+      At line 223 in file PLL.s
+   Uses
+      At line 220 in file PLL.s
+Comment: PLL_Init_step7extremelyslow used once
+PLL_Init_step7fast 000000BA
+
+Symbol: PLL_Init_step7fast
+   Definitions
+      At line 198 in file PLL.s
+   Uses
+      At line 194 in file PLL.s
+Comment: PLL_Init_step7fast used once
+PLL_Init_step7fullspeed 000000A2
+
+Symbol: PLL_Init_step7fullspeed
+   Definitions
+      At line 184 in file PLL.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 178 in file PLL.s
+Comment: PLL_Init_step7fullspeed used once
+PLL_Init_step7medium 000000C6
+
+Symbol: PLL_Init_step7medium
+   Definitions
+      At line 205 in file PLL.s
+   Uses
+      At line 201 in file PLL.s
+Comment: PLL_Init_step7medium used once
+PLL_Init_step7slow 000000D2
+
+Symbol: PLL_Init_step7slow
+   Definitions
+      At line 211 in file PLL.s
+   Uses
+      At line 208 in file PLL.s
+Comment: PLL_Init_step7slow used once
+PLL_Init_step7toofast 000000A0
+
+Symbol: PLL_Init_step7toofast
+   Definitions
+      At line 179 in file PLL.s
+   Uses
+      None
+Comment: PLL_Init_step7toofast unused
+PLL_Init_step7veryfast 000000AE
+
+Symbol: PLL_Init_step7veryfast
+   Definitions
+      At line 191 in file PLL.s
+   Uses
+      At line 187 in file PLL.s
+Comment: PLL_Init_step7veryfast used once
+PLL_Init_step7veryslow 000000DE
+
+Symbol: PLL_Init_step7veryslow
+   Definitions
+      At line 217 in file PLL.s
+   Uses
+      At line 214 in file PLL.s
+Comment: PLL_Init_step7veryslow used once
+PLL_Init_step8done 0000010C
+
+Symbol: PLL_Init_step8done
+   Definitions
+      At line 245 in file PLL.s
+   Uses
+      At line 237 in file PLL.s
+Comment: PLL_Init_step8done used once
+PLL_Init_step8loop 000000FA
+
+Symbol: PLL_Init_step8loop
+   Definitions
+      At line 234 in file PLL.s
+   Uses
+      At line 240 in file PLL.s
+Comment: PLL_Init_step8loop used once
+14 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+FXTAL 017D7840
+
+Symbol: FXTAL
+   Definitions
+      At line 135 in file PLL.s
+   Uses
+      At line 141 in file PLL.s
+Comment: FXTAL used once
+MFRAC 00000000
+
+Symbol: MFRAC
+   Definitions
+      At line 139 in file PLL.s
+   Uses
+      At line 141 in file PLL.s
+      At line 146 in file PLL.s
+
+MINT 00000060
+
+Symbol: MINT
+   Definitions
+      At line 138 in file PLL.s
+   Uses
+      At line 141 in file PLL.s
+      At line 150 in file PLL.s
+
+N 00000004
+
+Symbol: N
+   Definitions
+      At line 137 in file PLL.s
+   Uses
+      At line 141 in file PLL.s
+      At line 157 in file PLL.s
+
+PSYSDIV 00000003
+
+Symbol: PSYSDIV
+   Definitions
+      At line 30 in file PLL.s
+   Uses
+      At line 141 in file PLL.s
+      At line 252 in file PLL.s
+
+Q 00000000
+
+Symbol: Q
+   Definitions
+      At line 136 in file PLL.s
+   Uses
+      At line 141 in file PLL.s
+      At line 155 in file PLL.s
+
+SYSCLK 07270E00
+
+Symbol: SYSCLK
+   Definitions
+      At line 141 in file PLL.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+      At line 175 in file PLL.s
+Comment: SYSCLK used once
+SYSCTL_DSCLKCFG_DSOSCSRC_M 00F00000
+
+Symbol: SYSCTL_DSCLKCFG_DSOSCSRC_M
+   Definitions
+      At line 61 in file PLL.s
+   Uses
+      At line 122 in file PLL.s
+Comment: SYSCTL_DSCLKCFG_DSOSCSRC_M used once
+SYSCTL_DSCLKCFG_DSOSCSRC_MOSC 00300000
+
+Symbol: SYSCTL_DSCLKCFG_DSOSCSRC_MOSC
+   Definitions
+      At line 62 in file PLL.s
+   Uses
+      At line 123 in file PLL.s
+Comment: SYSCTL_DSCLKCFG_DSOSCSRC_MOSC used once
+SYSCTL_DSCLKCFG_R 400FE144
+
+Symbol: SYSCTL_DSCLKCFG_R
+   Definitions
+      At line 60 in file PLL.s
+   Uses
+      At line 120 in file PLL.s
+Comment: SYSCTL_DSCLKCFG_R used once
+SYSCTL_MEMTIM0_R 400FE0C0
+
+Symbol: SYSCTL_MEMTIM0_R
+   Definitions
+      At line 59 in file PLL.s
+   Uses
+      At line 171 in file PLL.s
+Comment: SYSCTL_MEMTIM0_R used once
+SYSCTL_MOSCCTL_NOXTAL 00000004
+
+Symbol: SYSCTL_MOSCCTL_NOXTAL
+   Definitions
+      At line 49 in file PLL.s
+   Uses
+      At line 99 in file PLL.s
+Comment: SYSCTL_MOSCCTL_NOXTAL used once
+SYSCTL_MOSCCTL_PWRDN 00000008
+
+Symbol: SYSCTL_MOSCCTL_PWRDN
+   Definitions
+      At line 48 in file PLL.s
+   Uses
+      At line 100 in file PLL.s
+Comment: SYSCTL_MOSCCTL_PWRDN used once
+SYSCTL_MOSCCTL_R 400FE07C
+
+Symbol: SYSCTL_MOSCCTL_R
+   Definitions
+      At line 47 in file PLL.s
+   Uses
+      At line 97 in file PLL.s
+Comment: SYSCTL_MOSCCTL_R used once
+SYSCTL_PLLFREQ0_MFRAC_M 000FFC00
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Absolute symbols
+
+
+Symbol: SYSCTL_PLLFREQ0_MFRAC_M
+   Definitions
+      At line 65 in file PLL.s
+   Uses
+      At line 144 in file PLL.s
+Comment: SYSCTL_PLLFREQ0_MFRAC_M used once
+SYSCTL_PLLFREQ0_MFRAC_S 0000000A
+
+Symbol: SYSCTL_PLLFREQ0_MFRAC_S
+   Definitions
+      At line 67 in file PLL.s
+   Uses
+      At line 146 in file PLL.s
+Comment: SYSCTL_PLLFREQ0_MFRAC_S used once
+SYSCTL_PLLFREQ0_MINT_M 000003FF
+
+Symbol: SYSCTL_PLLFREQ0_MINT_M
+   Definitions
+      At line 66 in file PLL.s
+   Uses
+      At line 148 in file PLL.s
+Comment: SYSCTL_PLLFREQ0_MINT_M used once
+SYSCTL_PLLFREQ0_MINT_S 00000000
+
+Symbol: SYSCTL_PLLFREQ0_MINT_S
+   Definitions
+      At line 68 in file PLL.s
+   Uses
+      At line 150 in file PLL.s
+Comment: SYSCTL_PLLFREQ0_MINT_S used once
+SYSCTL_PLLFREQ0_PLLPWR 00800000
+
+Symbol: SYSCTL_PLLFREQ0_PLLPWR
+   Definitions
+      At line 64 in file PLL.s
+   Uses
+      At line 161 in file PLL.s
+Comment: SYSCTL_PLLFREQ0_PLLPWR used once
+SYSCTL_PLLFREQ0_R 400FE160
+
+Symbol: SYSCTL_PLLFREQ0_R
+   Definitions
+      At line 63 in file PLL.s
+   Uses
+      At line 142 in file PLL.s
+      At line 159 in file PLL.s
+
+SYSCTL_PLLFREQ1_N_M 0000001F
+
+Symbol: SYSCTL_PLLFREQ1_N_M
+   Definitions
+      At line 71 in file PLL.s
+   Uses
+      At line 156 in file PLL.s
+Comment: SYSCTL_PLLFREQ1_N_M used once
+SYSCTL_PLLFREQ1_N_S 00000000
+
+Symbol: SYSCTL_PLLFREQ1_N_S
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 73 in file PLL.s
+   Uses
+      At line 157 in file PLL.s
+Comment: SYSCTL_PLLFREQ1_N_S used once
+SYSCTL_PLLFREQ1_Q_M 00001F00
+
+Symbol: SYSCTL_PLLFREQ1_Q_M
+   Definitions
+      At line 70 in file PLL.s
+   Uses
+      At line 154 in file PLL.s
+Comment: SYSCTL_PLLFREQ1_Q_M used once
+SYSCTL_PLLFREQ1_Q_S 00000008
+
+Symbol: SYSCTL_PLLFREQ1_Q_S
+   Definitions
+      At line 72 in file PLL.s
+   Uses
+      At line 155 in file PLL.s
+Comment: SYSCTL_PLLFREQ1_Q_S used once
+SYSCTL_PLLFREQ1_R 400FE164
+
+Symbol: SYSCTL_PLLFREQ1_R
+   Definitions
+      At line 69 in file PLL.s
+   Uses
+      At line 152 in file PLL.s
+Comment: SYSCTL_PLLFREQ1_R used once
+SYSCTL_PLLSTAT_LOCK 00000001
+
+Symbol: SYSCTL_PLLSTAT_LOCK
+   Definitions
+      At line 75 in file PLL.s
+   Uses
+      At line 236 in file PLL.s
+Comment: SYSCTL_PLLSTAT_LOCK used once
+SYSCTL_PLLSTAT_R 400FE168
+
+Symbol: SYSCTL_PLLSTAT_R
+   Definitions
+      At line 74 in file PLL.s
+   Uses
+      At line 231 in file PLL.s
+Comment: SYSCTL_PLLSTAT_R used once
+SYSCTL_RIS_MOSCPUPRIS 00000100
+
+Symbol: SYSCTL_RIS_MOSCPUPRIS
+   Definitions
+      At line 46 in file PLL.s
+   Uses
+      At line 107 in file PLL.s
+Comment: SYSCTL_RIS_MOSCPUPRIS used once
+SYSCTL_RIS_R 400FE050
+
+Symbol: SYSCTL_RIS_R
+   Definitions
+      At line 45 in file PLL.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Absolute symbols
+
+      At line 104 in file PLL.s
+Comment: SYSCTL_RIS_R used once
+SYSCTL_RSCLKCFG_MEMTIMU 80000000
+
+Symbol: SYSCTL_RSCLKCFG_MEMTIMU
+   Definitions
+      At line 51 in file PLL.s
+   Uses
+      At line 253 in file PLL.s
+Comment: SYSCTL_RSCLKCFG_MEMTIMU used once
+SYSCTL_RSCLKCFG_NEWFREQ 40000000
+
+Symbol: SYSCTL_RSCLKCFG_NEWFREQ
+   Definitions
+      At line 52 in file PLL.s
+   Uses
+      At line 165 in file PLL.s
+Comment: SYSCTL_RSCLKCFG_NEWFREQ used once
+SYSCTL_RSCLKCFG_OSCSRC_M 00F00000
+
+Symbol: SYSCTL_RSCLKCFG_OSCSRC_M
+   Definitions
+      At line 56 in file PLL.s
+   Uses
+      At line 113 in file PLL.s
+Comment: SYSCTL_RSCLKCFG_OSCSRC_M used once
+SYSCTL_RSCLKCFG_OSCSRC_MOSC 00300000
+
+Symbol: SYSCTL_RSCLKCFG_OSCSRC_MOSC
+   Definitions
+      At line 57 in file PLL.s
+   Uses
+      At line 114 in file PLL.s
+Comment: SYSCTL_RSCLKCFG_OSCSRC_MOSC used once
+SYSCTL_RSCLKCFG_PLLSRC_M 0F000000
+
+Symbol: SYSCTL_RSCLKCFG_PLLSRC_M
+   Definitions
+      At line 54 in file PLL.s
+   Uses
+      At line 115 in file PLL.s
+Comment: SYSCTL_RSCLKCFG_PLLSRC_M used once
+SYSCTL_RSCLKCFG_PLLSRC_MOSC 03000000
+
+Symbol: SYSCTL_RSCLKCFG_PLLSRC_MOSC
+   Definitions
+      At line 55 in file PLL.s
+   Uses
+      At line 116 in file PLL.s
+Comment: SYSCTL_RSCLKCFG_PLLSRC_MOSC used once
+SYSCTL_RSCLKCFG_PSYSDIV_M 000003FF
+
+Symbol: SYSCTL_RSCLKCFG_PSYSDIV_M
+   Definitions
+      At line 58 in file PLL.s
+   Uses
+      At line 250 in file PLL.s
+      At line 252 in file PLL.s
+
+
+
+
+ARM Macro Assembler    Page 6 Alphabetic symbol ordering
+Absolute symbols
+
+SYSCTL_RSCLKCFG_R 400FE0B0
+
+Symbol: SYSCTL_RSCLKCFG_R
+   Definitions
+      At line 50 in file PLL.s
+   Uses
+      At line 90 in file PLL.s
+      At line 111 in file PLL.s
+      At line 163 in file PLL.s
+      At line 248 in file PLL.s
+
+SYSCTL_RSCLKCFG_USEPLL 10000000
+
+Symbol: SYSCTL_RSCLKCFG_USEPLL
+   Definitions
+      At line 53 in file PLL.s
+   Uses
+      At line 92 in file PLL.s
+      At line 254 in file PLL.s
+
+38 symbols
+388 symbols in table

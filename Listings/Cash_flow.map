@@ -1,0 +1,293 @@
+Component: ARM Compiler 5.06 update 4 (build 422) Tool: armlink [4d35d2]
+
+==============================================================================
+
+Section Cross References
+
+    fifo.o(.text) refers to fifo.o(DATA) for RxFifo
+    mdb.o(DATA) refers (Special) to uartints.o(.text) for UART0_Handler
+    mdb.o(.text) refers (Special) to uartints.o(.text) for UART0_Handler
+    startup.o(RESET) refers to startup.o(STACK) for StackMem
+    startup.o(RESET) refers to uartints.o(.text) for UART0_Handler
+    startup.o(RESET) refers to vmc_mdb_main.o(.text) for Start
+    uartints.o(.text) refers to startup.o(.text) for DisableInterrupts
+    uartints.o(.text) refers to fifo.o(.text) for RxFifo_Init
+    vmc_mdb_main.o(.text) refers to uartints.o(.text) for UART_OutChar
+    vmc_mdb_main.o(.text) refers to pll.o(.text) for PLL_Init
+    vmc_mdb_main.o(.text) refers to vmc_mdb_main.o(DATA) for String
+
+
+==============================================================================
+
+Removing Unused input sections from the image.
+
+    Removing mdb.o(DATA), (37 bytes).
+    Removing mdb.o(.text), (76 bytes).
+    Removing startup.o(HEAP), (0 bytes).
+
+3 unused section(s) (total 113 bytes) removed from the image.
+
+==============================================================================
+
+Image Symbol Table
+
+    Local Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    RESET                                    0x00000000   Section      544  startup.o(RESET)
+    FIFO.s                                   0x00000000   Number         0  fifo.o ABSOLUTE
+    PLL.s                                    0x00000000   Number         0  pll.o ABSOLUTE
+    UARTInts.s                               0x00000000   Number         0  uartints.o ABSOLUTE
+    VMC_MDB_Main.s                           0x00000000   Number         0  vmc_mdb_main.o ABSOLUTE
+    mdb.s                                    0x00000000   Number         0  mdb.o ABSOLUTE
+    startup.s                                0x00000000   Number         0  startup.o ABSOLUTE
+    $v0                                      0x00000208   Number         0  startup.o(RESET)
+    .text                                    0x00000220   Section      268  fifo.o(.text)
+    $v0                                      0x00000220   Number         0  fifo.o(.text)
+    .text                                    0x0000032c   Section      372  pll.o(.text)
+    $v0                                      0x0000032c   Number         0  pll.o(.text)
+    .text                                    0x000004a0   Section       28  startup.o(.text)
+    $v0                                      0x000004a0   Number         0  startup.o(.text)
+    .text                                    0x000004bc   Section     1040  uartints.o(.text)
+    $v0                                      0x000004bc   Number         0  uartints.o(.text)
+    .text                                    0x000008cc   Section      304  vmc_mdb_main.o(.text)
+    InStrPrompt                              0x000008cc   Data          11  vmc_mdb_main.o(.text)
+    OutStrPrompt                             0x000008d7   Data          12  vmc_mdb_main.o(.text)
+    InUDecPrompt                             0x000008e3   Data           9  vmc_mdb_main.o(.text)
+    OutUDecPrompt                            0x000008ec   Data          10  vmc_mdb_main.o(.text)
+    InUHexPrompt                             0x000008f6   Data           9  vmc_mdb_main.o(.text)
+    OutUHexPrompt                            0x000008ff   Data          10  vmc_mdb_main.o(.text)
+    $v0                                      0x0000090c   Number         0  vmc_mdb_main.o(.text)
+    DATA                                     0x20000000   Section       48  fifo.o(DATA)
+    RxPutPt                                  0x20000000   Data           4  fifo.o(DATA)
+    RxGetPt                                  0x20000004   Data           4  fifo.o(DATA)
+    RxFifo                                   0x20000008   Data          16  fifo.o(DATA)
+    TxPutPt                                  0x20000018   Data           4  fifo.o(DATA)
+    TxGetPt                                  0x2000001c   Data           4  fifo.o(DATA)
+    TxFifo                                   0x20000020   Data          16  fifo.o(DATA)
+    DATA                                     0x20000030   Section       41  vmc_mdb_main.o(DATA)
+    STACK                                    0x20000060   Section     1024  startup.o(STACK)
+    StackMem                                 0x20000060   Data           0  startup.o(STACK)
+
+    Global Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$VFPi3$EXTD16$VFPS$VFMA$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$EBA8$STANDARDLIB$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    __Vectors                                0x00000000   Data           0  startup.o(RESET)
+    Reset_Handler                            0x00000209   Thumb Code     0  startup.o(RESET)
+    NMI_Handler                              0x0000020d   Thumb Code     2  startup.o(RESET)
+    HardFault_Handler                        0x0000020f   Thumb Code     2  startup.o(RESET)
+    MemManage_Handler                        0x00000211   Thumb Code     2  startup.o(RESET)
+    BusFault_Handler                         0x00000213   Thumb Code     2  startup.o(RESET)
+    UsageFault_Handler                       0x00000215   Thumb Code     2  startup.o(RESET)
+    SVC_Handler                              0x00000217   Thumb Code     2  startup.o(RESET)
+    DebugMon_Handler                         0x00000219   Thumb Code     2  startup.o(RESET)
+    PendSV_Handler                           0x0000021b   Thumb Code     2  startup.o(RESET)
+    SysTick_Handler                          0x0000021d   Thumb Code     2  startup.o(RESET)
+    ADC0Seq0_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ADC0Seq1_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ADC0Seq2_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ADC0Seq3_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ADC1Seq0_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ADC1Seq1_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ADC1Seq2_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ADC1Seq3_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    CAN0_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    CAN1_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    Comp0_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    Comp1_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    Comp2_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    Ethernet_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    ExtBus_Handler                           0x0000021f   Thumb Code     0  startup.o(RESET)
+    FPU_Handler                              0x0000021f   Thumb Code     0  startup.o(RESET)
+    FlashCtl_Handler                         0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortA_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortB_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortC_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortD_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortE_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortF_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortG_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortH_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortJ_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortK_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortL_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortM_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortN_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP1_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP2_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP3_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP4_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP5_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP6_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP7_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortP_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ1_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ2_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ3_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ4_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ5_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ6_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ7_Handler                       0x0000021f   Thumb Code     0  startup.o(RESET)
+    GPIOPortQ_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    Hibernate_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C0_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C1_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C2_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C3_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C4_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C5_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C6_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C7_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C8_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    I2C9_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    PWM0Fault_Handler                        0x0000021f   Thumb Code     0  startup.o(RESET)
+    PWM0Generator0_Handler                   0x0000021f   Thumb Code     0  startup.o(RESET)
+    PWM0Generator1_Handler                   0x0000021f   Thumb Code     0  startup.o(RESET)
+    PWM0Generator2_Handler                   0x0000021f   Thumb Code     0  startup.o(RESET)
+    PWM0Generator3_Handler                   0x0000021f   Thumb Code     0  startup.o(RESET)
+    Quadrature0_Handler                      0x0000021f   Thumb Code     0  startup.o(RESET)
+    SSI0_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    SSI1_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    SSI2_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    SSI3_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    SysCtl_Handler                           0x0000021f   Thumb Code     0  startup.o(RESET)
+    Tamper_Handler                           0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer0A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer0B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer1A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer1B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer2A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer2B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer3A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer3B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer4A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer4B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer5A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer5B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer6A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer6B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer7A_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    Timer7B_Handler                          0x0000021f   Thumb Code     0  startup.o(RESET)
+    UART1_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    UART2_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    UART3_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    UART4_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    UART5_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    UART6_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    UART7_Handler                            0x0000021f   Thumb Code     0  startup.o(RESET)
+    USB0_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    WDT_Handler                              0x0000021f   Thumb Code     0  startup.o(RESET)
+    uDMA_Error                               0x0000021f   Thumb Code     0  startup.o(RESET)
+    uDMA_Handler                             0x0000021f   Thumb Code     0  startup.o(RESET)
+    RxFifo_Init                              0x00000221   Thumb Code     0  fifo.o(.text)
+    RxFifo_Put                               0x0000022d   Thumb Code     2  fifo.o(.text)
+    RxFifo_Get                               0x0000025b   Thumb Code     2  fifo.o(.text)
+    RxFifo_Size                              0x00000285   Thumb Code     0  fifo.o(.text)
+    TxFifo_Init                              0x00000297   Thumb Code     0  fifo.o(.text)
+    TxFifo_Put                               0x000002a3   Thumb Code     2  fifo.o(.text)
+    TxFifo_Get                               0x000002d1   Thumb Code     2  fifo.o(.text)
+    TxFifo_Size                              0x000002fb   Thumb Code     0  fifo.o(.text)
+    PLL_Init                                 0x0000032d   Thumb Code     0  pll.o(.text)
+    DisableInterrupts                        0x000004a1   Thumb Code     0  startup.o(.text)
+    EnableInterrupts                         0x000004a5   Thumb Code     0  startup.o(.text)
+    StartCritical                            0x000004a9   Thumb Code     0  startup.o(.text)
+    EndCritical                              0x000004b1   Thumb Code     0  startup.o(.text)
+    WaitForInterrupt                         0x000004b7   Thumb Code     0  startup.o(.text)
+    UART_Init                                0x000004bd   Thumb Code     0  uartints.o(.text)
+    UART_InChar                              0x000005f9   Thumb Code     0  uartints.o(.text)
+    UART_OutChar                             0x0000060b   Thumb Code     0  uartints.o(.text)
+    UART0_Handler                            0x00000631   Thumb Code     0  uartints.o(.text)
+    UART_OutString                           0x0000068f   Thumb Code     0  uartints.o(.text)
+    UART_InUDec                              0x000006a5   Thumb Code     0  uartints.o(.text)
+    UART_OutUDec                             0x000006f5   Thumb Code     0  uartints.o(.text)
+    UART_InUHex                              0x00000727   Thumb Code     0  uartints.o(.text)
+    UART_OutUHex                             0x000007bf   Thumb Code     0  uartints.o(.text)
+    UART_InString                            0x0000080d   Thumb Code     0  uartints.o(.text)
+    UART_HighStickParity                     0x00000853   Thumb Code     0  uartints.o(.text)
+    UART_LowStickParity                      0x00000861   Thumb Code     0  uartints.o(.text)
+    Start                                    0x00000921   Thumb Code     0  vmc_mdb_main.o(.text)
+    String                                   0x20000030   Data          37  vmc_mdb_main.o(DATA)
+    Number                                   0x20000055   Data           4  vmc_mdb_main.o(DATA)
+
+
+
+==============================================================================
+
+Memory Map of the image
+
+  Image Entry point : 0x00000209
+
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000a58, Max: 0xffffffff, ABSOLUTE)
+
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x000009fc, Max: 0xffffffff, ABSOLUTE)
+
+    Base Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x00000000   0x00000220   Code   RO           16  * RESET               startup.o
+    0x00000220   0x0000010c   Code   RO            2    .text               fifo.o
+    0x0000032c   0x00000174   Code   RO           11    .text               pll.o
+    0x000004a0   0x0000001c   Code   RO           17    .text               startup.o
+    0x000004bc   0x00000410   Code   RO           23    .text               uartints.o
+    0x000008cc   0x00000130   Code   RO           27    .text               vmc_mdb_main.o
+
+
+    Execution Region ER_RW (Base: 0x20000000, Size: 0x0000005c, Max: 0xffffffff, ABSOLUTE)
+
+    Base Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x20000000   0x00000030   Data   RW            1    DATA                fifo.o
+    0x20000030   0x00000029   Data   RW           26    DATA                vmc_mdb_main.o
+
+
+    Execution Region ER_ZI (Base: 0x2000005c, Size: 0x00000404, Max: 0xffffffff, ABSOLUTE)
+
+    Base Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x2000005c   0x00000004   PAD
+    0x20000060   0x00000400   Zero   RW           14    STACK               startup.o
+
+
+==============================================================================
+
+Image component sizes
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
+
+       268         32          0         48          0        368   fifo.o
+       372         76          0          0          0        340   pll.o
+       572        522          0          0       1024       1020   startup.o
+      1040         94          0          0          0        604   uartints.o
+       304         98          0         41          0        308   vmc_mdb_main.o
+
+    ----------------------------------------------------------------------
+      2556        822          0         92       1028       2640   Object Totals
+         0          0          0          0          0          0   (incl. Generated)
+         0          0          0          3          4          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+         0          0          0          0          0          0   Library Totals
+         0          0          0          0          0          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+==============================================================================
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
+
+      2556        822          0         92       1028       2640   Grand Totals
+      2556        822          0         92       1028       2640   ELF Image Totals
+      2556        822          0         92          0          0   ROM Totals
+
+==============================================================================
+
+    Total RO  Size (Code + RO Data)                 2556 (   2.50kB)
+    Total RW  Size (RW Data + ZI Data)              1120 (   1.09kB)
+    Total ROM Size (Code + RO Data + RW Data)       2648 (   2.59kB)
+
+==============================================================================
+

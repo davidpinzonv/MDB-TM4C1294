@@ -22,6 +22,7 @@ ChkSum	SPACE	1
 
         AREA    |.text|, CODE, READONLY, ALIGN=2
         THUMB
+
 ;-----------MDB_SendAddress-----------
 ; Envia la direccion de un periferico
 ; activa High Stick Parity bit
@@ -63,20 +64,47 @@ outCommandDone
 	POP {R0, R1, R2, R3, R4, R5, PC}	; R3 into R3, R4 into R4, R5, into R5 and LR into PC (return)
 
 
-;-----------MDB_SendChk-----------
-; Envia el chk sum byte
+;-----------MDB_SendACK-----------
+; Envia el ACK byte
 ; activa al final el High Stick Parity
-; Input : R0 pointer to commands, R1 number of command/data bytes to be send
+; Input : none
 ; Output: none
 ; Modifies: none, all used Register are pushed and poped
-	PUSH {LR}
+MDB_SendACK
+	PUSH {R0, R1, LR}
+	BL	UART_LowStickParity			; set Low stick parity
+	MOV R0, #0						; R0 = 0x00H (ACK)
+	BL	UART_OutChar				; envia ACK, note: modifies R0 and R1
+	BL	UART_HighStickParity		; again set High stick parity
+	POP	{R0, R1, PC}
+
+;-----------MDB_SendRET-----------
+; Envia el RET byte
+; activa al final el High Stick Parity
+; Input : none
+; Output: none
+; Modifies: none, all used Register are pushed and poped
+MDB_SendRET
+	PUSH {R0, R1, LR}
+	BL	UART_LowStickParity			; set Low stick parity
+	MOV R0, #170					; R0 = 0xAAH (RET)
+	BL	UART_OutChar				; envia RET, note: modifies R0 and R1
+	BL	UART_HighStickParity		; again set High stick parity
+	POP	{R0, R1, PC}
 	
-	BL	UART_OutChar				; envia el CHK SUM byte
-	
-	BL	UART_LowStickParity
-	POP	{PC}
-MDB_SendChk
-	
+;-----------MDB_SendNAK-----------
+; Envia el NAK byte
+; activa al final el High Stick Parity
+; Input : none
+; Output: none
+; Modifies: none, all used Register are pushed and poped
+MDB_SendNAK
+	PUSH {R0, R1, LR}
+	BL	UART_LowStickParity			; set Low stick parity
+	MOV R0, #255					; R0 = 0xFFH (NAK)
+	BL	UART_OutChar				; envia NAK, note: modifies R0 and R1
+	BL	UART_HighStickParity		; again set High stick parity
+	POP	{R0, R1, PC}
 	
 	ALIGN                           ; make sure the end of this section is aligned
     END                             ; end of file

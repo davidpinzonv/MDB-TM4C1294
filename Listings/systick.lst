@@ -1,0 +1,245 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; SysTick.s
+    2 00000000         ; Runs on TM4C1294
+    3 00000000         ; Funciones para el manejo del Systick
+    4 00000000         ; David Pinzon
+    5 00000000         ; May 26, 2017
+    6 00000000         ;-------------SysTick Registers-------------
+    7 00000000 E000E010 
+                       SYSTICK_STCTRL_R
+                               EQU              0xE000E010  ; SysTick Control a
+                                                            nd status register
+    8 00000000 00010000 
+                       SYSTICK_STCTRL_COUNT
+                               EQU              0x00010000  ; SysTick Count fla
+                                                            g
+    9 00000000 00000004 
+                       SYSTICK_STCTRL_CLK_SRC
+                               EQU              0x00000004  ; SysTick Clock Sou
+                                                            rce
+   10 00000000 00000002 
+                       SYSTICK_STCTRL_CLK_INTEN
+                               EQU              0x00000002  ; SysTick Interrup 
+                                                            Enable
+   11 00000000 00000001 
+                       SYSTICK_STCTRL_CLK_ENABLE
+                               EQU              0x00000001  ; SysTick Enable
+   12 00000000         
+   13 00000000 E000E014 
+                       SYSTICK_STRELOAD_R
+                               EQU              0xE000E014  ; Reload value regi
+                                                            ster 
+   14 00000000 E000E018 
+                       SYSTICK_STCURRENT_R
+                               EQU              0xE000E018  ; Current value Reg
+                                                            ister
+   15 00000000         
+   16 00000000 00000FA0 
+                       ONE_MILISECOND
+                               EQU              0x00000FA0  ; One milisecond wi
+                                                            th PIOSC (16MHZ / 4
+                                                            )
+   17 00000000         
+   18 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   19 00000000                 THUMB
+   20 00000000                 EXPORT           delay
+   21 00000000                 EXPORT           systick_interrupt
+   22 00000000         
+   23 00000000         ;-----------------delay----------------
+   24 00000000         ; Proporciona un delay de N milisegundos
+   25 00000000         ; Input : R0 - N miliseconds to delay
+   26 00000000         ; Output: none
+   27 00000000         ; Modifies: none, restore all original values of registe
+                       rs used
+   28 00000000         delay
+   29 00000000 B507            PUSH             {R0,R1,R2,LR} ; save current va
+                                                            lue of R0, R1, R2 a
+                                                            nd LR
+   30 00000002 F44F 627A       MOV              R2,#ONE_MILISECOND ; R2 = Cicle
+                                                            s to generate 1ms (
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            4Mhz)
+   31 00000006 FB00 F102       MUL              R1, R0, R2  ; R1 = R0*R2 (Cicle
+                                                            s to generate N mil
+                                                            isecods on 4Mhz)
+   32 0000000A         ; --- reload value ---
+   33 0000000A 4807            LDR              R0,=SYSTICK_STRELOAD_R ; R0 = &
+                                                            SYSTICK_STRELOAD_R 
+                                                            (pointer)
+   34 0000000C 6001            STR              R1, [R0]    ; [R0] = R1
+   35 0000000E         ; --- current value ---
+   36 0000000E 4807            LDR              R0,=SYSTICK_STCURRENT_R ; R0 = 
+                                                            &SYSTICK_STCURRENT_
+                                                            R (pointer)
+   37 00000010 F04F 0100       MOV              R1, #0      ; R1 = 0
+   38 00000014 6001            STR              R1, [R0]    ; [R0] = R1
+   39 00000016         ;--- control ---
+   40 00000016 4806            LDR              R0,=SYSTICK_STCTRL_R ; R0 = &SY
+                                                            STICK_STCTRL_R (poi
+                                                            nter)
+   41 00000018 F04F 0100       MOV              R1, #0      ; R1 = [R0]
+   42 0000001C         ; Systick enable, Interruptions enable, PIOSC
+   43 0000001C F101 0103       ADD              R1, R1, #(SYSTICK_STCTRL_CLK_EN
+ABLE+SYSTICK_STCTRL_CLK_INTEN)
+   44 00000020 7001            STRB             R1, [R0]    ; [R0] = R1 
+   45 00000022         systickLoop
+   46 00000022 E7FE            B                systickLoop
+   47 00000024         delay_done
+   48 00000024 BD07            POP              {R0,R1,R2,PC} ; restore previou
+                                                            s value of R0 into 
+                                                            R0, R1 into R1, and
+                                                             LR into PC (return
+                                                            )
+   49 00000026         
+   50 00000026         ;----------systick_interrupt------------
+   51 00000026         systick_interrupt
+   52 00000026 E7FD            B                delay_done
+   53 00000028                 ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned
+   54 00000028                 END                          ; end of file
+              E000E014 
+              E000E018 
+              E000E010 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\systick.d -o.\objects\systick.o -IC:\Users\mode_\Docu
+ments\Fmat\MicroControladores\KeilProjects\Cash_flow\RTE\_Target_1 -IC:\Keil_v5
+\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129 -IC:\Keil_v5\ARM\CMSIS\Inc
+lude --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 522" --pre
+define="TM4C1294NCPDT SETA 1" --list=.\listings\systick.lst SysTick.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 18 in file SysTick.s
+   Uses
+      None
+Comment: .text unused
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 28 in file SysTick.s
+   Uses
+      At line 20 in file SysTick.s
+Comment: delay used once
+delay_done 00000024
+
+Symbol: delay_done
+   Definitions
+      At line 47 in file SysTick.s
+   Uses
+      At line 52 in file SysTick.s
+Comment: delay_done used once
+systickLoop 00000022
+
+Symbol: systickLoop
+   Definitions
+      At line 45 in file SysTick.s
+   Uses
+      At line 46 in file SysTick.s
+Comment: systickLoop used once
+systick_interrupt 00000026
+
+Symbol: systick_interrupt
+   Definitions
+      At line 51 in file SysTick.s
+   Uses
+      At line 21 in file SysTick.s
+Comment: systick_interrupt used once
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+ONE_MILISECOND 00000FA0
+
+Symbol: ONE_MILISECOND
+   Definitions
+      At line 16 in file SysTick.s
+   Uses
+      At line 30 in file SysTick.s
+Comment: ONE_MILISECOND used once
+SYSTICK_STCTRL_CLK_ENABLE 00000001
+
+Symbol: SYSTICK_STCTRL_CLK_ENABLE
+   Definitions
+      At line 11 in file SysTick.s
+   Uses
+      At line 43 in file SysTick.s
+Comment: SYSTICK_STCTRL_CLK_ENABLE used once
+SYSTICK_STCTRL_CLK_INTEN 00000002
+
+Symbol: SYSTICK_STCTRL_CLK_INTEN
+   Definitions
+      At line 10 in file SysTick.s
+   Uses
+      At line 43 in file SysTick.s
+Comment: SYSTICK_STCTRL_CLK_INTEN used once
+SYSTICK_STCTRL_CLK_SRC 00000004
+
+Symbol: SYSTICK_STCTRL_CLK_SRC
+   Definitions
+      At line 9 in file SysTick.s
+   Uses
+      None
+Comment: SYSTICK_STCTRL_CLK_SRC unused
+SYSTICK_STCTRL_COUNT 00010000
+
+Symbol: SYSTICK_STCTRL_COUNT
+   Definitions
+      At line 8 in file SysTick.s
+   Uses
+      None
+Comment: SYSTICK_STCTRL_COUNT unused
+SYSTICK_STCTRL_R E000E010
+
+Symbol: SYSTICK_STCTRL_R
+   Definitions
+      At line 7 in file SysTick.s
+   Uses
+      At line 40 in file SysTick.s
+Comment: SYSTICK_STCTRL_R used once
+SYSTICK_STCURRENT_R E000E018
+
+Symbol: SYSTICK_STCURRENT_R
+   Definitions
+      At line 14 in file SysTick.s
+   Uses
+      At line 36 in file SysTick.s
+Comment: SYSTICK_STCURRENT_R used once
+SYSTICK_STRELOAD_R E000E014
+
+Symbol: SYSTICK_STRELOAD_R
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 13 in file SysTick.s
+   Uses
+      At line 33 in file SysTick.s
+Comment: SYSTICK_STRELOAD_R used once
+8 symbols
+349 symbols in table

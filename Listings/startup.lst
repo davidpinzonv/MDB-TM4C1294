@@ -551,447 +551,448 @@ ARM Macro Assembler    Page 9
   306 0000021C                 ENDP
   307 0000021C         SysTick_Handler
                                PROC
-  308 0000021C                 EXPORT           SysTick_Handler           [WEAK
+  308 0000021C                 IMPORT           systick_interrupt
+  309 0000021C                 EXPORT           SysTick_Handler           [WEAK
 ]
-  309 0000021C E7FE            B                .
-  310 0000021E                 ENDP
-  312 0000021E         IntDefaultHandler
+  310 0000021C F7FF BFFE       B                systick_interrupt
+  311 00000220                 ENDP
+  313 00000220         IntDefaultHandler
                                PROC
-  313 0000021E         
-  314 0000021E                 EXPORT           GPIOPortA_Handler         [WEAK
+  314 00000220         
+  315 00000220                 EXPORT           GPIOPortA_Handler         [WEAK
 ]
-  315 0000021E                 EXPORT           GPIOPortB_Handler         [WEAK
+  316 00000220                 EXPORT           GPIOPortB_Handler         [WEAK
 ]
-  316 0000021E                 EXPORT           GPIOPortC_Handler         [WEAK
+  317 00000220                 EXPORT           GPIOPortC_Handler         [WEAK
 ]
-  317 0000021E                 EXPORT           GPIOPortD_Handler         [WEAK
+  318 00000220                 EXPORT           GPIOPortD_Handler         [WEAK
 ]
-  318 0000021E                 EXPORT           GPIOPortE_Handler         [WEAK
+  319 00000220                 EXPORT           GPIOPortE_Handler         [WEAK
 ]
-  319 0000021E                 EXPORT           UART0_Handler             [WEAK
+  320 00000220                 EXPORT           UART0_Handler             [WEAK
 ]
-  320 0000021E                 EXPORT           UART1_Handler             [WEAK
+  321 00000220                 EXPORT           UART1_Handler             [WEAK
 ]
-  321 0000021E                 EXPORT           SSI0_Handler              [WEAK
+  322 00000220                 EXPORT           SSI0_Handler              [WEAK
 ]
-  322 0000021E                 EXPORT           I2C0_Handler              [WEAK
+  323 00000220                 EXPORT           I2C0_Handler              [WEAK
 ]
-  323 0000021E                 EXPORT           PWM0Fault_Handler         [WEAK
+  324 00000220                 EXPORT           PWM0Fault_Handler         [WEAK
 ]
-  324 0000021E                 EXPORT           PWM0Generator0_Handler    [WEAK
+  325 00000220                 EXPORT           PWM0Generator0_Handler    [WEAK
 ]
-  325 0000021E                 EXPORT           PWM0Generator1_Handler    [WEAK
+  326 00000220                 EXPORT           PWM0Generator1_Handler    [WEAK
 ]
-  326 0000021E                 EXPORT           PWM0Generator2_Handler    [WEAK
 
 
 
 ARM Macro Assembler    Page 10 
 
 
+  327 00000220                 EXPORT           PWM0Generator2_Handler    [WEAK
 ]
-  327 0000021E                 EXPORT           Quadrature0_Handler       [WEAK
+  328 00000220                 EXPORT           Quadrature0_Handler       [WEAK
 ]
-  328 0000021E                 EXPORT           ADC0Seq0_Handler          [WEAK
+  329 00000220                 EXPORT           ADC0Seq0_Handler          [WEAK
 ]
-  329 0000021E                 EXPORT           ADC0Seq1_Handler          [WEAK
+  330 00000220                 EXPORT           ADC0Seq1_Handler          [WEAK
 ]
-  330 0000021E                 EXPORT           ADC0Seq2_Handler          [WEAK
+  331 00000220                 EXPORT           ADC0Seq2_Handler          [WEAK
 ]
-  331 0000021E                 EXPORT           ADC0Seq3_Handler          [WEAK
+  332 00000220                 EXPORT           ADC0Seq3_Handler          [WEAK
 ]
-  332 0000021E                 EXPORT           WDT_Handler               [WEAK
+  333 00000220                 EXPORT           WDT_Handler               [WEAK
 ]
-  333 0000021E                 EXPORT           Timer0A_Handler           [WEAK
+  334 00000220                 EXPORT           Timer0A_Handler           [WEAK
 ]
-  334 0000021E                 EXPORT           Timer0B_Handler           [WEAK
+  335 00000220                 EXPORT           Timer0B_Handler           [WEAK
 ]
-  335 0000021E                 EXPORT           Timer1A_Handler           [WEAK
+  336 00000220                 EXPORT           Timer1A_Handler           [WEAK
 ]
-  336 0000021E                 EXPORT           Timer1B_Handler           [WEAK
+  337 00000220                 EXPORT           Timer1B_Handler           [WEAK
 ]
-  337 0000021E                 EXPORT           Timer2A_Handler           [WEAK
+  338 00000220                 EXPORT           Timer2A_Handler           [WEAK
 ]
-  338 0000021E                 EXPORT           Timer2B_Handler           [WEAK
+  339 00000220                 EXPORT           Timer2B_Handler           [WEAK
 ]
-  339 0000021E                 EXPORT           Comp0_Handler             [WEAK
+  340 00000220                 EXPORT           Comp0_Handler             [WEAK
 ]
-  340 0000021E                 EXPORT           Comp1_Handler             [WEAK
+  341 00000220                 EXPORT           Comp1_Handler             [WEAK
 ]
-  341 0000021E                 EXPORT           Comp2_Handler             [WEAK
+  342 00000220                 EXPORT           Comp2_Handler             [WEAK
 ]
-  342 0000021E                 EXPORT           SysCtl_Handler            [WEAK
+  343 00000220                 EXPORT           SysCtl_Handler            [WEAK
 ]
-  343 0000021E                 EXPORT           FlashCtl_Handler          [WEAK
+  344 00000220                 EXPORT           FlashCtl_Handler          [WEAK
 ]
-  344 0000021E                 EXPORT           GPIOPortF_Handler         [WEAK
+  345 00000220                 EXPORT           GPIOPortF_Handler         [WEAK
 ]
-  345 0000021E                 EXPORT           GPIOPortG_Handler         [WEAK
+  346 00000220                 EXPORT           GPIOPortG_Handler         [WEAK
 ]
-  346 0000021E                 EXPORT           GPIOPortH_Handler         [WEAK
+  347 00000220                 EXPORT           GPIOPortH_Handler         [WEAK
 ]
-  347 0000021E                 EXPORT           UART2_Handler             [WEAK
+  348 00000220                 EXPORT           UART2_Handler             [WEAK
 ]
-  348 0000021E                 EXPORT           SSI1_Handler              [WEAK
+  349 00000220                 EXPORT           SSI1_Handler              [WEAK
 ]
-  349 0000021E                 EXPORT           Timer3A_Handler           [WEAK
+  350 00000220                 EXPORT           Timer3A_Handler           [WEAK
 ]
-  350 0000021E                 EXPORT           Timer3B_Handler           [WEAK
+  351 00000220                 EXPORT           Timer3B_Handler           [WEAK
 ]
-  351 0000021E                 EXPORT           I2C1_Handler              [WEAK
+  352 00000220                 EXPORT           I2C1_Handler              [WEAK
 ]
-  352 0000021E                 EXPORT           CAN0_Handler              [WEAK
+  353 00000220                 EXPORT           CAN0_Handler              [WEAK
 ]
-  353 0000021E                 EXPORT           CAN1_Handler              [WEAK
+  354 00000220                 EXPORT           CAN1_Handler              [WEAK
 ]
-  354 0000021E                 EXPORT           Ethernet_Handler          [WEAK
+  355 00000220                 EXPORT           Ethernet_Handler          [WEAK
 ]
-  355 0000021E                 EXPORT           Hibernate_Handler         [WEAK
-]
+  356 00000220                 EXPORT           Hibernate_Handler         [WEAK
 
 
 
 ARM Macro Assembler    Page 11 
 
 
-  356 0000021E                 EXPORT           USB0_Handler              [WEAK
 ]
-  357 0000021E                 EXPORT           PWM0Generator3_Handler    [WEAK
+  357 00000220                 EXPORT           USB0_Handler              [WEAK
 ]
-  358 0000021E                 EXPORT           uDMA_Handler              [WEAK
+  358 00000220                 EXPORT           PWM0Generator3_Handler    [WEAK
 ]
-  359 0000021E                 EXPORT           uDMA_Error                [WEAK
+  359 00000220                 EXPORT           uDMA_Handler              [WEAK
 ]
-  360 0000021E                 EXPORT           ADC1Seq0_Handler          [WEAK
+  360 00000220                 EXPORT           uDMA_Error                [WEAK
 ]
-  361 0000021E                 EXPORT           ADC1Seq1_Handler          [WEAK
+  361 00000220                 EXPORT           ADC1Seq0_Handler          [WEAK
 ]
-  362 0000021E                 EXPORT           ADC1Seq2_Handler          [WEAK
+  362 00000220                 EXPORT           ADC1Seq1_Handler          [WEAK
 ]
-  363 0000021E                 EXPORT           ADC1Seq3_Handler          [WEAK
+  363 00000220                 EXPORT           ADC1Seq2_Handler          [WEAK
 ]
-  364 0000021E                 EXPORT           ExtBus_Handler            [WEAK
+  364 00000220                 EXPORT           ADC1Seq3_Handler          [WEAK
 ]
-  365 0000021E                 EXPORT           GPIOPortJ_Handler         [WEAK
+  365 00000220                 EXPORT           ExtBus_Handler            [WEAK
 ]
-  366 0000021E                 EXPORT           GPIOPortK_Handler         [WEAK
+  366 00000220                 EXPORT           GPIOPortJ_Handler         [WEAK
 ]
-  367 0000021E                 EXPORT           GPIOPortL_Handler         [WEAK
+  367 00000220                 EXPORT           GPIOPortK_Handler         [WEAK
 ]
-  368 0000021E                 EXPORT           SSI2_Handler              [WEAK
+  368 00000220                 EXPORT           GPIOPortL_Handler         [WEAK
 ]
-  369 0000021E                 EXPORT           SSI3_Handler              [WEAK
+  369 00000220                 EXPORT           SSI2_Handler              [WEAK
 ]
-  370 0000021E                 EXPORT           UART3_Handler             [WEAK
+  370 00000220                 EXPORT           SSI3_Handler              [WEAK
 ]
-  371 0000021E                 EXPORT           UART4_Handler             [WEAK
+  371 00000220                 EXPORT           UART3_Handler             [WEAK
 ]
-  372 0000021E                 EXPORT           UART5_Handler             [WEAK
+  372 00000220                 EXPORT           UART4_Handler             [WEAK
 ]
-  373 0000021E                 EXPORT           UART6_Handler             [WEAK
+  373 00000220                 EXPORT           UART5_Handler             [WEAK
 ]
-  374 0000021E                 EXPORT           UART7_Handler             [WEAK
+  374 00000220                 EXPORT           UART6_Handler             [WEAK
 ]
-  375 0000021E                 EXPORT           I2C2_Handler              [WEAK
+  375 00000220                 EXPORT           UART7_Handler             [WEAK
 ]
-  376 0000021E                 EXPORT           I2C3_Handler              [WEAK
+  376 00000220                 EXPORT           I2C2_Handler              [WEAK
 ]
-  377 0000021E                 EXPORT           Timer4A_Handler           [WEAK
+  377 00000220                 EXPORT           I2C3_Handler              [WEAK
 ]
-  378 0000021E                 EXPORT           Timer4B_Handler           [WEAK
+  378 00000220                 EXPORT           Timer4A_Handler           [WEAK
 ]
-  379 0000021E                 EXPORT           Timer5A_Handler           [WEAK
+  379 00000220                 EXPORT           Timer4B_Handler           [WEAK
 ]
-  380 0000021E                 EXPORT           Timer5B_Handler           [WEAK
+  380 00000220                 EXPORT           Timer5A_Handler           [WEAK
 ]
-  381 0000021E                 EXPORT           FPU_Handler               [WEAK
+  381 00000220                 EXPORT           Timer5B_Handler           [WEAK
 ]
-  382 0000021E                 EXPORT           I2C4_Handler              [WEAK
+  382 00000220                 EXPORT           FPU_Handler               [WEAK
 ]
-  383 0000021E                 EXPORT           I2C5_Handler              [WEAK
+  383 00000220                 EXPORT           I2C4_Handler              [WEAK
 ]
-  384 0000021E                 EXPORT           GPIOPortM_Handler         [WEAK
+  384 00000220                 EXPORT           I2C5_Handler              [WEAK
 ]
-  385 0000021E                 EXPORT           GPIOPortN_Handler         [WEAK
+  385 00000220                 EXPORT           GPIOPortM_Handler         [WEAK
+]
 
 
 
 ARM Macro Assembler    Page 12 
 
 
+  386 00000220                 EXPORT           GPIOPortN_Handler         [WEAK
 ]
-  386 0000021E                 EXPORT           Tamper_Handler            [WEAK
+  387 00000220                 EXPORT           Tamper_Handler            [WEAK
 ]
-  387 0000021E                 EXPORT           GPIOPortP_Handler         [WEAK
+  388 00000220                 EXPORT           GPIOPortP_Handler         [WEAK
 ]
-  388 0000021E                 EXPORT           GPIOPortP1_Handler        [WEAK
+  389 00000220                 EXPORT           GPIOPortP1_Handler        [WEAK
 ]
-  389 0000021E                 EXPORT           GPIOPortP2_Handler        [WEAK
+  390 00000220                 EXPORT           GPIOPortP2_Handler        [WEAK
 ]
-  390 0000021E                 EXPORT           GPIOPortP3_Handler        [WEAK
+  391 00000220                 EXPORT           GPIOPortP3_Handler        [WEAK
 ]
-  391 0000021E                 EXPORT           GPIOPortP4_Handler        [WEAK
+  392 00000220                 EXPORT           GPIOPortP4_Handler        [WEAK
 ]
-  392 0000021E                 EXPORT           GPIOPortP5_Handler        [WEAK
+  393 00000220                 EXPORT           GPIOPortP5_Handler        [WEAK
 ]
-  393 0000021E                 EXPORT           GPIOPortP6_Handler        [WEAK
+  394 00000220                 EXPORT           GPIOPortP6_Handler        [WEAK
 ]
-  394 0000021E                 EXPORT           GPIOPortP7_Handler        [WEAK
+  395 00000220                 EXPORT           GPIOPortP7_Handler        [WEAK
 ]
-  395 0000021E                 EXPORT           GPIOPortQ_Handler         [WEAK
+  396 00000220                 EXPORT           GPIOPortQ_Handler         [WEAK
 ]
-  396 0000021E                 EXPORT           GPIOPortQ1_Handler        [WEAK
+  397 00000220                 EXPORT           GPIOPortQ1_Handler        [WEAK
 ]
-  397 0000021E                 EXPORT           GPIOPortQ2_Handler        [WEAK
+  398 00000220                 EXPORT           GPIOPortQ2_Handler        [WEAK
 ]
-  398 0000021E                 EXPORT           GPIOPortQ3_Handler        [WEAK
+  399 00000220                 EXPORT           GPIOPortQ3_Handler        [WEAK
 ]
-  399 0000021E                 EXPORT           GPIOPortQ4_Handler        [WEAK
+  400 00000220                 EXPORT           GPIOPortQ4_Handler        [WEAK
 ]
-  400 0000021E                 EXPORT           GPIOPortQ5_Handler        [WEAK
+  401 00000220                 EXPORT           GPIOPortQ5_Handler        [WEAK
 ]
-  401 0000021E                 EXPORT           GPIOPortQ6_Handler        [WEAK
+  402 00000220                 EXPORT           GPIOPortQ6_Handler        [WEAK
 ]
-  402 0000021E                 EXPORT           GPIOPortQ7_Handler        [WEAK
+  403 00000220                 EXPORT           GPIOPortQ7_Handler        [WEAK
 ]
-  403 0000021E                 EXPORT           Timer6A_Handler           [WEAK
+  404 00000220                 EXPORT           Timer6A_Handler           [WEAK
 ]
-  404 0000021E                 EXPORT           Timer6B_Handler           [WEAK
+  405 00000220                 EXPORT           Timer6B_Handler           [WEAK
 ]
-  405 0000021E                 EXPORT           Timer7A_Handler           [WEAK
+  406 00000220                 EXPORT           Timer7A_Handler           [WEAK
 ]
-  406 0000021E                 EXPORT           Timer7B_Handler           [WEAK
+  407 00000220                 EXPORT           Timer7B_Handler           [WEAK
 ]
-  407 0000021E                 EXPORT           I2C6_Handler              [WEAK
+  408 00000220                 EXPORT           I2C6_Handler              [WEAK
 ]
-  408 0000021E                 EXPORT           I2C7_Handler              [WEAK
+  409 00000220                 EXPORT           I2C7_Handler              [WEAK
 ]
-  409 0000021E                 EXPORT           I2C8_Handler              [WEAK
+  410 00000220                 EXPORT           I2C8_Handler              [WEAK
 ]
-  410 0000021E                 EXPORT           I2C9_Handler              [WEAK
+  411 00000220                 EXPORT           I2C9_Handler              [WEAK
 ]
-  411 0000021E         
-  412 0000021E         GPIOPortA_Handler
-  413 0000021E         GPIOPortB_Handler
-  414 0000021E         GPIOPortC_Handler
-  415 0000021E         GPIOPortD_Handler
-  416 0000021E         GPIOPortE_Handler
-  417 0000021E         UART0_Handler
-  418 0000021E         UART1_Handler
+  412 00000220         
+  413 00000220         GPIOPortA_Handler
+  414 00000220         GPIOPortB_Handler
+  415 00000220         GPIOPortC_Handler
+  416 00000220         GPIOPortD_Handler
+  417 00000220         GPIOPortE_Handler
+  418 00000220         UART0_Handler
 
 
 
 ARM Macro Assembler    Page 13 
 
 
-  419 0000021E         SSI0_Handler
-  420 0000021E         I2C0_Handler
-  421 0000021E         PWM0Fault_Handler
-  422 0000021E         PWM0Generator0_Handler
-  423 0000021E         PWM0Generator1_Handler
-  424 0000021E         PWM0Generator2_Handler
-  425 0000021E         Quadrature0_Handler
-  426 0000021E         ADC0Seq0_Handler
-  427 0000021E         ADC0Seq1_Handler
-  428 0000021E         ADC0Seq2_Handler
-  429 0000021E         ADC0Seq3_Handler
-  430 0000021E         WDT_Handler
-  431 0000021E         Timer0A_Handler
-  432 0000021E         Timer0B_Handler
-  433 0000021E         Timer1A_Handler
-  434 0000021E         Timer1B_Handler
-  435 0000021E         Timer2A_Handler
-  436 0000021E         Timer2B_Handler
-  437 0000021E         Comp0_Handler
-  438 0000021E         Comp1_Handler
-  439 0000021E         Comp2_Handler
-  440 0000021E         SysCtl_Handler
-  441 0000021E         FlashCtl_Handler
-  442 0000021E         GPIOPortF_Handler
-  443 0000021E         GPIOPortG_Handler
-  444 0000021E         GPIOPortH_Handler
-  445 0000021E         UART2_Handler
-  446 0000021E         SSI1_Handler
-  447 0000021E         Timer3A_Handler
-  448 0000021E         Timer3B_Handler
-  449 0000021E         I2C1_Handler
-  450 0000021E         CAN0_Handler
-  451 0000021E         CAN1_Handler
-  452 0000021E         Ethernet_Handler
-  453 0000021E         Hibernate_Handler
-  454 0000021E         USB0_Handler
-  455 0000021E         PWM0Generator3_Handler
-  456 0000021E         uDMA_Handler
-  457 0000021E         uDMA_Error
-  458 0000021E         ADC1Seq0_Handler
-  459 0000021E         ADC1Seq1_Handler
-  460 0000021E         ADC1Seq2_Handler
-  461 0000021E         ADC1Seq3_Handler
-  462 0000021E         ExtBus_Handler
-  463 0000021E         GPIOPortJ_Handler
-  464 0000021E         GPIOPortK_Handler
-  465 0000021E         GPIOPortL_Handler
-  466 0000021E         SSI2_Handler
-  467 0000021E         SSI3_Handler
-  468 0000021E         UART3_Handler
-  469 0000021E         UART4_Handler
-  470 0000021E         UART5_Handler
-  471 0000021E         UART6_Handler
-  472 0000021E         UART7_Handler
-  473 0000021E         I2C2_Handler
-  474 0000021E         I2C3_Handler
-  475 0000021E         Timer4A_Handler
-  476 0000021E         Timer4B_Handler
-  477 0000021E         Timer5A_Handler
+  419 00000220         UART1_Handler
+  420 00000220         SSI0_Handler
+  421 00000220         I2C0_Handler
+  422 00000220         PWM0Fault_Handler
+  423 00000220         PWM0Generator0_Handler
+  424 00000220         PWM0Generator1_Handler
+  425 00000220         PWM0Generator2_Handler
+  426 00000220         Quadrature0_Handler
+  427 00000220         ADC0Seq0_Handler
+  428 00000220         ADC0Seq1_Handler
+  429 00000220         ADC0Seq2_Handler
+  430 00000220         ADC0Seq3_Handler
+  431 00000220         WDT_Handler
+  432 00000220         Timer0A_Handler
+  433 00000220         Timer0B_Handler
+  434 00000220         Timer1A_Handler
+  435 00000220         Timer1B_Handler
+  436 00000220         Timer2A_Handler
+  437 00000220         Timer2B_Handler
+  438 00000220         Comp0_Handler
+  439 00000220         Comp1_Handler
+  440 00000220         Comp2_Handler
+  441 00000220         SysCtl_Handler
+  442 00000220         FlashCtl_Handler
+  443 00000220         GPIOPortF_Handler
+  444 00000220         GPIOPortG_Handler
+  445 00000220         GPIOPortH_Handler
+  446 00000220         UART2_Handler
+  447 00000220         SSI1_Handler
+  448 00000220         Timer3A_Handler
+  449 00000220         Timer3B_Handler
+  450 00000220         I2C1_Handler
+  451 00000220         CAN0_Handler
+  452 00000220         CAN1_Handler
+  453 00000220         Ethernet_Handler
+  454 00000220         Hibernate_Handler
+  455 00000220         USB0_Handler
+  456 00000220         PWM0Generator3_Handler
+  457 00000220         uDMA_Handler
+  458 00000220         uDMA_Error
+  459 00000220         ADC1Seq0_Handler
+  460 00000220         ADC1Seq1_Handler
+  461 00000220         ADC1Seq2_Handler
+  462 00000220         ADC1Seq3_Handler
+  463 00000220         ExtBus_Handler
+  464 00000220         GPIOPortJ_Handler
+  465 00000220         GPIOPortK_Handler
+  466 00000220         GPIOPortL_Handler
+  467 00000220         SSI2_Handler
+  468 00000220         SSI3_Handler
+  469 00000220         UART3_Handler
+  470 00000220         UART4_Handler
+  471 00000220         UART5_Handler
+  472 00000220         UART6_Handler
+  473 00000220         UART7_Handler
+  474 00000220         I2C2_Handler
+  475 00000220         I2C3_Handler
+  476 00000220         Timer4A_Handler
+  477 00000220         Timer4B_Handler
 
 
 
 ARM Macro Assembler    Page 14 
 
 
-  478 0000021E         Timer5B_Handler
-  479 0000021E         FPU_Handler
-  480 0000021E         I2C4_Handler
-  481 0000021E         I2C5_Handler
-  482 0000021E         GPIOPortM_Handler
-  483 0000021E         GPIOPortN_Handler
-  484 0000021E         Tamper_Handler
-  485 0000021E         GPIOPortP_Handler
-  486 0000021E         GPIOPortP1_Handler
-  487 0000021E         GPIOPortP2_Handler
-  488 0000021E         GPIOPortP3_Handler
-  489 0000021E         GPIOPortP4_Handler
-  490 0000021E         GPIOPortP5_Handler
-  491 0000021E         GPIOPortP6_Handler
-  492 0000021E         GPIOPortP7_Handler
-  493 0000021E         GPIOPortQ_Handler
-  494 0000021E         GPIOPortQ1_Handler
-  495 0000021E         GPIOPortQ2_Handler
-  496 0000021E         GPIOPortQ3_Handler
-  497 0000021E         GPIOPortQ4_Handler
-  498 0000021E         GPIOPortQ5_Handler
-  499 0000021E         GPIOPortQ6_Handler
-  500 0000021E         GPIOPortQ7_Handler
-  501 0000021E         Timer6A_Handler
-  502 0000021E         Timer6B_Handler
-  503 0000021E         Timer7A_Handler
-  504 0000021E         Timer7B_Handler
-  505 0000021E         I2C6_Handler
-  506 0000021E         I2C7_Handler
-  507 0000021E         I2C8_Handler
-  508 0000021E         I2C9_Handler
-  509 0000021E         
-  510 0000021E E7FE            B                .
-  511 00000220         
-  512 00000220                 ENDP
-  513 00000220         
-  514 00000220         ;*******************************************************
+  478 00000220         Timer5A_Handler
+  479 00000220         Timer5B_Handler
+  480 00000220         FPU_Handler
+  481 00000220         I2C4_Handler
+  482 00000220         I2C5_Handler
+  483 00000220         GPIOPortM_Handler
+  484 00000220         GPIOPortN_Handler
+  485 00000220         Tamper_Handler
+  486 00000220         GPIOPortP_Handler
+  487 00000220         GPIOPortP1_Handler
+  488 00000220         GPIOPortP2_Handler
+  489 00000220         GPIOPortP3_Handler
+  490 00000220         GPIOPortP4_Handler
+  491 00000220         GPIOPortP5_Handler
+  492 00000220         GPIOPortP6_Handler
+  493 00000220         GPIOPortP7_Handler
+  494 00000220         GPIOPortQ_Handler
+  495 00000220         GPIOPortQ1_Handler
+  496 00000220         GPIOPortQ2_Handler
+  497 00000220         GPIOPortQ3_Handler
+  498 00000220         GPIOPortQ4_Handler
+  499 00000220         GPIOPortQ5_Handler
+  500 00000220         GPIOPortQ6_Handler
+  501 00000220         GPIOPortQ7_Handler
+  502 00000220         Timer6A_Handler
+  503 00000220         Timer6B_Handler
+  504 00000220         Timer7A_Handler
+  505 00000220         Timer7B_Handler
+  506 00000220         I2C6_Handler
+  507 00000220         I2C7_Handler
+  508 00000220         I2C8_Handler
+  509 00000220         I2C9_Handler
+  510 00000220         
+  511 00000220 E7FE            B                .
+  512 00000222         
+  513 00000222                 ENDP
+  514 00000222         
+  515 00000222         ;*******************************************************
                        ***********************
-  515 00000220         ;
-  516 00000220         ; Make sure the end of this section is aligned.
-  517 00000220         ;
-  518 00000220         ;*******************************************************
+  516 00000222         ;
+  517 00000222         ; Make sure the end of this section is aligned.
+  518 00000222         ;
+  519 00000222         ;*******************************************************
                        ***********************
-  519 00000220                 ALIGN
-  520 00000220         
-  521 00000220         ;*******************************************************
+  520 00000222 00 00           ALIGN
+  521 00000224         
+  522 00000224         ;*******************************************************
                        ***********************
-  522 00000220         ;
-  523 00000220         ; Some code in the normal code section for initializing 
+  523 00000224         ;
+  524 00000224         ; Some code in the normal code section for initializing 
                        the heap and stack.
-  524 00000220         ;
-  525 00000220         ;*******************************************************
+  525 00000224         ;
+  526 00000224         ;*******************************************************
                        ***********************
-  526 00000220                 AREA             |.text|, CODE, READONLY
-  527 00000000         
-  528 00000000         ;*******************************************************
+  527 00000224                 AREA             |.text|, CODE, READONLY
+  528 00000000         
+  529 00000000         ;*******************************************************
                        ***********************
-  529 00000000         ;
-  530 00000000         ; Useful functions.
+  530 00000000         ;
 
 
 
 ARM Macro Assembler    Page 15 
 
 
-  531 00000000         ;
-  532 00000000         ;*******************************************************
+  531 00000000         ; Useful functions.
+  532 00000000         ;
+  533 00000000         ;*******************************************************
                        ***********************
-  533 00000000                 EXPORT           DisableInterrupts
-  534 00000000                 EXPORT           EnableInterrupts
-  535 00000000                 EXPORT           StartCritical
-  536 00000000                 EXPORT           EndCritical
-  537 00000000                 EXPORT           WaitForInterrupt
-  538 00000000         
-  539 00000000         ;*********** DisableInterrupts ***************
-  540 00000000         ; disable interrupts
-  541 00000000         ; inputs:  none
-  542 00000000         ; outputs: none
-  543 00000000         DisableInterrupts
-  544 00000000 B672            CPSID            I
-  545 00000002 4770            BX               LR
-  546 00000004         
-  547 00000004         ;*********** EnableInterrupts ***************
-  548 00000004         ; disable interrupts
-  549 00000004         ; inputs:  none
-  550 00000004         ; outputs: none
-  551 00000004         EnableInterrupts
-  552 00000004 B662            CPSIE            I
-  553 00000006 4770            BX               LR
-  554 00000008         
-  555 00000008         ;*********** StartCritical ************************
-  556 00000008         ; make a copy of previous I bit, disable interrupts
-  557 00000008         ; inputs:  none
-  558 00000008         ; outputs: previous I bit
-  559 00000008         StartCritical
-  560 00000008 F3EF 8010       MRS              R0, PRIMASK ; save old status
-  561 0000000C B672            CPSID            I           ; mask all (except 
+  534 00000000                 EXPORT           DisableInterrupts
+  535 00000000                 EXPORT           EnableInterrupts
+  536 00000000                 EXPORT           StartCritical
+  537 00000000                 EXPORT           EndCritical
+  538 00000000                 EXPORT           WaitForInterrupt
+  539 00000000         
+  540 00000000         ;*********** DisableInterrupts ***************
+  541 00000000         ; disable interrupts
+  542 00000000         ; inputs:  none
+  543 00000000         ; outputs: none
+  544 00000000         DisableInterrupts
+  545 00000000 B672            CPSID            I
+  546 00000002 4770            BX               LR
+  547 00000004         
+  548 00000004         ;*********** EnableInterrupts ***************
+  549 00000004         ; disable interrupts
+  550 00000004         ; inputs:  none
+  551 00000004         ; outputs: none
+  552 00000004         EnableInterrupts
+  553 00000004 B662            CPSIE            I
+  554 00000006 4770            BX               LR
+  555 00000008         
+  556 00000008         ;*********** StartCritical ************************
+  557 00000008         ; make a copy of previous I bit, disable interrupts
+  558 00000008         ; inputs:  none
+  559 00000008         ; outputs: previous I bit
+  560 00000008         StartCritical
+  561 00000008 F3EF 8010       MRS              R0, PRIMASK ; save old status
+  562 0000000C B672            CPSID            I           ; mask all (except 
                                                             faults)
-  562 0000000E 4770            BX               LR
-  563 00000010         
-  564 00000010         ;*********** EndCritical ************************
-  565 00000010         ; using the copy of previous I bit, restore I bit to pre
+  563 0000000E 4770            BX               LR
+  564 00000010         
+  565 00000010         ;*********** EndCritical ************************
+  566 00000010         ; using the copy of previous I bit, restore I bit to pre
                        vious value
-  566 00000010         ; inputs:  previous I bit
-  567 00000010         ; outputs: none
-  568 00000010         EndCritical
-  569 00000010 F380 8810       MSR              PRIMASK, R0
-  570 00000014 4770            BX               LR
-  571 00000016         
-  572 00000016         ;*********** WaitForInterrupt ************************
-  573 00000016         ; go to low power mode while waiting for the next interr
+  567 00000010         ; inputs:  previous I bit
+  568 00000010         ; outputs: none
+  569 00000010         EndCritical
+  570 00000010 F380 8810       MSR              PRIMASK, R0
+  571 00000014 4770            BX               LR
+  572 00000016         
+  573 00000016         ;*********** WaitForInterrupt ************************
+  574 00000016         ; go to low power mode while waiting for the next interr
                        upt
-  574 00000016         ; inputs:  none
-  575 00000016         ; outputs: none
-  576 00000016         WaitForInterrupt
-  577 00000016 BF30            WFI
-  578 00000018 4770            BX               LR
-  579 0000001A         
+  575 00000016         ; inputs:  none
+  576 00000016         ; outputs: none
+  577 00000016         WaitForInterrupt
+  578 00000016 BF30            WFI
+  579 00000018 4770            BX               LR
   580 0000001A         
   581 0000001A         
-  582 0000001A         ;*******************************************************
+  582 0000001A         
+  583 0000001A         ;*******************************************************
                        ***********************
-  583 0000001A         ;
-  584 0000001A         ; Make sure the end of this section is aligned.
+  584 0000001A         ;
 
 
 
 ARM Macro Assembler    Page 16 
 
 
-  585 0000001A         ;
-  586 0000001A         ;*******************************************************
+  585 0000001A         ; Make sure the end of this section is aligned.
+  586 0000001A         ;
+  587 0000001A         ;*******************************************************
                        ***********************
-  587 0000001A 00 00           ALIGN
-  588 0000001C         
-  589 0000001C         ;*******************************************************
+  588 0000001A 00 00           ALIGN
+  589 0000001C         
+  590 0000001C         ;*******************************************************
                        ***********************
-  590 0000001C         ;
-  591 0000001C         ; Tell the assembler that we're done.
-  592 0000001C         ;
-  593 0000001C         ;*******************************************************
+  591 0000001C         ;
+  592 0000001C         ; Tell the assembler that we're done.
+  593 0000001C         ;
+  594 0000001C         ;*******************************************************
                        ***********************
-  594 0000001C                 END
+  595 0000001C                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\startup.d -o.\objects\startup.o -IC:\Users\mode_\Docu
 ments\Fmat\MicroControladores\KeilProjects\Cash_flow\RTE\_Target_1 -IC:\Keil_v5
@@ -1074,65 +1075,65 @@ Comment: __heap_limit unused
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
-ADC0Seq0_Handler 0000021E
+ADC0Seq0_Handler 00000220
 
 Symbol: ADC0Seq0_Handler
    Definitions
-      At line 426 in file startup.s
+      At line 427 in file startup.s
    Uses
       At line 120 in file startup.s
-      At line 328 in file startup.s
+      At line 329 in file startup.s
 
-ADC0Seq1_Handler 0000021E
+ADC0Seq1_Handler 00000220
 
 Symbol: ADC0Seq1_Handler
    Definitions
-      At line 427 in file startup.s
+      At line 428 in file startup.s
    Uses
       At line 121 in file startup.s
-      At line 329 in file startup.s
+      At line 330 in file startup.s
 
-ADC0Seq2_Handler 0000021E
+ADC0Seq2_Handler 00000220
 
 Symbol: ADC0Seq2_Handler
    Definitions
-      At line 428 in file startup.s
+      At line 429 in file startup.s
    Uses
       At line 122 in file startup.s
-      At line 330 in file startup.s
+      At line 331 in file startup.s
 
-ADC0Seq3_Handler 0000021E
+ADC0Seq3_Handler 00000220
 
 Symbol: ADC0Seq3_Handler
    Definitions
-      At line 429 in file startup.s
+      At line 430 in file startup.s
    Uses
       At line 123 in file startup.s
-      At line 331 in file startup.s
+      At line 332 in file startup.s
 
-ADC1Seq0_Handler 0000021E
+ADC1Seq0_Handler 00000220
 
 Symbol: ADC1Seq0_Handler
    Definitions
-      At line 458 in file startup.s
+      At line 459 in file startup.s
    Uses
       At line 152 in file startup.s
-      At line 360 in file startup.s
+      At line 361 in file startup.s
 
-ADC1Seq1_Handler 0000021E
+ADC1Seq1_Handler 00000220
 
 Symbol: ADC1Seq1_Handler
    Definitions
-      At line 459 in file startup.s
+      At line 460 in file startup.s
    Uses
       At line 153 in file startup.s
-      At line 361 in file startup.s
+      At line 362 in file startup.s
 
-ADC1Seq2_Handler 0000021E
+ADC1Seq2_Handler 00000220
 
 Symbol: ADC1Seq2_Handler
    Definitions
-      At line 460 in file startup.s
+      At line 461 in file startup.s
 
 
 
@@ -1141,16 +1142,16 @@ Relocatable symbols
 
    Uses
       At line 154 in file startup.s
-      At line 362 in file startup.s
+      At line 363 in file startup.s
 
-ADC1Seq3_Handler 0000021E
+ADC1Seq3_Handler 00000220
 
 Symbol: ADC1Seq3_Handler
    Definitions
-      At line 461 in file startup.s
+      At line 462 in file startup.s
    Uses
       At line 155 in file startup.s
-      At line 363 in file startup.s
+      At line 364 in file startup.s
 
 BusFault_Handler 00000212
 
@@ -1161,43 +1162,43 @@ Symbol: BusFault_Handler
       At line 95 in file startup.s
       At line 286 in file startup.s
 
-CAN0_Handler 0000021E
+CAN0_Handler 00000220
 
 Symbol: CAN0_Handler
    Definitions
-      At line 450 in file startup.s
+      At line 451 in file startup.s
    Uses
       At line 144 in file startup.s
-      At line 352 in file startup.s
+      At line 353 in file startup.s
 
-CAN1_Handler 0000021E
+CAN1_Handler 00000220
 
 Symbol: CAN1_Handler
    Definitions
-      At line 451 in file startup.s
+      At line 452 in file startup.s
    Uses
       At line 145 in file startup.s
-      At line 353 in file startup.s
+      At line 354 in file startup.s
 
-Comp0_Handler 0000021E
+Comp0_Handler 00000220
 
 Symbol: Comp0_Handler
    Definitions
-      At line 437 in file startup.s
+      At line 438 in file startup.s
    Uses
       At line 131 in file startup.s
-      At line 339 in file startup.s
+      At line 340 in file startup.s
 
-Comp1_Handler 0000021E
+Comp1_Handler 00000220
 
 Symbol: Comp1_Handler
    Definitions
-      At line 438 in file startup.s
+      At line 439 in file startup.s
    Uses
       At line 132 in file startup.s
-      At line 340 in file startup.s
+      At line 341 in file startup.s
 
-Comp2_Handler 0000021E
+Comp2_Handler 00000220
 
 
 
@@ -1207,10 +1208,10 @@ Relocatable symbols
 
 Symbol: Comp2_Handler
    Definitions
-      At line 439 in file startup.s
+      At line 440 in file startup.s
    Uses
       At line 133 in file startup.s
-      At line 341 in file startup.s
+      At line 342 in file startup.s
 
 DebugMon_Handler 00000218
 
@@ -1221,47 +1222,47 @@ Symbol: DebugMon_Handler
       At line 102 in file startup.s
       At line 300 in file startup.s
 
-Ethernet_Handler 0000021E
+Ethernet_Handler 00000220
 
 Symbol: Ethernet_Handler
    Definitions
-      At line 452 in file startup.s
+      At line 453 in file startup.s
    Uses
       At line 146 in file startup.s
-      At line 354 in file startup.s
+      At line 355 in file startup.s
 
-ExtBus_Handler 0000021E
+ExtBus_Handler 00000220
 
 Symbol: ExtBus_Handler
    Definitions
-      At line 462 in file startup.s
+      At line 463 in file startup.s
    Uses
       At line 156 in file startup.s
-      At line 364 in file startup.s
+      At line 365 in file startup.s
 
-FPU_Handler 0000021E
+FPU_Handler 00000220
 
 Symbol: FPU_Handler
    Definitions
-      At line 479 in file startup.s
+      At line 480 in file startup.s
    Uses
       At line 173 in file startup.s
-      At line 381 in file startup.s
+      At line 382 in file startup.s
 
-FlashCtl_Handler 0000021E
+FlashCtl_Handler 00000220
 
 Symbol: FlashCtl_Handler
    Definitions
-      At line 441 in file startup.s
+      At line 442 in file startup.s
    Uses
       At line 135 in file startup.s
-      At line 343 in file startup.s
+      At line 344 in file startup.s
 
-GPIOPortA_Handler 0000021E
+GPIOPortA_Handler 00000220
 
 Symbol: GPIOPortA_Handler
    Definitions
-      At line 412 in file startup.s
+      At line 413 in file startup.s
    Uses
 
 
@@ -1270,63 +1271,63 @@ ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Relocatable symbols
 
       At line 106 in file startup.s
-      At line 314 in file startup.s
+      At line 315 in file startup.s
 
-GPIOPortB_Handler 0000021E
+GPIOPortB_Handler 00000220
 
 Symbol: GPIOPortB_Handler
    Definitions
-      At line 413 in file startup.s
+      At line 414 in file startup.s
    Uses
       At line 107 in file startup.s
-      At line 315 in file startup.s
+      At line 316 in file startup.s
 
-GPIOPortC_Handler 0000021E
+GPIOPortC_Handler 00000220
 
 Symbol: GPIOPortC_Handler
    Definitions
-      At line 414 in file startup.s
+      At line 415 in file startup.s
    Uses
       At line 108 in file startup.s
-      At line 316 in file startup.s
+      At line 317 in file startup.s
 
-GPIOPortD_Handler 0000021E
+GPIOPortD_Handler 00000220
 
 Symbol: GPIOPortD_Handler
    Definitions
-      At line 415 in file startup.s
+      At line 416 in file startup.s
    Uses
       At line 109 in file startup.s
-      At line 317 in file startup.s
+      At line 318 in file startup.s
 
-GPIOPortE_Handler 0000021E
+GPIOPortE_Handler 00000220
 
 Symbol: GPIOPortE_Handler
    Definitions
-      At line 416 in file startup.s
+      At line 417 in file startup.s
    Uses
       At line 110 in file startup.s
-      At line 318 in file startup.s
+      At line 319 in file startup.s
 
-GPIOPortF_Handler 0000021E
+GPIOPortF_Handler 00000220
 
 Symbol: GPIOPortF_Handler
    Definitions
-      At line 442 in file startup.s
+      At line 443 in file startup.s
    Uses
       At line 136 in file startup.s
-      At line 344 in file startup.s
+      At line 345 in file startup.s
 
-GPIOPortG_Handler 0000021E
+GPIOPortG_Handler 00000220
 
 Symbol: GPIOPortG_Handler
    Definitions
-      At line 443 in file startup.s
+      At line 444 in file startup.s
    Uses
       At line 137 in file startup.s
-      At line 345 in file startup.s
+      At line 346 in file startup.s
 
-GPIOPortH_Handler 0000021E
+GPIOPortH_Handler 00000220
 
 
 
@@ -1336,61 +1337,61 @@ Relocatable symbols
 
 Symbol: GPIOPortH_Handler
    Definitions
-      At line 444 in file startup.s
+      At line 445 in file startup.s
    Uses
       At line 138 in file startup.s
-      At line 346 in file startup.s
+      At line 347 in file startup.s
 
-GPIOPortJ_Handler 0000021E
+GPIOPortJ_Handler 00000220
 
 Symbol: GPIOPortJ_Handler
    Definitions
-      At line 463 in file startup.s
+      At line 464 in file startup.s
    Uses
       At line 157 in file startup.s
-      At line 365 in file startup.s
+      At line 366 in file startup.s
 
-GPIOPortK_Handler 0000021E
+GPIOPortK_Handler 00000220
 
 Symbol: GPIOPortK_Handler
    Definitions
-      At line 464 in file startup.s
+      At line 465 in file startup.s
    Uses
       At line 158 in file startup.s
-      At line 366 in file startup.s
+      At line 367 in file startup.s
 
-GPIOPortL_Handler 0000021E
+GPIOPortL_Handler 00000220
 
 Symbol: GPIOPortL_Handler
    Definitions
-      At line 465 in file startup.s
+      At line 466 in file startup.s
    Uses
       At line 159 in file startup.s
-      At line 367 in file startup.s
+      At line 368 in file startup.s
 
-GPIOPortM_Handler 0000021E
+GPIOPortM_Handler 00000220
 
 Symbol: GPIOPortM_Handler
    Definitions
-      At line 482 in file startup.s
+      At line 483 in file startup.s
    Uses
       At line 178 in file startup.s
-      At line 384 in file startup.s
+      At line 385 in file startup.s
 
-GPIOPortN_Handler 0000021E
+GPIOPortN_Handler 00000220
 
 Symbol: GPIOPortN_Handler
    Definitions
-      At line 483 in file startup.s
+      At line 484 in file startup.s
    Uses
       At line 179 in file startup.s
-      At line 385 in file startup.s
+      At line 386 in file startup.s
 
-GPIOPortP1_Handler 0000021E
+GPIOPortP1_Handler 00000220
 
 Symbol: GPIOPortP1_Handler
    Definitions
-      At line 486 in file startup.s
+      At line 487 in file startup.s
    Uses
       At line 183 in file startup.s
 
@@ -1399,63 +1400,63 @@ Symbol: GPIOPortP1_Handler
 ARM Macro Assembler    Page 6 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 388 in file startup.s
+      At line 389 in file startup.s
 
-GPIOPortP2_Handler 0000021E
+GPIOPortP2_Handler 00000220
 
 Symbol: GPIOPortP2_Handler
    Definitions
-      At line 487 in file startup.s
+      At line 488 in file startup.s
    Uses
       At line 184 in file startup.s
-      At line 389 in file startup.s
+      At line 390 in file startup.s
 
-GPIOPortP3_Handler 0000021E
+GPIOPortP3_Handler 00000220
 
 Symbol: GPIOPortP3_Handler
    Definitions
-      At line 488 in file startup.s
+      At line 489 in file startup.s
    Uses
       At line 185 in file startup.s
-      At line 390 in file startup.s
+      At line 391 in file startup.s
 
-GPIOPortP4_Handler 0000021E
+GPIOPortP4_Handler 00000220
 
 Symbol: GPIOPortP4_Handler
    Definitions
-      At line 489 in file startup.s
+      At line 490 in file startup.s
    Uses
       At line 186 in file startup.s
-      At line 391 in file startup.s
+      At line 392 in file startup.s
 
-GPIOPortP5_Handler 0000021E
+GPIOPortP5_Handler 00000220
 
 Symbol: GPIOPortP5_Handler
    Definitions
-      At line 490 in file startup.s
+      At line 491 in file startup.s
    Uses
       At line 187 in file startup.s
-      At line 392 in file startup.s
+      At line 393 in file startup.s
 
-GPIOPortP6_Handler 0000021E
+GPIOPortP6_Handler 00000220
 
 Symbol: GPIOPortP6_Handler
    Definitions
-      At line 491 in file startup.s
+      At line 492 in file startup.s
    Uses
       At line 188 in file startup.s
-      At line 393 in file startup.s
+      At line 394 in file startup.s
 
-GPIOPortP7_Handler 0000021E
+GPIOPortP7_Handler 00000220
 
 Symbol: GPIOPortP7_Handler
    Definitions
-      At line 492 in file startup.s
+      At line 493 in file startup.s
    Uses
       At line 189 in file startup.s
-      At line 394 in file startup.s
+      At line 395 in file startup.s
 
-GPIOPortP_Handler 0000021E
+GPIOPortP_Handler 00000220
 
 Symbol: GPIOPortP_Handler
 
@@ -1465,64 +1466,64 @@ ARM Macro Assembler    Page 7 Alphabetic symbol ordering
 Relocatable symbols
 
    Definitions
-      At line 485 in file startup.s
+      At line 486 in file startup.s
    Uses
       At line 182 in file startup.s
-      At line 387 in file startup.s
+      At line 388 in file startup.s
 
-GPIOPortQ1_Handler 0000021E
+GPIOPortQ1_Handler 00000220
 
 Symbol: GPIOPortQ1_Handler
    Definitions
-      At line 494 in file startup.s
+      At line 495 in file startup.s
    Uses
       At line 191 in file startup.s
-      At line 396 in file startup.s
+      At line 397 in file startup.s
 
-GPIOPortQ2_Handler 0000021E
+GPIOPortQ2_Handler 00000220
 
 Symbol: GPIOPortQ2_Handler
    Definitions
-      At line 495 in file startup.s
+      At line 496 in file startup.s
    Uses
       At line 192 in file startup.s
-      At line 397 in file startup.s
+      At line 398 in file startup.s
 
-GPIOPortQ3_Handler 0000021E
+GPIOPortQ3_Handler 00000220
 
 Symbol: GPIOPortQ3_Handler
    Definitions
-      At line 496 in file startup.s
+      At line 497 in file startup.s
    Uses
       At line 193 in file startup.s
-      At line 398 in file startup.s
+      At line 399 in file startup.s
 
-GPIOPortQ4_Handler 0000021E
+GPIOPortQ4_Handler 00000220
 
 Symbol: GPIOPortQ4_Handler
    Definitions
-      At line 497 in file startup.s
+      At line 498 in file startup.s
    Uses
       At line 194 in file startup.s
-      At line 399 in file startup.s
+      At line 400 in file startup.s
 
-GPIOPortQ5_Handler 0000021E
+GPIOPortQ5_Handler 00000220
 
 Symbol: GPIOPortQ5_Handler
    Definitions
-      At line 498 in file startup.s
+      At line 499 in file startup.s
    Uses
       At line 195 in file startup.s
-      At line 400 in file startup.s
+      At line 401 in file startup.s
 
-GPIOPortQ6_Handler 0000021E
+GPIOPortQ6_Handler 00000220
 
 Symbol: GPIOPortQ6_Handler
    Definitions
-      At line 499 in file startup.s
+      At line 500 in file startup.s
    Uses
       At line 196 in file startup.s
-      At line 401 in file startup.s
+      At line 402 in file startup.s
 
 
 
@@ -1530,23 +1531,23 @@ ARM Macro Assembler    Page 8 Alphabetic symbol ordering
 Relocatable symbols
 
 
-GPIOPortQ7_Handler 0000021E
+GPIOPortQ7_Handler 00000220
 
 Symbol: GPIOPortQ7_Handler
    Definitions
-      At line 500 in file startup.s
+      At line 501 in file startup.s
    Uses
       At line 197 in file startup.s
-      At line 402 in file startup.s
+      At line 403 in file startup.s
 
-GPIOPortQ_Handler 0000021E
+GPIOPortQ_Handler 00000220
 
 Symbol: GPIOPortQ_Handler
    Definitions
-      At line 493 in file startup.s
+      At line 494 in file startup.s
    Uses
       At line 190 in file startup.s
-      At line 395 in file startup.s
+      At line 396 in file startup.s
 
 HardFault_Handler 0000020E
 
@@ -1557,34 +1558,34 @@ Symbol: HardFault_Handler
       At line 93 in file startup.s
       At line 275 in file startup.s
 
-Hibernate_Handler 0000021E
+Hibernate_Handler 00000220
 
 Symbol: Hibernate_Handler
    Definitions
-      At line 453 in file startup.s
+      At line 454 in file startup.s
    Uses
       At line 147 in file startup.s
-      At line 355 in file startup.s
+      At line 356 in file startup.s
 
-I2C0_Handler 0000021E
+I2C0_Handler 00000220
 
 Symbol: I2C0_Handler
    Definitions
-      At line 420 in file startup.s
+      At line 421 in file startup.s
    Uses
       At line 114 in file startup.s
-      At line 322 in file startup.s
+      At line 323 in file startup.s
 
-I2C1_Handler 0000021E
+I2C1_Handler 00000220
 
 Symbol: I2C1_Handler
    Definitions
-      At line 449 in file startup.s
+      At line 450 in file startup.s
    Uses
       At line 143 in file startup.s
-      At line 351 in file startup.s
+      At line 352 in file startup.s
 
-I2C2_Handler 0000021E
+I2C2_Handler 00000220
 
 Symbol: I2C2_Handler
    Definitions
@@ -1594,64 +1595,64 @@ Symbol: I2C2_Handler
 ARM Macro Assembler    Page 9 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 473 in file startup.s
+      At line 474 in file startup.s
    Uses
       At line 167 in file startup.s
-      At line 375 in file startup.s
+      At line 376 in file startup.s
 
-I2C3_Handler 0000021E
+I2C3_Handler 00000220
 
 Symbol: I2C3_Handler
    Definitions
-      At line 474 in file startup.s
+      At line 475 in file startup.s
    Uses
       At line 168 in file startup.s
-      At line 376 in file startup.s
+      At line 377 in file startup.s
 
-I2C4_Handler 0000021E
+I2C4_Handler 00000220
 
 Symbol: I2C4_Handler
    Definitions
-      At line 480 in file startup.s
+      At line 481 in file startup.s
    Uses
       At line 176 in file startup.s
-      At line 382 in file startup.s
+      At line 383 in file startup.s
 
-I2C5_Handler 0000021E
+I2C5_Handler 00000220
 
 Symbol: I2C5_Handler
    Definitions
-      At line 481 in file startup.s
+      At line 482 in file startup.s
    Uses
       At line 177 in file startup.s
-      At line 383 in file startup.s
+      At line 384 in file startup.s
 
-I2C6_Handler 0000021E
+I2C6_Handler 00000220
 
 Symbol: I2C6_Handler
    Definitions
-      At line 505 in file startup.s
+      At line 506 in file startup.s
    Uses
       At line 208 in file startup.s
-      At line 407 in file startup.s
+      At line 408 in file startup.s
 
-I2C7_Handler 0000021E
+I2C7_Handler 00000220
 
 Symbol: I2C7_Handler
    Definitions
-      At line 506 in file startup.s
+      At line 507 in file startup.s
    Uses
       At line 209 in file startup.s
-      At line 408 in file startup.s
+      At line 409 in file startup.s
 
-I2C8_Handler 0000021E
+I2C8_Handler 00000220
 
 Symbol: I2C8_Handler
    Definitions
-      At line 507 in file startup.s
+      At line 508 in file startup.s
    Uses
       At line 215 in file startup.s
-      At line 409 in file startup.s
+      At line 410 in file startup.s
 
 
 
@@ -1659,20 +1660,20 @@ Symbol: I2C8_Handler
 ARM Macro Assembler    Page 10 Alphabetic symbol ordering
 Relocatable symbols
 
-I2C9_Handler 0000021E
+I2C9_Handler 00000220
 
 Symbol: I2C9_Handler
    Definitions
-      At line 508 in file startup.s
+      At line 509 in file startup.s
    Uses
       At line 216 in file startup.s
-      At line 410 in file startup.s
+      At line 411 in file startup.s
 
-IntDefaultHandler 0000021E
+IntDefaultHandler 00000220
 
 Symbol: IntDefaultHandler
    Definitions
-      At line 312 in file startup.s
+      At line 313 in file startup.s
    Uses
       None
 Comment: IntDefaultHandler unused
@@ -1694,29 +1695,29 @@ Symbol: NMI_Handler
       At line 92 in file startup.s
       At line 262 in file startup.s
 
-PWM0Fault_Handler 0000021E
+PWM0Fault_Handler 00000220
 
 Symbol: PWM0Fault_Handler
    Definitions
-      At line 421 in file startup.s
+      At line 422 in file startup.s
    Uses
       At line 115 in file startup.s
-      At line 323 in file startup.s
+      At line 324 in file startup.s
 
-PWM0Generator0_Handler 0000021E
+PWM0Generator0_Handler 00000220
 
 Symbol: PWM0Generator0_Handler
    Definitions
-      At line 422 in file startup.s
+      At line 423 in file startup.s
    Uses
       At line 116 in file startup.s
-      At line 324 in file startup.s
+      At line 325 in file startup.s
 
-PWM0Generator1_Handler 0000021E
+PWM0Generator1_Handler 00000220
 
 Symbol: PWM0Generator1_Handler
    Definitions
-      At line 423 in file startup.s
+      At line 424 in file startup.s
    Uses
 
 
@@ -1725,25 +1726,25 @@ ARM Macro Assembler    Page 11 Alphabetic symbol ordering
 Relocatable symbols
 
       At line 117 in file startup.s
-      At line 325 in file startup.s
+      At line 326 in file startup.s
 
-PWM0Generator2_Handler 0000021E
+PWM0Generator2_Handler 00000220
 
 Symbol: PWM0Generator2_Handler
    Definitions
-      At line 424 in file startup.s
+      At line 425 in file startup.s
    Uses
       At line 118 in file startup.s
-      At line 326 in file startup.s
+      At line 327 in file startup.s
 
-PWM0Generator3_Handler 0000021E
+PWM0Generator3_Handler 00000220
 
 Symbol: PWM0Generator3_Handler
    Definitions
-      At line 455 in file startup.s
+      At line 456 in file startup.s
    Uses
       At line 149 in file startup.s
-      At line 357 in file startup.s
+      At line 358 in file startup.s
 
 PendSV_Handler 0000021A
 
@@ -1754,14 +1755,14 @@ Symbol: PendSV_Handler
       At line 104 in file startup.s
       At line 304 in file startup.s
 
-Quadrature0_Handler 0000021E
+Quadrature0_Handler 00000220
 
 Symbol: Quadrature0_Handler
    Definitions
-      At line 425 in file startup.s
+      At line 426 in file startup.s
    Uses
       At line 119 in file startup.s
-      At line 327 in file startup.s
+      At line 328 in file startup.s
 
 RESET 00000000
 
@@ -1780,7 +1781,7 @@ Symbol: Reset_Handler
       At line 91 in file startup.s
       At line 227 in file startup.s
 
-SSI0_Handler 0000021E
+SSI0_Handler 00000220
 
 Symbol: SSI0_Handler
 
@@ -1790,37 +1791,37 @@ ARM Macro Assembler    Page 12 Alphabetic symbol ordering
 Relocatable symbols
 
    Definitions
-      At line 419 in file startup.s
+      At line 420 in file startup.s
    Uses
       At line 113 in file startup.s
-      At line 321 in file startup.s
+      At line 322 in file startup.s
 
-SSI1_Handler 0000021E
+SSI1_Handler 00000220
 
 Symbol: SSI1_Handler
    Definitions
-      At line 446 in file startup.s
+      At line 447 in file startup.s
    Uses
       At line 140 in file startup.s
-      At line 348 in file startup.s
+      At line 349 in file startup.s
 
-SSI2_Handler 0000021E
+SSI2_Handler 00000220
 
 Symbol: SSI2_Handler
    Definitions
-      At line 466 in file startup.s
+      At line 467 in file startup.s
    Uses
       At line 160 in file startup.s
-      At line 368 in file startup.s
+      At line 369 in file startup.s
 
-SSI3_Handler 0000021E
+SSI3_Handler 00000220
 
 Symbol: SSI3_Handler
    Definitions
-      At line 467 in file startup.s
+      At line 468 in file startup.s
    Uses
       At line 161 in file startup.s
-      At line 369 in file startup.s
+      At line 370 in file startup.s
 
 SVC_Handler 00000216
 
@@ -1831,14 +1832,14 @@ Symbol: SVC_Handler
       At line 101 in file startup.s
       At line 295 in file startup.s
 
-SysCtl_Handler 0000021E
+SysCtl_Handler 00000220
 
 Symbol: SysCtl_Handler
    Definitions
-      At line 440 in file startup.s
+      At line 441 in file startup.s
    Uses
       At line 134 in file startup.s
-      At line 342 in file startup.s
+      At line 343 in file startup.s
 
 SysTick_Handler 0000021C
 
@@ -1847,7 +1848,7 @@ Symbol: SysTick_Handler
       At line 307 in file startup.s
    Uses
       At line 105 in file startup.s
-      At line 308 in file startup.s
+      At line 309 in file startup.s
 
 
 
@@ -1855,61 +1856,61 @@ ARM Macro Assembler    Page 13 Alphabetic symbol ordering
 Relocatable symbols
 
 
-Tamper_Handler 0000021E
+Tamper_Handler 00000220
 
 Symbol: Tamper_Handler
    Definitions
-      At line 484 in file startup.s
+      At line 485 in file startup.s
    Uses
       At line 181 in file startup.s
-      At line 386 in file startup.s
+      At line 387 in file startup.s
 
-Timer0A_Handler 0000021E
+Timer0A_Handler 00000220
 
 Symbol: Timer0A_Handler
    Definitions
-      At line 431 in file startup.s
+      At line 432 in file startup.s
    Uses
       At line 125 in file startup.s
-      At line 333 in file startup.s
+      At line 334 in file startup.s
 
-Timer0B_Handler 0000021E
+Timer0B_Handler 00000220
 
 Symbol: Timer0B_Handler
    Definitions
-      At line 432 in file startup.s
+      At line 433 in file startup.s
    Uses
       At line 126 in file startup.s
-      At line 334 in file startup.s
+      At line 335 in file startup.s
 
-Timer1A_Handler 0000021E
+Timer1A_Handler 00000220
 
 Symbol: Timer1A_Handler
    Definitions
-      At line 433 in file startup.s
+      At line 434 in file startup.s
    Uses
       At line 127 in file startup.s
-      At line 335 in file startup.s
+      At line 336 in file startup.s
 
-Timer1B_Handler 0000021E
+Timer1B_Handler 00000220
 
 Symbol: Timer1B_Handler
    Definitions
-      At line 434 in file startup.s
+      At line 435 in file startup.s
    Uses
       At line 128 in file startup.s
-      At line 336 in file startup.s
+      At line 337 in file startup.s
 
-Timer2A_Handler 0000021E
+Timer2A_Handler 00000220
 
 Symbol: Timer2A_Handler
    Definitions
-      At line 435 in file startup.s
+      At line 436 in file startup.s
    Uses
       At line 129 in file startup.s
-      At line 337 in file startup.s
+      At line 338 in file startup.s
 
-Timer2B_Handler 0000021E
+Timer2B_Handler 00000220
 
 Symbol: Timer2B_Handler
    Definitions
@@ -1919,64 +1920,64 @@ Symbol: Timer2B_Handler
 ARM Macro Assembler    Page 14 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 436 in file startup.s
+      At line 437 in file startup.s
    Uses
       At line 130 in file startup.s
-      At line 338 in file startup.s
+      At line 339 in file startup.s
 
-Timer3A_Handler 0000021E
+Timer3A_Handler 00000220
 
 Symbol: Timer3A_Handler
    Definitions
-      At line 447 in file startup.s
+      At line 448 in file startup.s
    Uses
       At line 141 in file startup.s
-      At line 349 in file startup.s
+      At line 350 in file startup.s
 
-Timer3B_Handler 0000021E
+Timer3B_Handler 00000220
 
 Symbol: Timer3B_Handler
    Definitions
-      At line 448 in file startup.s
+      At line 449 in file startup.s
    Uses
       At line 142 in file startup.s
-      At line 350 in file startup.s
+      At line 351 in file startup.s
 
-Timer4A_Handler 0000021E
+Timer4A_Handler 00000220
 
 Symbol: Timer4A_Handler
    Definitions
-      At line 475 in file startup.s
+      At line 476 in file startup.s
    Uses
       At line 169 in file startup.s
-      At line 377 in file startup.s
+      At line 378 in file startup.s
 
-Timer4B_Handler 0000021E
+Timer4B_Handler 00000220
 
 Symbol: Timer4B_Handler
    Definitions
-      At line 476 in file startup.s
+      At line 477 in file startup.s
    Uses
       At line 170 in file startup.s
-      At line 378 in file startup.s
+      At line 379 in file startup.s
 
-Timer5A_Handler 0000021E
+Timer5A_Handler 00000220
 
 Symbol: Timer5A_Handler
    Definitions
-      At line 477 in file startup.s
+      At line 478 in file startup.s
    Uses
       At line 171 in file startup.s
-      At line 379 in file startup.s
+      At line 380 in file startup.s
 
-Timer5B_Handler 0000021E
+Timer5B_Handler 00000220
 
 Symbol: Timer5B_Handler
    Definitions
-      At line 478 in file startup.s
+      At line 479 in file startup.s
    Uses
       At line 172 in file startup.s
-      At line 380 in file startup.s
+      At line 381 in file startup.s
 
 
 
@@ -1984,65 +1985,65 @@ Symbol: Timer5B_Handler
 ARM Macro Assembler    Page 15 Alphabetic symbol ordering
 Relocatable symbols
 
-Timer6A_Handler 0000021E
+Timer6A_Handler 00000220
 
 Symbol: Timer6A_Handler
    Definitions
-      At line 501 in file startup.s
+      At line 502 in file startup.s
    Uses
       At line 204 in file startup.s
-      At line 403 in file startup.s
+      At line 404 in file startup.s
 
-Timer6B_Handler 0000021E
+Timer6B_Handler 00000220
 
 Symbol: Timer6B_Handler
    Definitions
-      At line 502 in file startup.s
+      At line 503 in file startup.s
    Uses
       At line 205 in file startup.s
-      At line 404 in file startup.s
+      At line 405 in file startup.s
 
-Timer7A_Handler 0000021E
+Timer7A_Handler 00000220
 
 Symbol: Timer7A_Handler
    Definitions
-      At line 503 in file startup.s
+      At line 504 in file startup.s
    Uses
       At line 206 in file startup.s
-      At line 405 in file startup.s
+      At line 406 in file startup.s
 
-Timer7B_Handler 0000021E
+Timer7B_Handler 00000220
 
 Symbol: Timer7B_Handler
    Definitions
-      At line 504 in file startup.s
+      At line 505 in file startup.s
    Uses
       At line 207 in file startup.s
-      At line 406 in file startup.s
+      At line 407 in file startup.s
 
-UART0_Handler 0000021E
+UART0_Handler 00000220
 
 Symbol: UART0_Handler
    Definitions
-      At line 417 in file startup.s
+      At line 418 in file startup.s
    Uses
       At line 111 in file startup.s
-      At line 319 in file startup.s
+      At line 320 in file startup.s
 
-UART1_Handler 0000021E
+UART1_Handler 00000220
 
 Symbol: UART1_Handler
    Definitions
-      At line 418 in file startup.s
+      At line 419 in file startup.s
    Uses
       At line 112 in file startup.s
-      At line 320 in file startup.s
+      At line 321 in file startup.s
 
-UART2_Handler 0000021E
+UART2_Handler 00000220
 
 Symbol: UART2_Handler
    Definitions
-      At line 445 in file startup.s
+      At line 446 in file startup.s
 
 
 
@@ -2051,61 +2052,61 @@ Relocatable symbols
 
    Uses
       At line 139 in file startup.s
-      At line 347 in file startup.s
+      At line 348 in file startup.s
 
-UART3_Handler 0000021E
+UART3_Handler 00000220
 
 Symbol: UART3_Handler
    Definitions
-      At line 468 in file startup.s
+      At line 469 in file startup.s
    Uses
       At line 162 in file startup.s
-      At line 370 in file startup.s
+      At line 371 in file startup.s
 
-UART4_Handler 0000021E
+UART4_Handler 00000220
 
 Symbol: UART4_Handler
    Definitions
-      At line 469 in file startup.s
+      At line 470 in file startup.s
    Uses
       At line 163 in file startup.s
-      At line 371 in file startup.s
+      At line 372 in file startup.s
 
-UART5_Handler 0000021E
+UART5_Handler 00000220
 
 Symbol: UART5_Handler
    Definitions
-      At line 470 in file startup.s
+      At line 471 in file startup.s
    Uses
       At line 164 in file startup.s
-      At line 372 in file startup.s
+      At line 373 in file startup.s
 
-UART6_Handler 0000021E
+UART6_Handler 00000220
 
 Symbol: UART6_Handler
    Definitions
-      At line 471 in file startup.s
+      At line 472 in file startup.s
    Uses
       At line 165 in file startup.s
-      At line 373 in file startup.s
+      At line 374 in file startup.s
 
-UART7_Handler 0000021E
+UART7_Handler 00000220
 
 Symbol: UART7_Handler
    Definitions
-      At line 472 in file startup.s
+      At line 473 in file startup.s
    Uses
       At line 166 in file startup.s
-      At line 374 in file startup.s
+      At line 375 in file startup.s
 
-USB0_Handler 0000021E
+USB0_Handler 00000220
 
 Symbol: USB0_Handler
    Definitions
-      At line 454 in file startup.s
+      At line 455 in file startup.s
    Uses
       At line 148 in file startup.s
-      At line 356 in file startup.s
+      At line 357 in file startup.s
 
 UsageFault_Handler 00000214
 
@@ -2122,14 +2123,14 @@ Symbol: UsageFault_Handler
       At line 96 in file startup.s
       At line 291 in file startup.s
 
-WDT_Handler 0000021E
+WDT_Handler 00000220
 
 Symbol: WDT_Handler
    Definitions
-      At line 430 in file startup.s
+      At line 431 in file startup.s
    Uses
       At line 124 in file startup.s
-      At line 332 in file startup.s
+      At line 333 in file startup.s
 
 __Vectors 00000000
 
@@ -2139,23 +2140,23 @@ Symbol: __Vectors
    Uses
       At line 88 in file startup.s
 Comment: __Vectors used once
-uDMA_Error 0000021E
+uDMA_Error 00000220
 
 Symbol: uDMA_Error
    Definitions
-      At line 457 in file startup.s
+      At line 458 in file startup.s
    Uses
       At line 151 in file startup.s
-      At line 359 in file startup.s
+      At line 360 in file startup.s
 
-uDMA_Handler 0000021E
+uDMA_Handler 00000220
 
 Symbol: uDMA_Handler
    Definitions
-      At line 456 in file startup.s
+      At line 457 in file startup.s
    Uses
       At line 150 in file startup.s
-      At line 358 in file startup.s
+      At line 359 in file startup.s
 
 110 symbols
 
@@ -2168,7 +2169,7 @@ Relocatable symbols
 
 Symbol: .text
    Definitions
-      At line 526 in file startup.s
+      At line 527 in file startup.s
    Uses
       None
 Comment: .text unused
@@ -2176,41 +2177,41 @@ DisableInterrupts 00000000
 
 Symbol: DisableInterrupts
    Definitions
-      At line 543 in file startup.s
+      At line 544 in file startup.s
    Uses
-      At line 533 in file startup.s
+      At line 534 in file startup.s
 Comment: DisableInterrupts used once
 EnableInterrupts 00000004
 
 Symbol: EnableInterrupts
    Definitions
-      At line 551 in file startup.s
+      At line 552 in file startup.s
    Uses
-      At line 534 in file startup.s
+      At line 535 in file startup.s
 Comment: EnableInterrupts used once
 EndCritical 00000010
 
 Symbol: EndCritical
    Definitions
-      At line 568 in file startup.s
+      At line 569 in file startup.s
    Uses
-      At line 536 in file startup.s
+      At line 537 in file startup.s
 Comment: EndCritical used once
 StartCritical 00000008
 
 Symbol: StartCritical
    Definitions
-      At line 559 in file startup.s
+      At line 560 in file startup.s
    Uses
-      At line 535 in file startup.s
+      At line 536 in file startup.s
 Comment: StartCritical used once
 WaitForInterrupt 00000016
 
 Symbol: WaitForInterrupt
    Definitions
-      At line 576 in file startup.s
+      At line 577 in file startup.s
    Uses
-      At line 537 in file startup.s
+      At line 538 in file startup.s
 Comment: WaitForInterrupt used once
 6 symbols
 
@@ -2251,5 +2252,13 @@ Symbol: Start
    Uses
       At line 252 in file startup.s
 Comment: Start used once
-1 symbol
-460 symbols in table
+systick_interrupt 00000000
+
+Symbol: systick_interrupt
+   Definitions
+      At line 308 in file startup.s
+   Uses
+      At line 310 in file startup.s
+Comment: systick_interrupt used once
+2 symbols
+461 symbols in table

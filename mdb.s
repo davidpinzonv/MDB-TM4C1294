@@ -38,7 +38,7 @@ MDB_SendAddress
 	POP {R0, R1, PC}           	; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
 	
 ;-----------MDB_SendCommand-----------
-; Envia un comando a un periferico
+; Envia comando/datos a un periferico
 ; Input : R0 address (for chkSum), R1 pointer to commands, R2 number of command/data bytes to be send
 ; Output: none
 ; Modifies: none, all used Register are pushed and poped
@@ -97,23 +97,23 @@ MDB_SendNAK
 	BL	UART_OutChar				; envia NAK, note: modifies R0 and R1
 	POP	{R0, R1, PC}
 	
-;-----------MDB_GetData-----------
-; Recibe datos o respuesta del periferico
+;-----------MDB_GetAnswer-----------
+; Recibe datos/respuesta del periferico
 ; se debe tener activado LOW Stick Parity, o se cicla la funcion
 ; Input : R0 pointer to DataIn buffer
 ; Output: R0 number of data bytes getted. DataIn buffer upgraded.
 ; Modifies: R0, all used Register are pushed and poped
-MDB_GetData
+MDB_GetAnswer
 	PUSH {R0, R1, R2, R3, R4, R5, LR}	; save current value of R0, R1, R2, R3, R4, R5 and LR
 	MOV R3, R0						; R4 = R1 (save the DataIn pointer)	
 	MOV R2, #0						; initialize counter, contador de datos recibidos
-inDataLoop							; stay in loop util interruption by stick parity detected
-
-	;Se necesita implementar el time-out en InChar
+getAnswerLoop							; stay in loop util interruption by stick parity detected
+	
+	;Se necesita implementar el time-out en InChar for the no-response time
 	BL	UART_InChar
 	
-	B	inDataLoop
-inDataDone
+	B	getAnswerLoop					; unconditional branch to 'inDataLoop'
+getAnswerDone
 	; restore previous value of R0 into R0, R1 into R1, R2 into R2
 	POP {R0, R1, R2, R3, R4, R5, PC}	; R3 into R3, R4 into R4, R5, into R5 and LR into PC (return)
 	

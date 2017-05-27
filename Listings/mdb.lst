@@ -84,7 +84,7 @@ ARM Macro Assembler    Page 2
                                                             
    39 00000010         
    40 00000010         ;-----------MDB_SendCommand-----------
-   41 00000010         ; Envia un comando a un periferico
+   41 00000010         ; Envia comando/datos a un periferico
    42 00000010         ; Input : R0 address (for chkSum), R1 pointer to command
                        s, R2 number of command/data bytes to be send
    43 00000010         ; Output: none
@@ -189,8 +189,8 @@ ARM Macro Assembler    Page 3
                                                             
    98 0000005C BD03            POP              {R0, R1, PC}
    99 0000005E         
-  100 0000005E         ;-----------MDB_GetData-----------
-  101 0000005E         ; Recibe datos o respuesta del periferico
+  100 0000005E         ;-----------MDB_GetAnswer-----------
+  101 0000005E         ; Recibe datos/respuesta del periferico
   102 0000005E         ; se debe tener activado LOW Stick Parity, o se cicla la
                         funcion
 
@@ -203,7 +203,7 @@ ARM Macro Assembler    Page 4
   104 0000005E         ; Output: R0 number of data bytes getted. DataIn buffer 
                        upgraded.
   105 0000005E         ; Modifies: R0, all used Register are pushed and poped
-  106 0000005E         MDB_GetData
+  106 0000005E         MDB_GetAnswer
   107 0000005E B53F            PUSH             {R0, R1, R2, R3, R4, R5, LR} ; 
                                                             save current value 
                                                             of R0, R1, R2, R3, 
@@ -213,16 +213,19 @@ ARM Macro Assembler    Page 4
   109 00000062 F04F 0200       MOV              R2, #0      ; initialize counte
                                                             r, contador de dato
                                                             s recibidos
-  110 00000066         inDataLoop                           ; stay in loop util
+  110 00000066         getAnswerLoop                        ; stay in loop util
                                                              interruption by st
                                                             ick parity detected
                                                             
   111 00000066         
-  112 00000066         ;Se necesita implementar el time-out en InChar
+  112 00000066         ;Se necesita implementar el time-out en InChar for the n
+                       o-response time
   113 00000066 F7FF FFFE       BL               UART_InChar
   114 0000006A         
-  115 0000006A E7FC            B                inDataLoop
-  116 0000006C         inDataDone
+  115 0000006A E7FC            B                getAnswerLoop ; unconditional b
+                                                            ranch to 'inDataLoo
+                                                            p'
+  116 0000006C         getAnswerDone
   117 0000006C         ; restore previous value of R0 into R0, R1 into R1, R2 i
                        nto R2
   118 0000006C BD3F            POP              {R0, R1, R2, R3, R4, R5, PC} ; 
@@ -286,14 +289,14 @@ Symbol: .text
    Uses
       None
 Comment: .text unused
-MDB_GetData 0000005E
+MDB_GetAnswer 0000005E
 
-Symbol: MDB_GetData
+Symbol: MDB_GetAnswer
    Definitions
       At line 106 in file mdb.s
    Uses
       None
-Comment: MDB_GetData unused
+Comment: MDB_GetAnswer unused
 MDB_SendACK 0000003A
 
 Symbol: MDB_SendACK
@@ -334,9 +337,9 @@ Symbol: MDB_SendRET
    Uses
       None
 Comment: MDB_SendRET unused
-inDataDone 0000006C
+getAnswerDone 0000006C
 
-Symbol: inDataDone
+Symbol: getAnswerDone
 
 
 
@@ -347,15 +350,15 @@ Relocatable symbols
       At line 116 in file mdb.s
    Uses
       None
-Comment: inDataDone unused
-inDataLoop 00000066
+Comment: getAnswerDone unused
+getAnswerLoop 00000066
 
-Symbol: inDataLoop
+Symbol: getAnswerLoop
    Definitions
       At line 110 in file mdb.s
    Uses
       At line 115 in file mdb.s
-Comment: inDataLoop used once
+Comment: getAnswerLoop used once
 outCommandDone 00000032
 
 Symbol: outCommandDone

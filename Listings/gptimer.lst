@@ -1,0 +1,178 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; GPTimer.s
+    2 00000000         ; Runs on TM4C1294
+    3 00000000         ; Funciones para el manejo del Systick
+    4 00000000         ; David Pinzon & Alberto lopez
+    5 00000000         ; May 27, 2017
+    6 00000000         ;-------------GPTimers Registers-------------
+    7 00000000         ;formato a seguir:
+    8 00000000         
+    9 00000000         ;para un registro
+   10 00000000         ;NombreDelRegistro_R     ;EQU direccion   ; breve descri
+                       pcion o nombre
+   11 00000000         
+   12 00000000         ;para un modulo del registro de un bit
+   13 00000000         ;NombreDelRegistro_NombreDelmodulo  ;EQU valueWithBitSet
+                        ; breve descripcion o nombre
+   14 00000000         
+   15 00000000         ;para un mudulo del registro de varios bits
+   16 00000000         ;NombreDelRegistro_NombreDelmodulo_M ;EQU valueWithBitsS
+                       et ; breve descripcion o nombre
+   17 00000000         
+   18 00000000         ;para un valor de configuracion de un modulo del regitro
+                       
+   19 00000000         ;NombreDelRegistro_NombreDelmodulo_(opcion) ;EQU valueTo
+                       Config ; breve descripcion o nombre
+   20 00000000         
+   21 00000000         ;para otros valores a definir
+   22 00000000         ;NombreDescriptivoDelValor  ; EQU value   ; breve descri
+                       pcion
+   23 00000000         
+   24 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   25 00000000                 THUMB
+   26 00000000         ;functions to exportt
+   27 00000000                 EXPORT           Timer_ResponseTime
+   28 00000000                 EXPORT           Timer_ResponseTime_stop
+   29 00000000                 EXPORT           Timer_BreakTime
+   30 00000000                 EXPORT           Timer_SetupTime
+   31 00000000                 EXPORT           Timer_PollingTime
+   32 00000000                 EXPORT           Timer_NoResponseTime
+   33 00000000                 EXPORT           Timer_NoResponseTime_stop
+   34 00000000         
+   35 00000000         ;---------------function_name----------------
+   36 00000000         ; Breve descripcion
+   37 00000000         ; Input : Registros que se leen como entrada y descripci
+                       on breve de lo que deben tener
+   38 00000000         ; Output: Registros que se 
+   39 00000000         ; Modifies: Registros que modifica la funcion. Los regis
+                       tros de salido y otros que modifique
+   40 00000000         ;tratar de que no modifique ninguno con un PUSH y POP al
+                        principio y final de la funcion
+   41 00000000         function_name
+   42 00000000 B507            PUSH             {R0,R1,R2,LR} ; save current va
+                                                            lue of R0, R1, R2 a
+                                                            nd LR
+   43 00000002         ; hacer cosas de la funcion
+   44 00000002 BD07            POP              {R0,R1,R2,PC} ; restore previou
+                                                            s value of R0 into 
+                                                            R0, R1 into R1, and
+                                                             LR into PC (return
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            )
+   45 00000004         
+   46 00000004         ;funciones a implementar
+   47 00000004         Timer_ResponseTime
+   48 00000004         Timer_ResponseTime_stop
+   49 00000004         Timer_BreakTime
+   50 00000004         Timer_SetupTime
+   51 00000004         Timer_PollingTime
+   52 00000004         Timer_NoResponseTime
+   53 00000004         Timer_NoResponseTime_stop
+   54 00000004         
+   55 00000004                 ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned
+   56 00000004                 END                          ; end of file
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\gptimer.d -o.\objects\gptimer.o -IC:\Users\mode_\Docu
+ments\Fmat\MicroControladores\KeilProjects\Cash_flow\RTE\_Target_1 -IC:\Keil_v5
+\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129 -IC:\Keil_v5\ARM\CMSIS\Inc
+lude --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 522" --pre
+define="TM4C1294NCPDT SETA 1" --list=.\listings\gptimer.lst GPTimer.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 24 in file GPTimer.s
+   Uses
+      None
+Comment: .text unused
+Timer_BreakTime 00000004
+
+Symbol: Timer_BreakTime
+   Definitions
+      At line 49 in file GPTimer.s
+   Uses
+      At line 29 in file GPTimer.s
+Comment: Timer_BreakTime used once
+Timer_NoResponseTime 00000004
+
+Symbol: Timer_NoResponseTime
+   Definitions
+      At line 52 in file GPTimer.s
+   Uses
+      At line 32 in file GPTimer.s
+Comment: Timer_NoResponseTime used once
+Timer_NoResponseTime_stop 00000004
+
+Symbol: Timer_NoResponseTime_stop
+   Definitions
+      At line 53 in file GPTimer.s
+   Uses
+      At line 33 in file GPTimer.s
+Comment: Timer_NoResponseTime_stop used once
+Timer_PollingTime 00000004
+
+Symbol: Timer_PollingTime
+   Definitions
+      At line 51 in file GPTimer.s
+   Uses
+      At line 31 in file GPTimer.s
+Comment: Timer_PollingTime used once
+Timer_ResponseTime 00000004
+
+Symbol: Timer_ResponseTime
+   Definitions
+      At line 47 in file GPTimer.s
+   Uses
+      At line 27 in file GPTimer.s
+Comment: Timer_ResponseTime used once
+Timer_ResponseTime_stop 00000004
+
+Symbol: Timer_ResponseTime_stop
+   Definitions
+      At line 48 in file GPTimer.s
+   Uses
+      At line 28 in file GPTimer.s
+Comment: Timer_ResponseTime_stop used once
+Timer_SetupTime 00000004
+
+Symbol: Timer_SetupTime
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 50 in file GPTimer.s
+   Uses
+      At line 30 in file GPTimer.s
+Comment: Timer_SetupTime used once
+function_name 00000000
+
+Symbol: function_name
+   Definitions
+      At line 41 in file GPTimer.s
+   Uses
+      None
+Comment: function_name unused
+9 symbols
+343 symbols in table

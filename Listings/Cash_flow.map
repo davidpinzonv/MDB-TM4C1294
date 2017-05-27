@@ -25,8 +25,9 @@ Removing Unused input sections from the image.
     Removing mdb.o(DATA), (72 bytes).
     Removing mdb.o(.text), (112 bytes).
     Removing startup.o(HEAP), (0 bytes).
+    Removing gptimer.o(.text), (4 bytes).
 
-3 unused section(s) (total 184 bytes) removed from the image.
+4 unused section(s) (total 188 bytes) removed from the image.
 
 ==============================================================================
 
@@ -38,6 +39,7 @@ Image Symbol Table
 
     RESET                                    0x00000000   Section      548  startup.o(RESET)
     FIFO.s                                   0x00000000   Number         0  fifo.o ABSOLUTE
+    GPTimer.s                                0x00000000   Number         0  gptimer.o ABSOLUTE
     PLL.s                                    0x00000000   Number         0  pll.o ABSOLUTE
     SysTick.s                                0x00000000   Number         0  systick.o ABSOLUTE
     UARTInts.s                               0x00000000   Number         0  uartints.o ABSOLUTE

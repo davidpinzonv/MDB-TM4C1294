@@ -36,7 +36,7 @@ ARM Macro Assembler    Page 1
                                                             ster 
    14 00000000 E000E018 
                        SYSTICK_STCURRENT_R
-                               EQU              0xE000E018  ; Current value Reg
+                               EQU              0xE000E018  ; Current value reg
                                                             ister
    15 00000000         
    16 00000000 00000FA0 

@@ -1,6 +1,6 @@
 ; GPTimer.s
 ; Runs on TM4C1294
-; Funciones para el manejo del Systick
+; Funciones para el manejo de los GPTimers
 ; David Pinzon & Alberto lopez
 ; May 27, 2017
 ;-------------GPTimers Registers-------------

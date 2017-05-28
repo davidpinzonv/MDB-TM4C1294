@@ -31,6 +31,9 @@ DEL                EQU 0x7F
 		IMPORT MDB_SendRET
 		IMPORT MDB_SendNAK
 		IMPORT MDB_GetAnswer
+		IMPORT MDB_SendBusReset
+		IMPORT MDB_InitCoinChanger
+		IMPORT MDB_SendPool
 
         AREA    DATA, ALIGN=2
 STRLEN  EQU     36      ; string holds 19 non-NULL characters
@@ -48,6 +51,7 @@ Number  SPACE   4
 Start
     BL  PLL_Init                    ; set system clock to 120 MHz
     BL  UART_Init                   ; initialize UART
+	BL	MDB_InitCoinChanger			; Rutina de inicializacion del coin changer
 
 
     ALIGN                           ; make sure the end of this section is aligned

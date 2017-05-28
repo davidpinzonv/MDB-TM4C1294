@@ -48,15 +48,15 @@ ARM Macro Assembler    Page 1
    31 00000000                 IMPORT           MDB_SendRET
    32 00000000                 IMPORT           MDB_SendNAK
    33 00000000                 IMPORT           MDB_GetAnswer
-   34 00000000         
-   35 00000000                 AREA             DATA, ALIGN=2
-   36 00000000 00000024 
+   34 00000000                 IMPORT           MDB_SendBusReset
+   35 00000000                 IMPORT           MDB_InitCoinChanger
+   36 00000000                 IMPORT           MDB_SendPool
+   37 00000000         
+   38 00000000                 AREA             DATA, ALIGN=2
+   39 00000000 00000024 
                        STRLEN  EQU              36          ; string holds 19 n
                                                             on-NULL characters
-   37 00000000 00 00 00 
-              00 00 00 
-              00 00 00 
-              00 00 00 
+   40 00000000 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
@@ -71,35 +71,41 @@ ARM Macro Assembler    Page 2
 
               00 00 00 
               00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
               00       String  SPACE            (STRLEN+1)
-   38 00000025 00 00 00 
+   41 00000025 00 00 00 
               00       Number  SPACE            4
-   39 00000029                 EXPORT           String      ; global only for o
+   42 00000029                 EXPORT           String      ; global only for o
                                                             bservation using de
                                                             bugger
-   40 00000029                 EXPORT           Number      ; global only for o
+   43 00000029                 EXPORT           Number      ; global only for o
                                                             bservation using de
                                                             bugger
-   41 00000029         
-   42 00000029                 AREA             |.text|, CODE, READONLY, ALIGN=
+   44 00000029         
+   45 00000029                 AREA             |.text|, CODE, READONLY, ALIGN=
 2
-   43 00000000                 THUMB
-   44 00000000                 EXPORT           Start
-   45 00000000         
-   46 00000000                 ALIGN                        ; make sure the end
+   46 00000000                 THUMB
+   47 00000000                 EXPORT           Start
+   48 00000000         
+   49 00000000                 ALIGN                        ; make sure the end
                                                              of this section is
                                                              aligned
-   47 00000000         
-   48 00000000         Start
-   49 00000000 F7FF FFFE       BL               PLL_Init    ; set system clock 
+   50 00000000         
+   51 00000000         Start
+   52 00000000 F7FF FFFE       BL               PLL_Init    ; set system clock 
                                                             to 120 MHz
-   50 00000004 F7FF FFFE       BL               UART_Init   ; initialize UART
-   51 00000008         
-   52 00000008         
-   53 00000008                 ALIGN                        ; make sure the end
+   53 00000004 F7FF FFFE       BL               UART_Init   ; initialize UART
+   54 00000008 F7FF FFFE       BL               MDB_InitCoinChanger ; Rutina de
+                                                             inicializacion del
+                                                             coin changer
+   55 0000000C         
+   56 0000000C         
+   57 0000000C                 ALIGN                        ; make sure the end
                                                              of this section is
                                                              aligned
-   54 00000008                 END                          ; end of file
+   58 0000000C                 END                          ; end of file
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\vmc_mdb_main.d -o.\objects\vmc_mdb_main.o -IC:\Users\
 mode_\Documents\Fmat\MicroControladores\KeilProjects\Cash_flow\RTE\_Target_1 -I
@@ -117,7 +123,7 @@ DATA 00000000
 
 Symbol: DATA
    Definitions
-      At line 35 in file VMC_MDB_Main.s
+      At line 38 in file VMC_MDB_Main.s
    Uses
       None
 Comment: DATA unused
@@ -125,17 +131,17 @@ Number 00000025
 
 Symbol: Number
    Definitions
-      At line 38 in file VMC_MDB_Main.s
+      At line 41 in file VMC_MDB_Main.s
    Uses
-      At line 40 in file VMC_MDB_Main.s
+      At line 43 in file VMC_MDB_Main.s
 Comment: Number used once
 String 00000000
 
 Symbol: String
    Definitions
-      At line 37 in file VMC_MDB_Main.s
+      At line 40 in file VMC_MDB_Main.s
    Uses
-      At line 39 in file VMC_MDB_Main.s
+      At line 42 in file VMC_MDB_Main.s
 Comment: String used once
 3 symbols
 
@@ -148,7 +154,7 @@ Relocatable symbols
 
 Symbol: .text
    Definitions
-      At line 42 in file VMC_MDB_Main.s
+      At line 45 in file VMC_MDB_Main.s
    Uses
       None
 Comment: .text unused
@@ -156,9 +162,9 @@ Start 00000000
 
 Symbol: Start
    Definitions
-      At line 48 in file VMC_MDB_Main.s
+      At line 51 in file VMC_MDB_Main.s
    Uses
-      At line 44 in file VMC_MDB_Main.s
+      At line 47 in file VMC_MDB_Main.s
 Comment: Start used once
 2 symbols
 
@@ -219,9 +225,9 @@ STRLEN 00000024
 
 Symbol: STRLEN
    Definitions
-      At line 36 in file VMC_MDB_Main.s
+      At line 39 in file VMC_MDB_Main.s
    Uses
-      At line 37 in file VMC_MDB_Main.s
+      At line 40 in file VMC_MDB_Main.s
 Comment: STRLEN used once
 7 symbols
 
@@ -238,6 +244,14 @@ Symbol: MDB_GetAnswer
    Uses
       None
 Comment: MDB_GetAnswer unused
+MDB_InitCoinChanger 00000000
+
+Symbol: MDB_InitCoinChanger
+   Definitions
+      At line 35 in file VMC_MDB_Main.s
+   Uses
+      At line 54 in file VMC_MDB_Main.s
+Comment: MDB_InitCoinChanger used once
 MDB_SendACK 00000000
 
 Symbol: MDB_SendACK
@@ -254,6 +268,14 @@ Symbol: MDB_SendAddress
    Uses
       None
 Comment: MDB_SendAddress unused
+MDB_SendBusReset 00000000
+
+Symbol: MDB_SendBusReset
+   Definitions
+      At line 34 in file VMC_MDB_Main.s
+   Uses
+      None
+Comment: MDB_SendBusReset unused
 MDB_SendCommand 00000000
 
 Symbol: MDB_SendCommand
@@ -270,6 +292,20 @@ Symbol: MDB_SendNAK
    Uses
       None
 Comment: MDB_SendNAK unused
+MDB_SendPool 00000000
+
+Symbol: MDB_SendPool
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+External symbols
+
+   Definitions
+      At line 36 in file VMC_MDB_Main.s
+   Uses
+      None
+Comment: MDB_SendPool unused
 MDB_SendRET 00000000
 
 Symbol: MDB_SendRET
@@ -284,21 +320,15 @@ Symbol: PLL_Init
    Definitions
       At line 22 in file VMC_MDB_Main.s
    Uses
-      At line 49 in file VMC_MDB_Main.s
+      At line 52 in file VMC_MDB_Main.s
 Comment: PLL_Init used once
 UART_Init 00000000
 
 Symbol: UART_Init
-
-
-
-ARM Macro Assembler    Page 2 Alphabetic symbol ordering
-External symbols
-
    Definitions
       At line 25 in file VMC_MDB_Main.s
    Uses
-      At line 50 in file VMC_MDB_Main.s
+      At line 53 in file VMC_MDB_Main.s
 Comment: UART_Init used once
-8 symbols
-354 symbols in table
+11 symbols
+357 symbols in table

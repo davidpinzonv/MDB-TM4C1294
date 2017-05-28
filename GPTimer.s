@@ -44,22 +44,22 @@ function_name
 	POP	{R0,R1,R2,PC}			; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
 
 ;funciones a implementar
-Timer_ResponseTime
+Timer_ResponseTime ;5ms
 	PUSH {LR}
 	POP {PC}
 Timer_ResponseTime_stop
 	PUSH {LR}
 	POP {PC}
-Timer_BreakTime
+Timer_BreakTime	;100ms
 	PUSH {LR}
 	POP {PC}
-Timer_SetupTime
+Timer_SetupTime ;200ms
 	PUSH {LR}
 	POP {PC}
-Timer_PollingTime
+Timer_PollingTime ;150ms
 	PUSH {LR}
 	POP {PC}
-Timer_NoResponseTime
+Timer_NoResponseTime ;2s
 	PUSH {LR}
 	POP {PC}
 Timer_NoResponseTime_stop

@@ -72,22 +72,22 @@ ARM Macro Assembler    Page 2
                                                             )
    45 00000004         
    46 00000004         ;funciones a implementar
-   47 00000004         Timer_ResponseTime
+   47 00000004         Timer_ResponseTime                   ;5ms
    48 00000004 B500            PUSH             {LR}
    49 00000006 BD00            POP              {PC}
    50 00000008         Timer_ResponseTime_stop
    51 00000008 B500            PUSH             {LR}
    52 0000000A BD00            POP              {PC}
-   53 0000000C         Timer_BreakTime
+   53 0000000C         Timer_BreakTime                      ;100ms
    54 0000000C B500            PUSH             {LR}
    55 0000000E BD00            POP              {PC}
-   56 00000010         Timer_SetupTime
+   56 00000010         Timer_SetupTime                      ;200ms
    57 00000010 B500            PUSH             {LR}
    58 00000012 BD00            POP              {PC}
-   59 00000014         Timer_PollingTime
+   59 00000014         Timer_PollingTime                    ;150ms
    60 00000014 B500            PUSH             {LR}
    61 00000016 BD00            POP              {PC}
-   62 00000018         Timer_NoResponseTime
+   62 00000018         Timer_NoResponseTime                 ;2s
    63 00000018 B500            PUSH             {LR}
    64 0000001A BD00            POP              {PC}
    65 0000001C         Timer_NoResponseTime_stop

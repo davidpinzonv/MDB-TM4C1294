@@ -52,6 +52,7 @@ UART_LCRH_WLEN_8   EQU 0x00000060   ; 8 bit word length
 UART_LCRH_FEN      EQU 0x00000010   ; UART Enable FIFOs
 UART_LCRH_EPS	   EQU 0x00000004	; UART Even parity Select
 UART_LCRH_PEN	   EQU 0x00000002	; UART Parity Enable
+UART_LCRH_BRK	   EQU 0x00000001	; UART Send Break
 	
 UART0_CTL_R        EQU 0x4000C030
 UART_CTL_HSE       EQU 0x00000020   ; High-Speed Enable
@@ -152,6 +153,8 @@ DEL                EQU 0x7F
         EXPORT UART_InString
 		EXPORT UART_HighStickParity
 		EXPORT UART_LowStickParity
+		EXPORT UART_SendBreak
+		EXPORT UART_SendBreak_Disable
 ; require C function calls to preserve the 8-byte alignment of 8-byte data objects
         PRESERVE8
 
@@ -753,7 +756,7 @@ inStringDone
     MOV R0, R4                      ; R0 = R4 (return the buffer pointer in R0)
     POP {R4, R5, R6, PC}            ; restore previous value of R4 into R4, R5 into R5, R6 into R6, and LR into PC (return)
 
-;;------------UART_HighStickParity------------
+;------------UART_HighStickParity------------
 ; Configura el SPS, EPS y PEN del UART0
 ; para que el bit de paridad envie 1
 UART_HighStickParity
@@ -763,7 +766,8 @@ UART_HighStickParity
 	BIC R0, R0, #UART_LCRH_EPS		; HIGH Stick Parity
     STR R0, [R1]                    ; [R1] = R0
 	POP {R0, R1, PC}            ; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
-;;------------UART_LowStickParity------------
+
+;------------UART_LowStickParity------------
 ; Configura el SPS, EPS y PEN del UART0
 ; para que el bit de paridad envie 0
 UART_LowStickParity
@@ -774,6 +778,25 @@ UART_LowStickParity
     STR R0, [R1]                    ; [R1] = R0
 	POP {R0, R1, PC}            ; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
 
+;------------UART_SendBreak------------
+; Activa el SendBreak bit de la Uart
+UART_SendBreak
+	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR
+	LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
+    LDR R0, [R1]                    ; R0 = [R1]
+	ORR R0, R0, #UART_LCRH_BRK		; Send Break Enable
+    STR R0, [R1]                    ; [R1] = R0
+	POP {R0, R1, PC}            ; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
+
+;--------UART_SendBreak_Disable---------
+; Desactiva el SendBreak bit de la Uart
+UART_SendBreak_Disable
+	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR
+	LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
+    LDR R0, [R1]                    ; R0 = [R1]
+	BIC R0, R0, #UART_LCRH_BRK		; Send Break Disable
+    STR R0, [R1]                    ; [R1] = R0
+	POP {R0, R1, PC}            ; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
 
 	ALIGN                           ; make sure the end of this section is aligned
     END                             ; end of file

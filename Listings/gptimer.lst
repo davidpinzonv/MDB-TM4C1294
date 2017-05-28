@@ -6,8 +6,8 @@ ARM Macro Assembler    Page 1
 
     1 00000000         ; GPTimer.s
     2 00000000         ; Runs on TM4C1294
-    3 00000000         ; Funciones para el manejo del Systick
-    4 00000000         ; David Pinzon & Alberto lopez
+    3 00000000         ; Funciones para el manejo de los GPTimers
+    4 00000000         ; David Pinzon & Alberto Lopez
     5 00000000         ; May 27, 2017
     6 00000000         ;-------------GPTimers Registers-------------
     7 00000000         ;formato a seguir:
@@ -73,17 +73,31 @@ ARM Macro Assembler    Page 2
    45 00000004         
    46 00000004         ;funciones a implementar
    47 00000004         Timer_ResponseTime
-   48 00000004         Timer_ResponseTime_stop
-   49 00000004         Timer_BreakTime
-   50 00000004         Timer_SetupTime
-   51 00000004         Timer_PollingTime
-   52 00000004         Timer_NoResponseTime
-   53 00000004         Timer_NoResponseTime_stop
-   54 00000004         
-   55 00000004                 ALIGN                        ; make sure the end
+   48 00000004 B500            PUSH             {LR}
+   49 00000006 BD00            POP              {PC}
+   50 00000008         Timer_ResponseTime_stop
+   51 00000008 B500            PUSH             {LR}
+   52 0000000A BD00            POP              {PC}
+   53 0000000C         Timer_BreakTime
+   54 0000000C B500            PUSH             {LR}
+   55 0000000E BD00            POP              {PC}
+   56 00000010         Timer_SetupTime
+   57 00000010 B500            PUSH             {LR}
+   58 00000012 BD00            POP              {PC}
+   59 00000014         Timer_PollingTime
+   60 00000014 B500            PUSH             {LR}
+   61 00000016 BD00            POP              {PC}
+   62 00000018         Timer_NoResponseTime
+   63 00000018 B500            PUSH             {LR}
+   64 0000001A BD00            POP              {PC}
+   65 0000001C         Timer_NoResponseTime_stop
+   66 0000001C B500            PUSH             {LR}
+   67 0000001E BD00            POP              {PC}
+   68 00000020         
+   69 00000020                 ALIGN                        ; make sure the end
                                                              of this section is
                                                              aligned
-   56 00000004                 END                          ; end of file
+   70 00000020                 END                          ; end of file
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\gptimer.d -o.\objects\gptimer.o -IC:\Users\mode_\Docu
 ments\Fmat\MicroControladores\KeilProjects\Cash_flow\RTE\_Target_1 -IC:\Keil_v5
@@ -104,35 +118,35 @@ Symbol: .text
    Uses
       None
 Comment: .text unused
-Timer_BreakTime 00000004
+Timer_BreakTime 0000000C
 
 Symbol: Timer_BreakTime
    Definitions
-      At line 49 in file GPTimer.s
+      At line 53 in file GPTimer.s
    Uses
       At line 29 in file GPTimer.s
 Comment: Timer_BreakTime used once
-Timer_NoResponseTime 00000004
+Timer_NoResponseTime 00000018
 
 Symbol: Timer_NoResponseTime
    Definitions
-      At line 52 in file GPTimer.s
+      At line 62 in file GPTimer.s
    Uses
       At line 32 in file GPTimer.s
 Comment: Timer_NoResponseTime used once
-Timer_NoResponseTime_stop 00000004
+Timer_NoResponseTime_stop 0000001C
 
 Symbol: Timer_NoResponseTime_stop
    Definitions
-      At line 53 in file GPTimer.s
+      At line 65 in file GPTimer.s
    Uses
       At line 33 in file GPTimer.s
 Comment: Timer_NoResponseTime_stop used once
-Timer_PollingTime 00000004
+Timer_PollingTime 00000014
 
 Symbol: Timer_PollingTime
    Definitions
-      At line 51 in file GPTimer.s
+      At line 59 in file GPTimer.s
    Uses
       At line 31 in file GPTimer.s
 Comment: Timer_PollingTime used once
@@ -144,15 +158,15 @@ Symbol: Timer_ResponseTime
    Uses
       At line 27 in file GPTimer.s
 Comment: Timer_ResponseTime used once
-Timer_ResponseTime_stop 00000004
+Timer_ResponseTime_stop 00000008
 
 Symbol: Timer_ResponseTime_stop
    Definitions
-      At line 48 in file GPTimer.s
+      At line 50 in file GPTimer.s
    Uses
       At line 28 in file GPTimer.s
 Comment: Timer_ResponseTime_stop used once
-Timer_SetupTime 00000004
+Timer_SetupTime 00000010
 
 Symbol: Timer_SetupTime
 
@@ -162,7 +176,7 @@ ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
    Definitions
-      At line 50 in file GPTimer.s
+      At line 56 in file GPTimer.s
    Uses
       At line 30 in file GPTimer.s
 Comment: Timer_SetupTime used once

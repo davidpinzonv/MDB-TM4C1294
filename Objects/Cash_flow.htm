@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Cash_flow.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Cash_flow.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Sat May 27 16:31:57 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Sat May 27 20:21:40 2017
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -42,14 +42,19 @@ Functions with no stack information
  <LI><a href="#[6c]">Start</a>
  <LI><a href="#[87]">delay</a>
  <LI><a href="#[6d]">systick_interrupt</a>
+ <LI><a href="#[88]">Timer_ResponseTime</a>
+ <LI><a href="#[89]">Timer_ResponseTime_stop</a>
+ <LI><a href="#[8a]">Timer_BreakTime</a>
+ <LI><a href="#[8b]">Timer_SetupTime</a>
+ <LI><a href="#[8c]">Timer_PollingTime</a>
+ <LI><a href="#[8d]">Timer_NoResponseTime</a>
+ <LI><a href="#[8e]">Timer_NoResponseTime_stop</a>
 </UL>
 </UL>
 <P>
 <H3>
 Mutually Recursive functions
-</H3> <LI><a href="#[7f]">UART_OutUHex</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[7f]">UART_OutUHex</a><BR>
- <LI><a href="#[7d]">UART_OutUDec</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[7d]">UART_OutUDec</a><BR>
- <LI><a href="#[1]">NMI_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1]">NMI_Handler</a><BR>
+</H3> <LI><a href="#[1]">NMI_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1]">NMI_Handler</a><BR>
  <LI><a href="#[2]">HardFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[2]">HardFault_Handler</a><BR>
  <LI><a href="#[3]">MemManage_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[3]">MemManage_Handler</a><BR>
  <LI><a href="#[4]">BusFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[4]">BusFault_Handler</a><BR>
@@ -540,7 +545,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[78]"></a>RxFifo_Get</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
+<P><STRONG><a name="[78]"></a>RxFifo_Get</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
 </UL>
 
@@ -552,7 +557,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[7a]"></a>TxFifo_Put</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
+<P><STRONG><a name="[7a]"></a>TxFifo_Put</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
 
@@ -596,7 +601,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[77]"></a>UART_InChar</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[77]"></a>UART_InChar</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUHex
@@ -604,11 +609,10 @@ Global Symbols
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InString
 </UL>
 
-<P><STRONG><a name="[79]"></a>UART_OutChar</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[79]"></a>UART_OutChar</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Put
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
+<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutString
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUHex
@@ -621,47 +625,37 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[7b]"></a>UART_OutString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[7b]"></a>UART_OutString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
-</UL>
 
-<P><STRONG><a name="[7c]"></a>UART_InUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[7c]"></a>UART_InUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
-</UL>
 
-<P><STRONG><a name="[7d]"></a>UART_OutUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[7d]"></a>UART_OutUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
 </UL>
 
-<P><STRONG><a name="[7e]"></a>UART_InUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[7e]"></a>UART_InUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
-</UL>
 
-<P><STRONG><a name="[7f]"></a>UART_OutUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[7f]"></a>UART_OutUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
+<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
 </UL>
 
-<P><STRONG><a name="[80]"></a>UART_InString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[80]"></a>UART_InString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
-</UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
 <P><STRONG><a name="[85]"></a>UART_HighStickParity</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
@@ -670,14 +664,7 @@ Global Symbols
 
 <P><STRONG><a name="[6c]"></a>Start</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, vmc_mdb_main.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PLL_Init
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutString
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUHex
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUDec
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InString
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
 </UL>
@@ -687,6 +674,20 @@ Global Symbols
 <P><STRONG><a name="[6d]"></a>systick_interrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, systick.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
+
+<P><STRONG><a name="[88]"></a>Timer_ResponseTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+
+<P><STRONG><a name="[89]"></a>Timer_ResponseTime_stop</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+
+<P><STRONG><a name="[8a]"></a>Timer_BreakTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+
+<P><STRONG><a name="[8b]"></a>Timer_SetupTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+
+<P><STRONG><a name="[8c]"></a>Timer_PollingTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+
+<P><STRONG><a name="[8d]"></a>Timer_NoResponseTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+
+<P><STRONG><a name="[8e]"></a>Timer_NoResponseTime_stop</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
 <P>
 <H3>
 Local Symbols

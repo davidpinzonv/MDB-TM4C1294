@@ -68,24 +68,26 @@ UART_IM_TXIM       EQU 0x00000020   ; UART Transmit Interrupt Mask
 UART_IM_RXIM       EQU 0x00000010   ; UART Receive Interrupt Mask
 
 UART0_RIS_R        EQU 0x4000C03C
-UART_RIS_RTRIS     EQU 0x00000040   ; UART Receive Time-Out Raw
-                                    ; Interrupt Status
-UART_RIS_TXRIS     EQU 0x00000020   ; UART Transmit Raw Interrupt
-                                    ; Status
-UART_RIS_RXRIS     EQU 0x00000010   ; UART Receive Raw Interrupt
-                                    ; Status
+UART_RIS_PERIS	   EQU 0x00000100	; UART Parity Error Interrupt Status
+UART_RIS_RTRIS     EQU 0x00000040   ; UART Receive Time-Out Raw Interrupt Status
+UART_RIS_TXRIS     EQU 0x00000020   ; UART Transmit Raw Interrupt Status
+UART_RIS_RXRIS     EQU 0x00000010   ; UART Receive Raw Interrupt Status
+
 UART0_ICR_R        EQU 0x4000C044
+UART_ICR_PEIC	   EQU 0x00000100	; UART Parity Error Interrupt Clear
 UART_ICR_RTIC      EQU 0x00000040   ; Receive Time-Out Interrupt Clear
 UART_ICR_TXIC      EQU 0x00000020   ; Transmit Interrupt Clear
 UART_ICR_RXIC      EQU 0x00000010   ; Receive Interrupt Clear
+
 UART0_CC_R         EQU 0x4000CFC8
 UART_CC_CS_M       EQU 0x0000000F   ; UART Baud Clock Source
-UART_CC_CS_SYSCLK  EQU 0x00000000   ; System clock (based on clock
-                                    ; source and divisor factor)
+UART_CC_CS_SYSCLK  EQU 0x00000000   ; System clock (based on clock source and divisor factor)
 UART_CC_CS_PIOSC   EQU 0x00000005   ; PIOSC
+
 SYSCTL_ALTCLKCFG_R EQU 0x400FE138
 SYSCTL_ALTCLKCFG_ALTCLK_M     EQU 0x0000000F   ; Alternate Clock Source
 SYSCTL_ALTCLKCFG_ALTCLK_PIOSC EQU 0x00000000   ; PIOSC
+
 SYSCTL_RCGCGPIO_R  EQU 0x400FE608
 SYSCTL_RCGCGPIO_R0 EQU 0x00000001   ; GPIO Port A Run Mode Clock
                                     ; Gating Control
@@ -118,6 +120,15 @@ FIFOFAIL    EQU  0         ; return value on failure
         IMPORT   RxFifo_Put
         IMPORT   RxFifo_Get
         IMPORT   RxFifo_Size
+			
+;functions from GPTimer.s
+		IMPORT Timer_ResponseTime
+		IMPORT Timer_ResponseTime_stop
+		IMPORT Timer_BreakTime
+		IMPORT Timer_SetupTime
+		IMPORT Timer_PollingTime
+		IMPORT Timer_NoResponseTime
+		IMPORT Timer_NoResponseTime_stop
 
 ; standard ASCII symbols
 CR                 EQU 0x0D
@@ -306,6 +317,7 @@ h2sdone
 ; private helper subroutine
 ; copy from software TX FIFO to hardware TX FIFO
 ; stop when software TX FIFO is empty or hardware TX FIFO is full
+; Modifies: R0, R1
 copySoftwareToHardware
     PUSH {LR}                       ; save current value of LR
 s2hloop
@@ -392,6 +404,7 @@ outCharLoop
 ; hardware TX FIFO goes from 3 to 2 or less items
 ; hardware RX FIFO goes from 1 to 2 or more items
 ; UART receiver has timed out
+; received byte with stick parity bit in HIGH
 UART0_Handler
     PUSH {LR}                       ; save current value of LR
     ; check the flags to determine which interrupt condition occurred
@@ -433,13 +446,25 @@ handlerCheck2
     LDR R0, [R1]                    ; R0 = [R1]
     AND R0, R0, #UART_RIS_RTRIS     ; R0 = R0&UART_RIS_RTRIS
     CMP R0, #UART_RIS_RTRIS         ; is R0 (UART0_RIS_R&UART_RIS_RTRIS) == UART_RIS_RTRIS? (did the receiver timeout?)
-    BNE handlerDone                 ; if not, skip to 'handlerDone'
+    BNE handlerCheck3                 ; if not, skip to 'handlerDone'
     ; acknowledge receiver timeout interrupt
     LDR R1, =UART0_ICR_R            ; R1 = &UART0_ICR_R
     LDR R0, =UART_ICR_RTIC          ; R0 = UART_ICR_RTIC (zeros written to interrupt clear register have no effect)
     STR R0, [R1]                    ; [R1] = R0
     ; copy from hardware RX FIFO to software RX FIFO
     BL  copyHardwareToSoftware      ; private helper subroutine
+handlerCheck3
+	LDR R1, =UART0_RIS_R            ; R1 = &UART0_RIS_R
+    LDR R0, [R1]                    ; R0 = [R1]
+    AND R0, R0, #UART_RIS_PERIS     ; R0 = R0&UART_RIS_PERIS
+    CMP R0, #UART_RIS_PERIS         ; is R0 (UART0_RIS_R&UART_RIS_PERIS) == UART_RIS_PERIS? (did the parity error?)
+    BNE handlerDone                 ; if not, skip to 'handlerDone'
+	; acknowledge parity error interrupt
+	LDR R1, =UART0_ICR_R            ; R1 = &UART0_ICR_R
+    LDR R0, =UART_ICR_PEIC          ; R0 = UART_ICR_PEIC (zeros written to interrupt clear register have no effect)
+    STR R0, [R1]                    ; [R1] = R0
+	;update personal flag R5
+	MOV R5, #1						; R5 = 1	
 handlerDone
     POP {PC}                        ; restore previous value of LR into PC (return from interrupt)
 
@@ -748,7 +773,7 @@ UART_LowStickParity
 	ORR R0, R0, #UART_LCRH_EPS		; LOW Stick Parity
     STR R0, [R1]                    ; [R1] = R0
 	POP {R0, R1, PC}            ; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
-	
+
 
 	ALIGN                           ; make sure the end of this section is aligned
     END                             ; end of file

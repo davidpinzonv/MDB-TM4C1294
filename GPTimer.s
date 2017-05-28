@@ -1,7 +1,7 @@
 ; GPTimer.s
 ; Runs on TM4C1294
 ; Funciones para el manejo de los GPTimers
-; David Pinzon & Alberto lopez
+; David Pinzon & Alberto Lopez
 ; May 27, 2017
 ;-------------GPTimers Registers-------------
 ;formato a seguir:
@@ -45,12 +45,26 @@ function_name
 
 ;funciones a implementar
 Timer_ResponseTime
+	PUSH {LR}
+	POP {PC}
 Timer_ResponseTime_stop
+	PUSH {LR}
+	POP {PC}
 Timer_BreakTime
+	PUSH {LR}
+	POP {PC}
 Timer_SetupTime
+	PUSH {LR}
+	POP {PC}
 Timer_PollingTime
+	PUSH {LR}
+	POP {PC}
 Timer_NoResponseTime
+	PUSH {LR}
+	POP {PC}
 Timer_NoResponseTime_stop
+	PUSH {LR}
+	POP {PC}
 
 	ALIGN                           ; make sure the end of this section is aligned
     END                             ; end of file

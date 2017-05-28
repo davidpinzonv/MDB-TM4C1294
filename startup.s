@@ -413,7 +413,6 @@ IntDefaultHandler\
 GPIOPortA_Handler
 GPIOPortB_Handler
 GPIOPortC_Handler
-GPIOPortD_Handler
 GPIOPortE_Handler
 UART0_Handler
 UART1_Handler
@@ -511,6 +510,11 @@ I2C9_Handler
                 B       .
 
                 ENDP
+
+GPIOPortD_Handler PROC
+				  IMPORT PORTD_Handler	;importa from PortD.s
+				  B PORTD_Handler		;go to PORTD_Handler in PortD.s
+                  ENDP
 
 ;******************************************************************************
 ;

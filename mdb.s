@@ -395,7 +395,7 @@ InitGetCoinType
 	BL	MDB_GetAnswer				; Get answer from peripheral
 	LDR R0, =DataIn					; R0 = &DataIn (pointer)
 	LDR R1, [R0]					; R1 = [R0] (answer)
-	CMP R1, #0						; R1 == 00H ? (R1 == ACK?)
+	CMP R1, #0x00					; R1 == 00H ? (R1 == ACK?)
 	BNE	InitSendCoinType			; if not, go to InitSendExpFeatureEnable
 	
 	POP	{R0, R1, R2, PC}			; restore previous value of R0 into R0, R1 into R1, R2 into R2 and LR into PC (return)

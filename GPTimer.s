@@ -23,7 +23,7 @@
 
         AREA    |.text|, CODE, READONLY, ALIGN=2
         THUMB
-	;functions to exportt
+	;functions to export
 		EXPORT Timer_ResponseTime
 		EXPORT Timer_ResponseTime_stop
 		EXPORT Timer_BreakTime

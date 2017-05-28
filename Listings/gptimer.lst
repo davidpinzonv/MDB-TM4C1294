@@ -36,7 +36,7 @@ ARM Macro Assembler    Page 1
    24 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
 2
    25 00000000                 THUMB
-   26 00000000         ;functions to exportt
+   26 00000000         ;functions to export
    27 00000000                 EXPORT           Timer_ResponseTime
    28 00000000                 EXPORT           Timer_ResponseTime_stop
    29 00000000                 EXPORT           Timer_BreakTime

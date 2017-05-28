@@ -21,6 +21,9 @@ DEL                EQU 0x7F
 ; functions from PLL.s
         IMPORT PLL_Init
 
+; function from PortD.s
+		IMPORT InitPortD
+
 ; functions from UARTInts.s
         IMPORT UART_Init
 			
@@ -50,7 +53,8 @@ Number  SPACE   4
 
 Start
     BL  PLL_Init                    ; set system clock to 120 MHz
-    BL  UART_Init                   ; initialize UART
+	BL	InitPortD					; initialize PortD (for MatrixPad)
+    BL  UART_Init                   ; initialize UART (portA used)
 	BL	MDB_InitCoinChanger			; Rutina de inicializacion del coin changer
 
 

@@ -884,7 +884,7 @@ ARM Macro Assembler    Page 14
                                                             nter)
   397 0000020C 6801            LDR              R1, [R0]    ; R1 = [R0] (answer
                                                             )
-  398 0000020E 2900            CMP              R1, #0      ; R1 == 00H ? (R1 =
+  398 0000020E 2900            CMP              R1, #0x00   ; R1 == 00H ? (R1 =
                                                             = ACK?)
   399 00000210 D1EB            BNE              InitSendCoinType ; if not, go t
                                                             o InitSendExpFeatur

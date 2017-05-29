@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Cash_flow.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Cash_flow.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Sun May 28 21:21:54 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Mon May 29 13:28:23 2017
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -13,14 +13,14 @@ Call chain for Maximum Stack Depth:</H3>
 Functions with no stack information
 </H3><UL>
  <LI><a href="#[6c]">Reset_Handler</a>
- <LI><a href="#[86]">RxFifo_Init</a>
- <LI><a href="#[8a]">RxFifo_Put</a>
- <LI><a href="#[8d]">RxFifo_Get</a>
- <LI><a href="#[89]">RxFifo_Size</a>
- <LI><a href="#[87]">TxFifo_Init</a>
- <LI><a href="#[8e]">TxFifo_Put</a>
- <LI><a href="#[8c]">TxFifo_Get</a>
- <LI><a href="#[8b]">TxFifo_Size</a>
+ <LI><a href="#[87]">RxFifo_Init</a>
+ <LI><a href="#[8b]">RxFifo_Put</a>
+ <LI><a href="#[8e]">RxFifo_Get</a>
+ <LI><a href="#[8a]">RxFifo_Size</a>
+ <LI><a href="#[88]">TxFifo_Init</a>
+ <LI><a href="#[8f]">TxFifo_Put</a>
+ <LI><a href="#[8d]">TxFifo_Get</a>
+ <LI><a href="#[8c]">TxFifo_Size</a>
  <LI><a href="#[70]">MDB_SendAddress</a>
  <LI><a href="#[74]">MDB_SendCommand</a>
  <LI><a href="#[75]">MDB_SendACK</a>
@@ -31,41 +31,42 @@ Functions with no stack information
  <LI><a href="#[7e]">MDB_SendPool</a>
  <LI><a href="#[7f]">MDB_SendSetup</a>
  <LI><a href="#[80]">MDB_SendExpIdentification</a>
- <LI><a href="#[81]">MDB_InitCoinChanger</a>
- <LI><a href="#[95]">PLL_Init</a>
- <LI><a href="#[85]">DisableInterrupts</a>
- <LI><a href="#[88]">EnableInterrupts</a>
- <LI><a href="#[97]">StartCritical</a>
- <LI><a href="#[98]">EndCritical</a>
- <LI><a href="#[99]">WaitForInterrupt</a>
- <LI><a href="#[84]">UART_Init</a>
+ <LI><a href="#[81]">MDB_DispenseValue</a>
+ <LI><a href="#[83]">MDB_InitCoinChanger</a>
+ <LI><a href="#[96]">PLL_Init</a>
+ <LI><a href="#[86]">DisableInterrupts</a>
+ <LI><a href="#[89]">EnableInterrupts</a>
+ <LI><a href="#[9a]">StartCritical</a>
+ <LI><a href="#[9b]">EndCritical</a>
+ <LI><a href="#[9c]">WaitForInterrupt</a>
+ <LI><a href="#[85]">UART_Init</a>
  <LI><a href="#[79]">UART_InChar</a>
  <LI><a href="#[72]">UART_OutChar</a>
  <LI><a href="#[f]">UART0_Handler</a>
- <LI><a href="#[8f]">UART_OutString</a>
- <LI><a href="#[90]">UART_InUDec</a>
- <LI><a href="#[91]">UART_OutUDec</a>
- <LI><a href="#[92]">UART_InUHex</a>
- <LI><a href="#[93]">UART_OutUHex</a>
- <LI><a href="#[94]">UART_InString</a>
+ <LI><a href="#[90]">UART_OutString</a>
+ <LI><a href="#[91]">UART_InUDec</a>
+ <LI><a href="#[92]">UART_OutUDec</a>
+ <LI><a href="#[93]">UART_InUHex</a>
+ <LI><a href="#[94]">UART_OutUHex</a>
+ <LI><a href="#[95]">UART_InString</a>
  <LI><a href="#[71]">UART_HighStickParity</a>
  <LI><a href="#[73]">UART_LowStickParity</a>
  <LI><a href="#[7b]">UART_SendBreak</a>
  <LI><a href="#[7d]">UART_SendBreak_Disable</a>
  <LI><a href="#[6d]">Start</a>
- <LI><a href="#[83]">delay</a>
+ <LI><a href="#[82]">delay</a>
  <LI><a href="#[6e]">systick_interrupt</a>
- <LI><a href="#[9a]">Timer_ResponseTime</a>
- <LI><a href="#[9b]">Timer_ResponseTime_stop</a>
+ <LI><a href="#[9d]">Timer_ResponseTime</a>
+ <LI><a href="#[9e]">Timer_ResponseTime_stop</a>
  <LI><a href="#[7c]">Timer_BreakTime</a>
- <LI><a href="#[82]">Timer_SetupTime</a>
- <LI><a href="#[9c]">Timer_PollingTime</a>
- <LI><a href="#[9d]">Timer_NoResponseTime</a>
- <LI><a href="#[9e]">Timer_NoResponseTime_stop</a>
- <LI><a href="#[96]">InitPortD</a>
+ <LI><a href="#[84]">Timer_SetupTime</a>
+ <LI><a href="#[9f]">Timer_PollingTime</a>
+ <LI><a href="#[a0]">Timer_NoResponseTime</a>
+ <LI><a href="#[a1]">Timer_NoResponseTime_stop</a>
+ <LI><a href="#[97]">InitPortD</a>
  <LI><a href="#[6f]">PORTD_Handler</a>
- <LI><a href="#[9f]">PortD_clearInterrupt</a>
- <LI><a href="#[a0]">PortD_detectInterrupt</a>
+ <LI><a href="#[99]">PortD_clearInterrupt</a>
+ <LI><a href="#[98]">PortD_detectInterrupt</a>
  <LI><a href="#[6b]">InitTimerSetupDone</a>
 </UL>
 </UL>
@@ -558,37 +559,37 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[86]"></a>RxFifo_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<P><STRONG><a name="[87]"></a>RxFifo_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[8a]"></a>RxFifo_Put</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<P><STRONG><a name="[8b]"></a>RxFifo_Put</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[8d]"></a>RxFifo_Get</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
+<P><STRONG><a name="[8e]"></a>RxFifo_Get</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
 </UL>
 
-<P><STRONG><a name="[89]"></a>RxFifo_Size</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<P><STRONG><a name="[8a]"></a>RxFifo_Size</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[87]"></a>TxFifo_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<P><STRONG><a name="[88]"></a>TxFifo_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[8e]"></a>TxFifo_Put</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
+<P><STRONG><a name="[8f]"></a>TxFifo_Put</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
 
-<P><STRONG><a name="[8c]"></a>TxFifo_Get</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<P><STRONG><a name="[8d]"></a>TxFifo_Get</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, fifo.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[8b]"></a>TxFifo_Size</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
+<P><STRONG><a name="[8c]"></a>TxFifo_Size</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Handler
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
 <P><STRONG><a name="[70]"></a>MDB_SendAddress</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
@@ -596,7 +597,8 @@ Global Symbols
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_LowStickParity
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_HighStickParity
 </UL>
-<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendExpIdentification
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_DispenseValue
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendExpIdentification
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendSetup
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendPool
 </UL>
@@ -604,7 +606,8 @@ Global Symbols
 <P><STRONG><a name="[74]"></a>MDB_SendCommand</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendExpIdentification
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_DispenseValue
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendExpIdentification
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendSetup
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendPool
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
@@ -613,13 +616,17 @@ Global Symbols
 <P><STRONG><a name="[75]"></a>MDB_SendACK</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
+<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_DispenseValue
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
 </UL>
 
 <P><STRONG><a name="[76]"></a>MDB_SendRET</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
+<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_DispenseValue
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
 </UL>
 
 <P><STRONG><a name="[77]"></a>MDB_SendNAK</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text), UNUSED)
@@ -629,7 +636,9 @@ Global Symbols
 <P><STRONG><a name="[78]"></a>MDB_GetAnswer</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
+<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_DispenseValue
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
 </UL>
 
 <P><STRONG><a name="[7a]"></a>MDB_SendBusReset</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
@@ -637,14 +646,15 @@ Global Symbols
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SendBreak
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer_BreakTime
 </UL>
-<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_InitCoinChanger
+<BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_InitCoinChanger
 </UL>
 
 <P><STRONG><a name="[7e]"></a>MDB_SendPool</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendCommand
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendAddress
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
+<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
 </UL>
 
 <P><STRONG><a name="[7f]"></a>MDB_SendSetup</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
@@ -661,62 +671,73 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
 </UL>
 
-<P><STRONG><a name="[81]"></a>MDB_InitCoinChanger</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer_SetupTime
+<P><STRONG><a name="[81]"></a>MDB_DispenseValue</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_GetAnswer
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendRET
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendACK
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendCommand
+<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendAddress
+</UL>
+<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+</UL>
+
+<P><STRONG><a name="[83]"></a>MDB_InitCoinChanger</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer_SetupTime
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendBusReset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[95]"></a>PLL_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, pll.o(.text))
+<P><STRONG><a name="[96]"></a>PLL_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, pll.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[85]"></a>DisableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<P><STRONG><a name="[86]"></a>DisableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[88]"></a>EnableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<P><STRONG><a name="[89]"></a>EnableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
-<P><STRONG><a name="[97]"></a>StartCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
+<P><STRONG><a name="[9a]"></a>StartCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
 
-<P><STRONG><a name="[98]"></a>EndCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
+<P><STRONG><a name="[9b]"></a>EndCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
 
-<P><STRONG><a name="[99]"></a>WaitForInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
+<P><STRONG><a name="[9c]"></a>WaitForInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
 
-<P><STRONG><a name="[84]"></a>UART_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Size
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Get
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Init
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Size
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Put
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Init
+<P><STRONG><a name="[85]"></a>UART_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableInterrupts
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableInterrupts
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Size
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Get
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Init
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Size
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Put
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
 <P><STRONG><a name="[79]"></a>UART_InChar</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Get
+<BR><BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RxFifo_Get
 </UL>
-<BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUHex
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUDec
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InString
+<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUHex
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUDec
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InString
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_GetAnswer
 </UL>
 
 <P><STRONG><a name="[72]"></a>UART_OutChar</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Put
+<BR><BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Put
 </UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
-<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutString
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUHex
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUDec
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InString
+<BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
+<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutString
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUHex
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InUDec
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InString
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendNAK
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendRET
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendACK
@@ -725,39 +746,39 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[f]"></a>UART0_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Size
+<BR><BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Size
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[8f]"></a>UART_OutString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
+<P><STRONG><a name="[90]"></a>UART_OutString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
 
-<P><STRONG><a name="[90]"></a>UART_InUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
-</UL>
-
-<P><STRONG><a name="[91]"></a>UART_OutUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
-</UL>
-<BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
-</UL>
-
-<P><STRONG><a name="[92]"></a>UART_InUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
+<P><STRONG><a name="[91]"></a>UART_InUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
 </UL>
 
-<P><STRONG><a name="[93]"></a>UART_OutUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
+<P><STRONG><a name="[92]"></a>UART_OutUDec</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
+<BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUDec
 </UL>
 
-<P><STRONG><a name="[94]"></a>UART_InString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
+<P><STRONG><a name="[93]"></a>UART_InUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
+<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
+</UL>
+
+<P><STRONG><a name="[94]"></a>UART_OutUHex</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
+<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
+</UL>
+<BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutUHex
+</UL>
+
+<P><STRONG><a name="[95]"></a>UART_InString</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_OutChar
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InChar
 </UL>
@@ -779,41 +800,51 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6d]"></a>Start</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, vmc_mdb_main.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitPortD
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PLL_Init
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_InitCoinChanger
+<BR><BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortD_detectInterrupt
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortD_clearInterrupt
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitPortD
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PLL_Init
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_InitCoinChanger
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_DispenseValue
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendPool
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_GetAnswer
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendRET
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendACK
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
 </UL>
 
-<P><STRONG><a name="[83]"></a>delay</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, systick.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
+<P><STRONG><a name="[82]"></a>delay</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, systick.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_DispenseValue
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitTimerSetupDone
 </UL>
 
 <P><STRONG><a name="[6e]"></a>systick_interrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, systick.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[9a]"></a>Timer_ResponseTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+<P><STRONG><a name="[9d]"></a>Timer_ResponseTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
 
-<P><STRONG><a name="[9b]"></a>Timer_ResponseTime_stop</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+<P><STRONG><a name="[9e]"></a>Timer_ResponseTime_stop</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
 
 <P><STRONG><a name="[7c]"></a>Timer_BreakTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendBusReset
 </UL>
 
-<P><STRONG><a name="[82]"></a>Timer_SetupTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_InitCoinChanger
+<P><STRONG><a name="[84]"></a>Timer_SetupTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_InitCoinChanger
 </UL>
 
-<P><STRONG><a name="[9c]"></a>Timer_PollingTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+<P><STRONG><a name="[9f]"></a>Timer_PollingTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
 
-<P><STRONG><a name="[9d]"></a>Timer_NoResponseTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+<P><STRONG><a name="[a0]"></a>Timer_NoResponseTime</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
 
-<P><STRONG><a name="[9e]"></a>Timer_NoResponseTime_stop</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
+<P><STRONG><a name="[a1]"></a>Timer_NoResponseTime_stop</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, gptimer.o(.text), UNUSED)
 
-<P><STRONG><a name="[96]"></a>InitPortD</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text))
+<P><STRONG><a name="[97]"></a>InitPortD</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
@@ -821,15 +852,19 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortD_Handler
 </UL>
 
-<P><STRONG><a name="[9f]"></a>PortD_clearInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text), UNUSED)
+<P><STRONG><a name="[99]"></a>PortD_clearInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+</UL>
 
-<P><STRONG><a name="[a0]"></a>PortD_detectInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text), UNUSED)
+<P><STRONG><a name="[98]"></a>PortD_detectInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
+</UL>
 <P>
 <H3>
 Local Symbols
 </H3>
 <P><STRONG><a name="[6b]"></a>InitTimerSetupDone</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, mdb.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
+<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendExpIdentification
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendSetup
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendPool

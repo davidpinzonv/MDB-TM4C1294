@@ -414,6 +414,16 @@
               <FileType>2</FileType>
               <FilePath>.\SysTick.s</FilePath>
             </File>
+            <File>
+              <FileName>GPTimer.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\GPTimer.s</FilePath>
+            </File>
+            <File>
+              <FileName>PortD.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\PortD.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Cash_flow.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Cash_flow.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Sun May 28 17:41:23 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Sun May 28 21:21:54 2017
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -64,6 +64,8 @@ Functions with no stack information
  <LI><a href="#[9e]">Timer_NoResponseTime_stop</a>
  <LI><a href="#[96]">InitPortD</a>
  <LI><a href="#[6f]">PORTD_Handler</a>
+ <LI><a href="#[9f]">PortD_clearInterrupt</a>
+ <LI><a href="#[a0]">PortD_detectInterrupt</a>
  <LI><a href="#[6b]">InitTimerSetupDone</a>
 </UL>
 </UL>
@@ -818,6 +820,10 @@ Global Symbols
 <P><STRONG><a name="[6f]"></a>PORTD_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortD_Handler
 </UL>
+
+<P><STRONG><a name="[9f]"></a>PortD_clearInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text), UNUSED)
+
+<P><STRONG><a name="[a0]"></a>PortD_detectInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, portd.o(.text), UNUSED)
 <P>
 <H3>
 Local Symbols

@@ -146,7 +146,7 @@ GPIOJinitloop
 ; Output: none (character stored in KeyInput)
 ; Modifies: none, all used Register are pushed and poped
 PORTD_Handler
-	PUSH {R0,R1,R2,LR}					; save current values of R0,R1,LR
+	PUSH {R0,R1,R2,LR}				; save current values of R0,R1,LR
 	LDR R1,=GPIO_PORTD_RIS			; R1 = &GPIO_PORTD_RIS (pointer)
 	LDR R0, [R1]					; R0 = [R1] (GPIO_PORTD_RIS)	
 	;check raw interrupt to find the bit interrupt

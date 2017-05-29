@@ -13,12 +13,12 @@ COMMAND_POLL						EQU 0x000B
 COMMAND_COIN_TYPE					EQU 0x000C
 COMMAND_DISPENSE					EQU 0x000D
 COMMAND_EXPANSION					EQU 0x000F
-COMMAND_EXP_IDENTIFICATION			EQU 0x0F00
-COMMAND_EXP_FEATURE_ENEABLE			EQU 0x0F01
-COMMAND_EXP_PAYOUT					EQU 0x0F02
-COMMAND_EXP_PAYOUT_STATUS			EQU 0x0F03
-COMMAND_EXP_PAYOUT_VALUE_POLL		EQU 0x0F04
-COMMAND_EXP_SEND_DIAGNOSTIC_STATUS	EQU 0x0F05
+COMMAND_EXP_IDENTIFICATION			EQU 0x000F
+COMMAND_EXP_FEATURE_ENEABLE			EQU 0x010F
+COMMAND_EXP_PAYOUT					EQU 0x020F
+COMMAND_EXP_PAYOUT_STATUS			EQU 0x030F
+COMMAND_EXP_PAYOUT_VALUE_POLL		EQU 0x040F
+COMMAND_EXP_SEND_DIAGNOSTIC_STATUS	EQU 0x050F
 
 ;functions from UARTInts.s
         IMPORT UART_Init
@@ -78,6 +78,7 @@ Send_diag_status_buf SPACE	17
 		EXPORT MDB_SendPool
 		EXPORT MDB_SendSetup
 		EXPORT MDB_SendExpIdentification
+		EXPORT MDB_DispenseValue
 		
         AREA    |.text|, CODE, READONLY, ALIGN=2
         THUMB
@@ -241,8 +242,8 @@ MDB_SendExpIdentification
 	PUSH {R0, R1, R2, LR}			; save current values of R0, R1, R2, LR
 	LDR	R1,=Command					; R1 = &Command (pointer)
 	MOV	R2,#COMMAND_EXP_IDENTIFICATION; R2 = COMMAND_EXP_IDENTIFICATION
-	STRB R2,[R1]					; [R1] = R2 (COMMAND_EXP_IDENTIFICATION)
-	MOV R2,#1						; R2 = 1 (number of command bytes to send)
+	STRH R2,[R1]					; [R1] = R2 (COMMAND_EXP_IDENTIFICATION)
+	MOV R2,#2						; R2 = 2 (number of command bytes to send)
 	BL	MDB_SendAddress				; send the peripheral address
 	BL	MDB_SendCommand				; send pool command with chk byte
 	POP	{R0, R1, R2, PC}			; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
@@ -256,8 +257,8 @@ MDB_SendExpSendDiagStatus
 	PUSH {R0, R1, R2, LR}			; save current values of R0, R1, R2, LR
 	LDR	R1,=Command					; R1 = &Command (pointer)
 	MOV	R2,#COMMAND_EXP_SEND_DIAGNOSTIC_STATUS; R2 = COMMAND_EXP_SEND_DIAGNOSTIC_STATUS
-	STRB R2,[R1]					; [R1] = R2 (COMMAND_EXP_SEND_DIAGNOSTIC_STATUS)
-	MOV R2,#1						; R2 = 1 (number of command bytes to send)
+	STRH R2,[R1]					; [R1] = R2 (COMMAND_EXP_SEND_DIAGNOSTIC_STATUS)
+	MOV R2,#2						; R2 = 1 (number of command bytes to send)
 	BL	MDB_SendAddress				; send the peripheral address
 	BL	MDB_SendCommand				; send pool command with chk byte
 	POP	{R0, R1, R2, PC}			; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
@@ -275,6 +276,97 @@ MDB_SendTubeStatus
 	MOV R2,#1						; R2 = 1 (number of command bytes to send)
 	BL	MDB_SendAddress				; send the peripheral address
 	BL	MDB_SendCommand				; send pool command with chk byte
+	POP	{R0, R1, R2, PC}			; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
+	
+;---------MDB_DispenseValue---------
+; Send expansion command to request a dispense value
+; and init sequence to verify dispense is done
+; Input : R0, value to dispense
+; Output: none
+; Modifies: none, all used Register are pushed and poped
+MDB_DispenseValue
+	PUSH {R0, R1, R2, LR}			; save current values of R0, R1, R2, LR
+init_dispense_value	
+	LDR	R1,=Command					; R1 = &Command (pointer)
+	MOV R2,#COMMAND_EXP_PAYOUT		; R2 = COMMAND_EXP_PAYOUT
+	STRH R2,[R1]					; [R1] = R2 (COMMAND_EXP_PAYOUT)
+	STRB R0,[R1,#2]					; [R1+1] = R0 (Value of coins to dispense)
+	MOV R2,#3						; R2 = 1 (number of command bytes to send)
+	MOV R0,#COIN_CHANGER_ADDR		; R0 = COIN_CHANGER_ADDR
+	BL	MDB_SendAddress				; send the peripheral address
+	BL	MDB_SendCommand				; send command with chk byte
+DispenseValue_get_answer
+	LDR R0,=DataIn					; R0 = &DataIn (pointer)
+	BL	MDB_GetAnswer				; getting answer
+	LDR R0,=DataIn					; R0 = &DataIn (pointer)
+	LDR R1, [R0]					; R1 = [R0]
+	CMP R1,#0						; R1 == 0 ? (ACK)?
+	BNE init_dispense_value			; if so, go to init_dispense_value
+	; acknowledge, confirm sended command
+payout_value_pool_loop
+	MOV	R0,#125						; R0 = 125
+	BL	delay						; delay 125ms
+	LDR	R1,=Command					; R1 = &Command (pointer)
+	MOV R2,#COMMAND_EXP_PAYOUT_VALUE_POLL; R2 = COMMAND_EXP_PAYOUT_VALUE_POLL
+	STRH R2,[R1]					; [R1] = R2 (COMMAND_EXP_PAYOUT_VALUE_POLL)
+	MOV R2,#2						; R2 = 2 (number of command bytes to send)
+	MOV R0,#COIN_CHANGER_ADDR		; R0 = COIN_CHANGER_ADDR
+	BL	MDB_SendAddress				; send the peripheral address
+	BL	MDB_SendCommand				; send command with chk byte
+payout_value_poll_get_answer
+	LDR R0,=DataIn					; R0 = &DataIn (pointer)
+	BL	MDB_GetAnswer				; getting answer
+	CMP R0,#0						; R0 == 0 ? (chksum fail)?
+	BLEQ MDB_SendRET				; if so, sen RET
+	CMP R0,#0						; R0 == 0 ? (chksum fail)?
+	BEQ payout_value_poll_get_answer; if so, go to payout_value_poll_get_answer
+	CMP R0,#2						; R0 == 2 ? (value to report)?
+	BLEQ MDB_SendACK				; if so, send ACK
+	CMP R0,#2						; R0 == 2 ? (value to report)?
+	BEQ payout_value_pool_loop		; if so, go to payout_value_pool_loop
+	; acknowledge, reserved byte answer
+	LDR R0,=DataIn					; R0 = &DataIn (pointer)
+	LDR R1, [R0]					; R1 = [R0]
+	CMP R1,#0						; R1 = 0x00 (ACK)
+	BNE payout_value_pool_loop		; if not, go to payout_value_pool_loop
+	; acknowledge, payout is complete
+payout_status_send_payout_status
+	LDR	R1,=Command					; R1 = &Command (pointer)
+	MOV R2,#COMMAND_EXP_PAYOUT_STATUS; R2 = COMMAND_EXP_PAYOUT_STATUS
+	STRH R2,[R1]					; [R1] = R2 (COMMAND_EXP_PAYOUT_VALUE_POLL)
+	MOV R2,#2						; R2 = 2 (number of command bytes to send)
+	MOV R0,#COIN_CHANGER_ADDR		; R0 = COIN_CHANGER_ADDR
+	BL	MDB_SendAddress				; send the peripheral address
+	BL	MDB_SendCommand				; send command with chk byte
+payout_status_get_answer
+	LDR R0,=DataIn					; R0 = &DataIn (pointer)
+	BL	MDB_GetAnswer				; getting answer
+	CMP R0,#0						; R0 == 0 ? (chksum fail)?
+	BLEQ MDB_SendRET				; if so, sen RET
+	CMP R0,#0						; R0 == 0 ? (chksum fail)?
+	BEQ payout_status_get_answer	; if so, go to payout_status_get_answer
+	CMP R0,#1						; R0 == 1 ? (reserved byte as answer)?
+	BEQ payout_status_send_payout_status; if so, go to payout_status_send_payout_status
+	; acknowledge received information
+	BL MDB_SendACK					; sending ACK
+payout_status_send_tube_status
+	LDR	R1,=Command					; R1 = &Command (pointer)
+	MOV R2,#COMMAND_TUBE_STATUS		; R2 = COMMAND_TUBE_STATUS
+	STRB R2,[R1]					; [R1] = R2 (COMMAND_TUBE_STATUS)
+	MOV R2,#1						; R2 = 2 (number of command bytes to send)
+	MOV R0,#COIN_CHANGER_ADDR		; R0 = COIN_CHANGER_ADDR
+	BL	MDB_SendAddress				; send the peripheral address
+	BL	MDB_SendCommand				; send command with chk byte
+tube_status_get_answer
+	LDR R0,=Tube_status_buf			; R0 = &Tube_status_buf (pointer)
+	BL	MDB_GetAnswer				; getting answer
+	CMP R0,#0						; R0 == 0 ? (chksum fail)?
+	BLEQ MDB_SendRET				; if so, sen RET
+	CMP R0,#0						; R0 == 0 ? (chksum fail)?
+	BEQ tube_status_get_answer		; if so, go to tube_status_get_answer
+	; acknowledge, received data
+	BL MDB_SendACK					; sending ACK
+	; acknowledge, rutine of payout finished
 	POP	{R0, R1, R2, PC}			; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
 
 ;---------MDB_InitCoinChanger---------
@@ -302,8 +394,9 @@ InitGetPool
 	BL	MDB_GetAnswer				; Get answer from peripheral
 	CMP	R0,#2						; R0 == 2? (received 2 bytes - JustReset & Chk)
 	BNE	InitSendBusReset			; if not, go to InitNoResponsePoolLoop
+	MOV R1,#0						; clean register
 	LDR R0, =DataIn					; R0 = &DataIn (pointer)
-	LDR R1, [R0]					; R1 = [R0]
+	LDRB R1, [R0]					; R1 = [R0]
 	CMP R1,#2_00001011				; R1 == 00001011B (Changer was Reset)
 	BNE InitSendBusReset			; if not, go to InitSendBusReset
 	BL	MDB_SendACK					; Sending ACK
@@ -340,7 +433,7 @@ InitSendExpFeatureEnable
 	STRB R0, [R1]					; [R1] = R0 (upgrade command buffer)
 	LDR R2, =Identification_buf		; R2 = &Identification_buf (pointer)
 	LDR R0, [R2,#29]				; R0 = [R2+29] (features availables)
-	STR R0, [R1,#1]				; [R1+1] = R0 (activate all features)
+	STR R0, [R1,#1]					; [R1+1] = R0 (activate all features)
 	MOV R0, #COIN_CHANGER_ADDR		; R0 = COIN_CHANGER_ADDR
 	MOV R2, #5						; R2 = 5 (number of command/data bytes to send)
 	BL MDB_SendCommand				; envia a R0, R2 comandos en &R1
@@ -385,7 +478,7 @@ InitSendCoinType
 	LDR R1, =Command				; R1 = &Command (pointer)
 	MOV R0, #COMMAND_COIN_TYPE		; R0 = COMMAND_COIN_TYPE
 	STRB R0, [R1]					; [R1] = R0 (upgrade command buffer)
-	LDR R0,=0x000FFFFF				; enable b0-b4 acepted coins, and all coins to manual dispense
+	LDR R0,=0xFFFFFFFF				; enable ALL acepted coins, and all coins to manual dispense
 	STR R0, [R1,#1]					; [R1+1] = R0 (upgrade command buffer)
 	MOV R0, #COIN_CHANGER_ADDR		; R0 = COIN_CHANGER_ADDR
 	MOV R2, #5						; R2 = 5 (number of command/data bytes to send)
@@ -399,6 +492,7 @@ InitGetCoinType
 	BNE	InitSendCoinType			; if not, go to InitSendExpFeatureEnable
 	
 	POP	{R0, R1, R2, PC}			; restore previous value of R0 into R0, R1 into R1, R2 into R2 and LR into PC (return)
-	
+
+
 	ALIGN                           ; make sure the end of this section is aligned
     END                             ; end of file

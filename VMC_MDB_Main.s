@@ -23,6 +23,9 @@ DEL                EQU 0x7F
 
 ; function from PortD.s
 		IMPORT InitPortD
+		IMPORT	PortD_clearInterrupt
+		IMPORT	PortD_detectInterrupt
+		IMPORT	KeyInput ;(memory adress)
 
 ; functions from UARTInts.s
         IMPORT UART_Init
@@ -56,6 +59,7 @@ Start
 	BL	InitPortD					; initialize PortD (for MatrixPad)
     BL  UART_Init                   ; initialize UART (portA used)
 	BL	MDB_InitCoinChanger			; Rutina de inicializacion del coin changer
+	
 
 
     ALIGN                           ; make sure the end of this section is aligned

@@ -49,69 +49,202 @@ ARM Macro Assembler    Page 1
 2
    19 00000000                 THUMB
    20 00000000                 EXPORT           delay
-   21 00000000                 EXPORT           systick_interrupt
-   22 00000000         
-   23 00000000         ;-----------------delay----------------
-   24 00000000         ; Proporciona un delay de N milisegundos
-   25 00000000         ; Input : R0 - N miliseconds to delay
-   26 00000000         ; Output: none
-   27 00000000         ; Modifies: none, restore all original values of registe
+   21 00000000                 EXPORT           SysTick_Init_Count
+   22 00000000                 EXPORT           SysTick_Check_Count
+   23 00000000                 EXPORT           systick_interrupt
+   24 00000000         
+   25 00000000         ;-----------------delay----------------
+   26 00000000         ; Proporciona un delay de N milisegundos
+   27 00000000         ; Input : R0 - N miliseconds to delay
+   28 00000000         ; Output: none
+   29 00000000         ; Modifies: none, restore all original values of registe
                        rs used
-   28 00000000         delay
-   29 00000000 B507            PUSH             {R0,R1,R2,LR} ; save current va
+   30 00000000         delay
+   31 00000000 B507            PUSH             {R0,R1,R2,LR} ; save current va
                                                             lue of R0, R1, R2 a
                                                             nd LR
-   30 00000002 F44F 627A       MOV              R2,#ONE_MILISECOND ; R2 = Cicle
-                                                            s to generate 1ms (
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-                                                            4Mhz)
-   31 00000006 FB00 F102       MUL              R1, R0, R2  ; R1 = R0*R2 (Cicle
-                                                            s to generate N mil
-                                                            isecods on 4Mhz)
-   32 0000000A         ; --- reload value ---
-   33 0000000A 4807            LDR              R0,=SYSTICK_STRELOAD_R ; R0 = &
-                                                            SYSTICK_STRELOAD_R 
-                                                            (pointer)
-   34 0000000C 6001            STR              R1, [R0]    ; [R0] = R1
-   35 0000000E         ; --- current value ---
-   36 0000000E 4807            LDR              R0,=SYSTICK_STCURRENT_R ; R0 = 
-                                                            &SYSTICK_STCURRENT_
-                                                            R (pointer)
-   37 00000010 F04F 0100       MOV              R1, #0      ; R1 = 0
-   38 00000014 6001            STR              R1, [R0]    ; [R0] = R1
-   39 00000016         ;--- control ---
-   40 00000016 4806            LDR              R0,=SYSTICK_STCTRL_R ; R0 = &SY
+   32 00000002         ; Systick disable
+   33 00000002 4927            LDR              R1,=SYSTICK_STCTRL_R ; R0 = &SY
                                                             STICK_STCTRL_R (poi
                                                             nter)
-   41 00000018 F04F 0100       MOV              R1, #0      ; R1 = [R0]
-   42 0000001C         ; Systick enable, Interruptions enable, PIOSC
-   43 0000001C F101 0103       ADD              R1, R1, #(SYSTICK_STCTRL_CLK_EN
-ABLE+SYSTICK_STCTRL_CLK_INTEN)
-   44 00000020 7001            STRB             R1, [R0]    ; [R0] = R1 
-   45 00000022         systickLoop
-   46 00000022 E7FE            B                systickLoop
-   47 00000024         delay_done
-   48 00000024 BD07            POP              {R0,R1,R2,PC} ; restore previou
+   34 00000004 F04F 0200       MOV              R2, #0      ; R1 = [R0]        
+                                                            
+   35 00000008 600A            STR              R2, [R1]    ; [R0] = R1
+   36 0000000A         ; start iinit sequence
+   37 0000000A F44F 627A       MOV              R2,#ONE_MILISECOND ; R2 = Cicle
+                                                            s to generate 1ms (
+                                                            4Mhz)
+   38 0000000E FB00 F102       MUL              R1, R0, R2  ; R1 = R0*R2 (Cicle
+                                                            s to generate N mil
+                                                            isecods on 4Mhz)
+   39 00000012         ; --- reload value ---
+   40 00000012 4824            LDR              R0,=SYSTICK_STRELOAD_R ; R0 = &
+                                                            SYSTICK_STRELOAD_R 
+                                                            (pointer)
+   41 00000014 6001            STR              R1, [R0]    ; [R0] = R1
+   42 00000016         ; --- current value ---
+   43 00000016 4824            LDR              R0,=SYSTICK_STCURRENT_R ; R0 = 
+                                                            &SYSTICK_STCURRENT_
+                                                            R (pointer)
+   44 00000018 F04F 0100       MOV              R1, #0      ; R1 = 0
+   45 0000001C 6001            STR              R1, [R0]    ; [R0] = R1
+   46 0000001E         ;--- control ---
+   47 0000001E 4820            LDR              R0,=SYSTICK_STCTRL_R ; R0 = &SY
+                                                            STICK_STCTRL_R (poi
+                                                            nter)
+   48 00000020 F04F 0100       MOV              R1, #0      ; R1 = [R0]
+   49 00000024         ; Systick enable, Interruptions enable, PIOSC
+   50 00000024 F101 0101       ADD              R1, R1, #(SYSTICK_STCTRL_CLK_EN
+ABLE)
+   51 00000028 7001            STRB             R1, [R0]    ; [R0] = R1
+   52 0000002A         systickLoop
+   53 0000002A 6801            LDR              R1, [R0]    ; R1 = [R0]
+   54 0000002C F44F 3280       MOV              R2,#SYSTICK_STCTRL_COUNT ; R2 =
+                                                             SYSTICK_STCTRL_COU
+                                                            NT
+   55 00000030 4011            ANDS             R1,R1,R2    ; R1 = R1 && R2
+   56 00000032 D0FA            BEQ              systickLoop ; If ZERO, counter 
+                                                            bit low, go to syst
+                                                            ickLoop
+   57 00000034         delay_done
+   58 00000034 F04F 0100       MOV              R1, #0      ; R1 = [R0]
+   59 00000038         ; Systick disable
+   60 00000038 7001            STRB             R1, [R0]    ; [R0] = R1 
+   61 0000003A BD07            POP              {R0,R1,R2,PC} ; restore previou
                                                             s value of R0 into 
                                                             R0, R1 into R1, and
                                                              LR into PC (return
                                                             )
-   49 00000026         
-   50 00000026         ;----------systick_interrupt------------
-   51 00000026         systick_interrupt
-   52 00000026 E7FD            B                delay_done
-   53 00000028                 ALIGN                        ; make sure the end
+   62 0000003C         
+   63 0000003C         ;-----------------SysTick_Init_Count----------------
+   64 0000003C         ; Activa el systick con un conteo de N milisegundos
+   65 0000003C         ; Input : R0 - N miliseconds to delay
+   66 0000003C         ; Output: none
+   67 0000003C         ; Modifies: none, restore all original values of registe
+                       rs used
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   68 0000003C         SysTick_Init_Count
+   69 0000003C B507            PUSH             {R0,R1,R2,LR} ; save current va
+                                                            lue of R0, R1, R2 a
+                                                            nd LR
+   70 0000003E         ; Systick disable
+   71 0000003E 4918            LDR              R1,=SYSTICK_STCTRL_R ; R0 = &SY
+                                                            STICK_STCTRL_R (poi
+                                                            nter)
+   72 00000040 F04F 0200       MOV              R2, #0      ; R1 = [R0]        
+                                                            
+   73 00000044 600A            STR              R2, [R1]    ; [R0] = R1
+   74 00000046         ; start init sequence
+   75 00000046 F44F 627A       MOV              R2,#ONE_MILISECOND ; R2 = Cicle
+                                                            s to generate 1ms (
+                                                            4Mhz)
+   76 0000004A FB00 F102       MUL              R1, R0, R2  ; R1 = R0*R2 (Cicle
+                                                            s to generate N mil
+                                                            isecods on 4Mhz)
+   77 0000004E         ; --- reload value ---
+   78 0000004E 4815            LDR              R0,=SYSTICK_STRELOAD_R ; R0 = &
+                                                            SYSTICK_STRELOAD_R 
+                                                            (pointer)
+   79 00000050 6001            STR              R1, [R0]    ; [R0] = R1
+   80 00000052         ; --- current value ---
+   81 00000052 4815            LDR              R0,=SYSTICK_STCURRENT_R ; R0 = 
+                                                            &SYSTICK_STCURRENT_
+                                                            R (pointer)
+   82 00000054 F04F 0100       MOV              R1, #0      ; R1 = 0
+   83 00000058 6001            STR              R1, [R0]    ; [R0] = R1
+   84 0000005A         ;--- control ---
+   85 0000005A 4811            LDR              R0,=SYSTICK_STCTRL_R ; R0 = &SY
+                                                            STICK_STCTRL_R (poi
+                                                            nter)
+   86 0000005C F04F 0100       MOV              R1, #0      ; R1 = [R0]
+   87 00000060         ; Systick enable, Interruptions enable, PIOSC
+   88 00000060 F101 0101       ADD              R1, R1, #(SYSTICK_STCTRL_CLK_EN
+ABLE)
+   89 00000064 7001            STRB             R1, [R0]    ; [R0] = R1
+   90 00000066 BD07            POP              {R0,R1,R2,PC} ; restore previou
+                                                            s value of R0 into 
+                                                            R0, R1 into R1, and
+                                                             LR into PC (return
+                                                            )
+   91 00000068         
+   92 00000068         ;-----------------SysTick_Check_Count----------------
+   93 00000068         ; Verifica el estado del Count en el Systick
+   94 00000068         ; Input : none
+   95 00000068         ; Output: R0, 1 if count=1, 0 if not
+   96 00000068         ; Modifies: R0 (out), restore all original values of reg
+                       isters used
+   97 00000068         SysTick_Check_Count
+   98 00000068 B506            PUSH             {R1,R2,LR}  ; save current valu
+                                                            e of R0, R1, R2 and
+                                                             LR
+   99 0000006A 480D            LDR              R0,=SYSTICK_STCTRL_R ; R0 = &SY
+                                                            STICK_STCTRL_R (poi
+                                                            nter)
+  100 0000006C 6801            LDR              R1, [R0]    ; R1 = [R0]
+  101 0000006E F44F 3080       MOV              R0,#SYSTICK_STCTRL_COUNT ; R2 =
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+                                                             SYSTICK_STCTRL_COU
+                                                            NT
+  102 00000072 4008            ANDS             R0,R0,R1    ; R1 = R1 && R2
+  103 00000074 D005            BEQ              SysTick_Check_Count_done ; If Z
+                                                            ERO, counter bit lo
+                                                            w, go to SysTick_Ch
+                                                            eck_Count_done
+  104 00000076 F04F 0001       MOV              R0,#1       ; R1 = 1
+  105 0000007A 4909            LDR              R1,=SYSTICK_STCTRL_R ; R1 = &SY
+                                                            STICK_STCTRL_R (poi
+                                                            nter)
+  106 0000007C F04F 0200       MOV              R2,#0       ; R2 = 0
+  107 00000080         ; Systick disable
+  108 00000080 700A            STRB             R2, [R1]    ; [R0] = R1
+  109 00000082         SysTick_Check_Count_done
+  110 00000082 BD06            POP              {R1,R2,PC}  ; restore previous 
+                                                            value of R0 into R0
+                                                            , R1 into R1, and L
+                                                            R into PC (return)
+  111 00000084         
+  112 00000084         ;----------systick_interrupt------------
+  113 00000084         systick_interrupt
+  114 00000084 BC01            POP              {R0}
+  115 00000086 BC01            POP              {R0}
+  116 00000088 BC01            POP              {R0}
+  117 0000008A BC01            POP              {R0}
+  118 0000008C BC01            POP              {R0}
+  119 0000008E BC01            POP              {R0}
+  120 00000090 BC01            POP              {R0}
+  121 00000092 BC01            POP              {R0}
+  122 00000094 BC01            POP              {R0}
+  123 00000096 4802            LDR              R0,=SYSTICK_STCTRL_R ; R0 = &SY
+                                                            STICK_STCTRL_R (poi
+                                                            nter)
+  124 00000098 F04F 0100       MOV              R1, #0      ; R1 = [R0]
+  125 0000009C         ; Systick DISABLE, Interruptions enable, PIOSC
+  126 0000009C         ;ADD R1, R1, #(SYSTICK_STCTRL_CLK_INTEN)
+  127 0000009C 6001            STR              R1, [R0]    ; [R0] = R1 
+  128 0000009E E7C9            B                delay_done
+  129 000000A0                 ALIGN                        ; make sure the end
                                                              of this section is
                                                              aligned
-   54 00000028                 END                          ; end of file
+  130 000000A0                 END                          ; end of file
+              E000E010 
               E000E014 
               E000E018 
-              E000E010 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\systick.d -o.\objects\systick.o -IC:\Users\mode_\Docu
 ments\Fmat\MicroControladores\KeilProjects\Cash_flow\RTE\_Target_1 -IC:\Keil_v5
@@ -132,39 +265,69 @@ Symbol: .text
    Uses
       None
 Comment: .text unused
+SysTick_Check_Count 00000068
+
+Symbol: SysTick_Check_Count
+   Definitions
+      At line 97 in file SysTick.s
+   Uses
+      At line 22 in file SysTick.s
+Comment: SysTick_Check_Count used once
+SysTick_Check_Count_done 00000082
+
+Symbol: SysTick_Check_Count_done
+   Definitions
+      At line 109 in file SysTick.s
+   Uses
+      At line 103 in file SysTick.s
+Comment: SysTick_Check_Count_done used once
+SysTick_Init_Count 0000003C
+
+Symbol: SysTick_Init_Count
+   Definitions
+      At line 68 in file SysTick.s
+   Uses
+      At line 21 in file SysTick.s
+Comment: SysTick_Init_Count used once
 delay 00000000
 
 Symbol: delay
    Definitions
-      At line 28 in file SysTick.s
+      At line 30 in file SysTick.s
    Uses
       At line 20 in file SysTick.s
 Comment: delay used once
-delay_done 00000024
+delay_done 00000034
 
 Symbol: delay_done
    Definitions
-      At line 47 in file SysTick.s
+      At line 57 in file SysTick.s
    Uses
-      At line 52 in file SysTick.s
+      At line 128 in file SysTick.s
 Comment: delay_done used once
-systickLoop 00000022
+systickLoop 0000002A
 
 Symbol: systickLoop
    Definitions
-      At line 45 in file SysTick.s
+      At line 52 in file SysTick.s
    Uses
-      At line 46 in file SysTick.s
+      At line 56 in file SysTick.s
 Comment: systickLoop used once
-systick_interrupt 00000026
+systick_interrupt 00000084
 
 Symbol: systick_interrupt
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
    Definitions
-      At line 51 in file SysTick.s
+      At line 113 in file SysTick.s
    Uses
-      At line 21 in file SysTick.s
+      At line 23 in file SysTick.s
 Comment: systick_interrupt used once
-5 symbols
+8 symbols
 
 
 
@@ -177,24 +340,26 @@ Symbol: ONE_MILISECOND
    Definitions
       At line 16 in file SysTick.s
    Uses
-      At line 30 in file SysTick.s
-Comment: ONE_MILISECOND used once
+      At line 37 in file SysTick.s
+      At line 75 in file SysTick.s
+
 SYSTICK_STCTRL_CLK_ENABLE 00000001
 
 Symbol: SYSTICK_STCTRL_CLK_ENABLE
    Definitions
       At line 11 in file SysTick.s
    Uses
-      At line 43 in file SysTick.s
-Comment: SYSTICK_STCTRL_CLK_ENABLE used once
+      At line 50 in file SysTick.s
+      At line 88 in file SysTick.s
+
 SYSTICK_STCTRL_CLK_INTEN 00000002
 
 Symbol: SYSTICK_STCTRL_CLK_INTEN
    Definitions
       At line 10 in file SysTick.s
    Uses
-      At line 43 in file SysTick.s
-Comment: SYSTICK_STCTRL_CLK_INTEN used once
+      None
+Comment: SYSTICK_STCTRL_CLK_INTEN unused
 SYSTICK_STCTRL_CLK_SRC 00000004
 
 Symbol: SYSTICK_STCTRL_CLK_SRC
@@ -209,37 +374,46 @@ Symbol: SYSTICK_STCTRL_COUNT
    Definitions
       At line 8 in file SysTick.s
    Uses
-      None
-Comment: SYSTICK_STCTRL_COUNT unused
+      At line 54 in file SysTick.s
+      At line 101 in file SysTick.s
+
 SYSTICK_STCTRL_R E000E010
 
 Symbol: SYSTICK_STCTRL_R
    Definitions
       At line 7 in file SysTick.s
    Uses
-      At line 40 in file SysTick.s
-Comment: SYSTICK_STCTRL_R used once
+      At line 33 in file SysTick.s
+      At line 47 in file SysTick.s
+      At line 71 in file SysTick.s
+      At line 85 in file SysTick.s
+      At line 99 in file SysTick.s
+      At line 105 in file SysTick.s
+      At line 123 in file SysTick.s
+
 SYSTICK_STCURRENT_R E000E018
 
-Symbol: SYSTICK_STCURRENT_R
-   Definitions
-      At line 14 in file SysTick.s
-   Uses
-      At line 36 in file SysTick.s
-Comment: SYSTICK_STCURRENT_R used once
-SYSTICK_STRELOAD_R E000E014
-
-Symbol: SYSTICK_STRELOAD_R
 
 
 
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Absolute symbols
 
+Symbol: SYSTICK_STCURRENT_R
+   Definitions
+      At line 14 in file SysTick.s
+   Uses
+      At line 43 in file SysTick.s
+      At line 81 in file SysTick.s
+
+SYSTICK_STRELOAD_R E000E014
+
+Symbol: SYSTICK_STRELOAD_R
    Definitions
       At line 13 in file SysTick.s
    Uses
-      At line 33 in file SysTick.s
-Comment: SYSTICK_STRELOAD_R used once
+      At line 40 in file SysTick.s
+      At line 78 in file SysTick.s
+
 8 symbols
-349 symbols in table
+352 symbols in table

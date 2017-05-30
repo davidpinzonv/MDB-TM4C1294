@@ -212,20 +212,20 @@ ARM Macro Assembler    Page 4
    90 00000000         ; Input : R0 8-bit address
    91 00000000         ; Output: none
    92 00000000         MDB_SendAddress
-   93 00000000 B503            PUSH             {R0, R1, LR} ; save current val
-                                                            ue of R0, R1 and LR
-                                                            
+   93 00000000 B50F            PUSH             {R0, R1, R2, R3, LR} ; save cur
+                                                            rent value of R0, R
+                                                            1 and LR
    94 00000002 F7FF FFFE       BL               UART_HighStickParity ; set high
                                                              stick parity
    95 00000006 F7FF FFFE       BL               UART_OutChar ; note: modifies R
-                                                            0 and R1
+                                                            0, R2
    96 0000000A F7FF FFFE       BL               UART_LowStickParity ; set to lo
                                                             w stick parity
-   97 0000000E BD03            POP              {R0, R1, PC} ; restore previous
-                                                             value of R0 into R
-                                                            0, R1 into R1, and 
-                                                            LR into PC (return)
-                                                            
+   97 0000000E BD0F            POP              {R0, R1, R2, R3, PC} ; restore 
+                                                            previous value of R
+                                                            0 into R0, R1 into 
+                                                            R1, and LR into PC 
+                                                            (return)
    98 00000010         
    99 00000010         ;-----------MDB_SendCommand-----------
   100 00000010         ; Envia comando/datos a un periferico
@@ -364,751 +364,827 @@ ARM Macro Assembler    Page 6
   162 0000005E         ; Input : R0 pointer to DataIn buffer
   163 0000005E         ; Output: R0 number of data bytes getted, included chk(i
                        f apply), 0 if chksum failed
-  164 0000005E         ; Modifies: R0, all used Register are pushed and poped
-  165 0000005E         ; DataIn buffer upgraded.
-  166 0000005E         MDB_GetAnswer
-  167 0000005E B53E            PUSH             {R1, R2, R3, R4, R5, LR} ; save
-                                                             current value of R
-                                                            0, R1, R2, R3, R4, 
-                                                            R5 and LR
-  168 00000060 4603            MOV              R3, R0      ; R3 = R0 (save the
+  164 0000005E         ;    R1 time response out 1 if no response, 0 if good re
+                       sponse
+  165 0000005E         ; Modifies: R0, all used Register are pushed and poped
+  166 0000005E         ; DataIn buffer upgraded.
+  167 0000005E         MDB_GetAnswer
+  168 0000005E B53C            PUSH             {R2, R3, R4, R5, LR} ; save cur
+                                                            rent value of R0, R
+                                                            1, R2, R3, R4, R5 a
+                                                            nd LR
+  169 00000060 4603            MOV              R3, R0      ; R3 = R0 (save the
                                                              DataIn pointer buf
                                                             fer) 
-  169 00000062 F04F 0200       MOV              R2, #0      ; initialize counte
+  170 00000062 F04F 0200       MOV              R2, #0      ; initialize counte
                                                             r, contador de dato
                                                             s recibidos
-  170 00000066 F04F 0400       MOV              R4, #0      ; initialize chksum
+  171 00000066 F04F 0400       MOV              R4, #0      ; initialize chksum
                                                             
-  171 0000006A F04F 0500       MOV              R5, #0      ; personal flag for
+  172 0000006A F04F 0500       MOV              R5, #0      ; personal flag for
                                                              Stick Parity Inter
                                                             rup
-  172 0000006E         getAnswerLoop                        ; stay in loop util
+  173 0000006E         getAnswerLoop                        ; stay in loop util
                                                              interruption by st
                                                             ick parity detected
                                                              
-  173 0000006E F7FF FFFE       BL               UART_InChar ; get byte from UAR
-                                                            T
 
 
 
 ARM Macro Assembler    Page 7 
 
 
-  174 00000072 7018            STRB             R0, [R3]    ; [R3] = R0 (store 
+  174 0000006E F7FF FFFE       BL               UART_InChar ; get byte from UAR
+                                                            T
+  175 00000072 2901            CMP              R1,#1       ; R1 == 1? (time re
+                                                            sponse out)?
+  176 00000074 D00E            BEQ              getAnswer_no_response
+  177 00000076 7018            STRB             R0, [R3]    ; [R3] = R0 (store 
                                                             8 least significant
                                                              bits of R0 into lo
                                                             cation pointed to b
                                                             y R4)
-  175 00000074 F103 0301       ADD              R3, R3, #1  ; R4 = R4 + 1 (buff
+  178 00000078 F103 0301       ADD              R3, R3, #1  ; R4 = R4 + 1 (buff
                                                             erPt = bufferPt + 1
                                                             )
-  176 00000078 2D01            CMP              R5, #1      ; R5 = 1 ? (R5 modi
+  179 0000007C 2D01            CMP              R5, #1      ; R5 = 1 ? (R5 modi
                                                             fied by Stick Parit
                                                             y Interrupt Handler
                                                             )
-  177 0000007A D001            BEQ              getAnswerEnd ; if so, answer of
+  180 0000007E D001            BEQ              getAnswerEnd ; if so, answer of
                                                              peripheral MDB is 
                                                             finished
-  178 0000007C 4404            ADD              R4, R4, R0  ; actualize chksum 
+  181 00000080 4404            ADD              R4, R4, R0  ; actualize chksum 
                                                             
-  179 0000007E E7F6            B                getAnswerLoop ; unconditional b
+  182 00000082 E7F4            B                getAnswerLoop ; unconditional b
                                                             ranch to 'inDataLoo
                                                             p'
-  180 00000080         getAnswerEnd
-  181 00000080 4601            MOV              R1, R0      ; R1 = R0 (chk byte
+  183 00000084         getAnswerEnd
+  184 00000084 4601            MOV              R1, R0      ; R1 = R0 (chk byte
                                                             )
-  182 00000082 4610            MOV              R0, R2      ; R0 = R2 number of
+  185 00000086 4610            MOV              R0, R2      ; R0 = R2 number of
                                                              bytes received
-  183 00000084 2801            CMP              R0, #1      ; R0 = 1 ? (if no n
+  186 00000088 2801            CMP              R0, #1      ; R0 = 1 ? (if no n
                                                             eeded check sum)
-  184 00000086 D002            BEQ              getAnswerDone ; if so, answer d
+  187 0000008A D002            BEQ              getAnswerDone ; if so, answer d
                                                             one
-  185 00000088 428C            CMP              R4, R1      ; R4 = R0 (chksum =
+  188 0000008C 428C            CMP              R4, R1      ; R4 = R0 (chksum =
                                                              chk)?
-  186 0000008A BF18 2000       MOVNE            R0, #0      ; R0 = 0 (chksum fa
+  189 0000008E BF18 2000       MOVNE            R0, #0      ; R0 = 0 (chksum fa
                                                             iled)
-  187 0000008E         getAnswerDone
-  188 0000008E         ; restore previous value of R0 into R0, R1 into R1, R2 i
+  190 00000092         getAnswerDone
+  191 00000092         ; restore previous value of R0 into R0, R1 into R1, R2 i
                        nto R2
-  189 0000008E BD3E            POP              {R1, R2, R3, R4, R5, PC} ; R3 i
-                                                            nto R3, R4 into R4,
-                                                             R5, into R5 and LR
-                                                             into PC (return)
-  190 00000090         
-  191 00000090         ;---------MDB_SendBusReset---------
-  192 00000090         ; Manda un bus reset a los perifericos
-  193 00000090         ; Input : none
-  194 00000090         ; Output: none
-  195 00000090         ; Modifies: none, all used Register are pushed and poped
-                       
-  196 00000090         MDB_SendBusReset
-  197 00000090 B503            PUSH             {R0, R1, LR} ; save current val
-                                                            ues of R0, R1, LR
-  198 00000092 F7FF FFFE       BL               UART_SendBreak ; send break
-  199 00000096 F7FF FFFE       BL               Timer_BreakTime ; start Timer_B
-                                                            reakTime (100ms)
-  200 0000009A         sendBusResetLoop
-  201 0000009A E7FE            B                sendBusResetLoop
-  202 0000009C         sendBusResetDone
-  203 0000009C F7FF FFFE       BL               UART_SendBreak_Disable 
-                                                            ; stop break
-  204 000000A0 BD03            POP              {R0, R1, PC} ; restore previous
+  192 00000092 BD3C            POP              {R2, R3, R4, R5, PC} ; R3 into 
+                                                            R3, R4 into R4, R5,
+                                                             into R5 and LR int
+                                                            o PC (return)
+  193 00000094         getAnswer_no_response
+  194 00000094 F04F 0000       MOV              R0, #0      ; R0 = 0 (no answer
+                                                            )
+  195 00000098 F04F 0101       MOV              R1, #1      ; R0 = 1 (response 
+                                                            time out)
+  196 0000009C BD3C            POP              {R2, R3, R4, R5, PC} ; R3 into 
+                                                            R3, R4 into R4, R5,
+                                                             into R5 and LR int
+                                                            o PC (return)
+  197 0000009E         
+  198 0000009E         ;---------MDB_SendBusReset---------
+  199 0000009E         ; Manda un bus reset a los perifericos
+  200 0000009E         ; Input : none
+  201 0000009E         ; Output: none
 
 
 
 ARM Macro Assembler    Page 8 
 
 
+  202 0000009E         ; Modifies: none, all used Register are pushed and poped
+                       
+  203 0000009E         MDB_SendBusReset
+  204 0000009E B503            PUSH             {R0, R1, LR} ; save current val
+                                                            ues of R0, R1, LR
+  205 000000A0 F7FF FFFE       BL               UART_SendBreak ; send break
+  206 000000A4         ;BL Timer_BreakTime    ; start Timer_BreakTime (100ms)
+  207 000000A4         ;sendBusResetLoop
+  208 000000A4         ;B sendBusResetLoop
+  209 000000A4 F04F 0096       MOV              R0, #150
+  210 000000A8 F7FF FFFE       BL               delay       ; delay of 150ms (R
+                                                            0)
+  211 000000AC         sendBusResetDone
+  212 000000AC F7FF FFFE       BL               UART_SendBreak_Disable 
+                                                            ; stop break
+  213 000000B0 BD03            POP              {R0, R1, PC} ; restore previous
                                                              value of R0 into R
                                                             0, R1 into R1, and 
                                                             LR into PC (return)
                                                             
-  205 000000A2         
-  206 000000A2         ;---------MDB_SendPool---------
-  207 000000A2         ; Manda un el comando POOL
-  208 000000A2         ; Input : R0, peripheral addres to send the pool command
+  214 000000B2         
+  215 000000B2         ;---------MDB_SendPool---------
+  216 000000B2         ; Manda un el comando POOL
+  217 000000B2         ; Input : R0, peripheral addres to send the pool command
                        
-  209 000000A2         ; Output: none
-  210 000000A2         ; Modifies: none, all used Register are pushed and poped
+  218 000000B2         ; Output: none
+  219 000000B2         ; Modifies: none, all used Register are pushed and poped
                        
-  211 000000A2         MDB_SendPool
-  212 000000A2 B507            PUSH             {R0, R1, R2, LR} ; save current
+  220 000000B2         MDB_SendPool
+  221 000000B2 B507            PUSH             {R0, R1, R2, LR} ; save current
                                                              values of R0, R1, 
                                                             R2, LR
-  213 000000A4 4991            LDR              R1,=Command ; R1 = &Command (po
+  222 000000B4 499C            LDR              R1,=Command ; R1 = &Command (po
                                                             inter)
-  214 000000A6 F04F 020B       MOV              R2,#COMMAND_POLL 
+  223 000000B6 F04F 020B       MOV              R2,#COMMAND_POLL 
                                                             ; R2 = COMMAND_POLL
                                                             
-  215 000000AA 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
+  224 000000BA 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
                                                             D_POLL)
-  216 000000AC F04F 0201       MOV              R2,#1       ; R2 = 1 (number of
+  225 000000BC F04F 0201       MOV              R2,#1       ; R2 = 1 (number of
                                                              command bytes to s
                                                             end)
-  217 000000B0 F7FF FFFE       BL               MDB_SendAddress ; send the peri
+  226 000000C0 F7FF FFFE       BL               MDB_SendAddress ; send the peri
                                                             pheral address
-  218 000000B4 F7FF FFFE       BL               MDB_SendCommand ; send pool com
+  227 000000C4 F7FF FFFE       BL               MDB_SendCommand ; send pool com
                                                             mand with chk byte
-  219 000000B8 BD07            POP              {R0, R1, R2, PC} ; restore prev
+  228 000000C8 BD07            POP              {R0, R1, R2, PC} ; restore prev
                                                             ious value of R0 in
                                                             to R0, R1 into R1, 
                                                             and LR into PC (ret
                                                             urn)
-  220 000000BA         
-  221 000000BA         ;---------MDB_SendSetup---------
-  222 000000BA         ; Manda un el comando SETUP
-  223 000000BA         ; Input : R0, peripheral addres to send the Setup comman
+  229 000000CA         
+  230 000000CA         ;---------MDB_SendSetup---------
+  231 000000CA         ; Manda un el comando SETUP
+  232 000000CA         ; Input : R0, peripheral addres to send the Setup comman
                        d
-  224 000000BA         ; Output: none
-  225 000000BA         ; Modifies: none, all used Register are pushed and poped
+  233 000000CA         ; Output: none
+  234 000000CA         ; Modifies: none, all used Register are pushed and poped
                        
-  226 000000BA         MDB_SendSetup
-  227 000000BA B507            PUSH             {R0, R1, R2, LR} ; save current
-                                                             values of R0, R1, 
-                                                            R2, LR
-  228 000000BC 498B            LDR              R1,=Command ; R1 = &Command (po
-                                                            inter)
-  229 000000BE F04F 0209       MOV              R2,#COMMAND_SETUP ; R2 = COMMAN
-                                                            D_SETUP
-  230 000000C2 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
-                                                            D_SETUP)
-  231 000000C4 F04F 0201       MOV              R2,#1       ; R2 = 1 (number of
-                                                             command bytes to s
-                                                            end)
-  232 000000C8 F7FF FFFE       BL               MDB_SendAddress ; send the peri
-                                                            pheral address
-  233 000000CC F7FF FFFE       BL               MDB_SendCommand ; send pool com
 
 
 
 ARM Macro Assembler    Page 9 
 
 
-                                                            mand with chk byte
-  234 000000D0 BD07            POP              {R0, R1, R2, PC} ; restore prev
-                                                            ious value of R0 in
-                                                            to R0, R1 into R1, 
-                                                            and LR into PC (ret
-                                                            urn)
-  235 000000D2         
-  236 000000D2         ;---------MDB_SendExpIdentification---------
-  237 000000D2         ; Manda un el comando-exp  Identification
-  238 000000D2         ; Input : R0, peripheral addres to send the Identificati
-                       on command
-  239 000000D2         ; Output: none
-  240 000000D2         ; Modifies: none, all used Register are pushed and poped
-                       
-  241 000000D2         MDB_SendExpIdentification
-  242 000000D2 B507            PUSH             {R0, R1, R2, LR} ; save current
+  235 000000CA         MDB_SendSetup
+  236 000000CA B507            PUSH             {R0, R1, R2, LR} ; save current
                                                              values of R0, R1, 
                                                             R2, LR
-  243 000000D4 4985            LDR              R1,=Command ; R1 = &Command (po
+  237 000000CC 4996            LDR              R1,=Command ; R1 = &Command (po
                                                             inter)
-  244 000000D6 F04F 020F       MOV              R2,#COMMAND_EXP_IDENTIFICATION 
-                                                            ; R2 = COMMAND_EXP_
-                                                            IDENTIFICATION
-  245 000000DA 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
-                                                            D_EXP_IDENTIFICATIO
-                                                            N)
-  246 000000DC F04F 0202       MOV              R2,#2       ; R2 = 2 (number of
+  238 000000CE F04F 0209       MOV              R2,#COMMAND_SETUP ; R2 = COMMAN
+                                                            D_SETUP
+  239 000000D2 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
+                                                            D_SETUP)
+  240 000000D4 F04F 0201       MOV              R2,#1       ; R2 = 1 (number of
                                                              command bytes to s
                                                             end)
-  247 000000E0 F7FF FFFE       BL               MDB_SendAddress ; send the peri
+  241 000000D8 F7FF FFFE       BL               MDB_SendAddress ; send the peri
                                                             pheral address
-  248 000000E4 F7FF FFFE       BL               MDB_SendCommand ; send pool com
+  242 000000DC F7FF FFFE       BL               MDB_SendCommand ; send pool com
                                                             mand with chk byte
-  249 000000E8 BD07            POP              {R0, R1, R2, PC} ; restore prev
+  243 000000E0 BD07            POP              {R0, R1, R2, PC} ; restore prev
                                                             ious value of R0 in
                                                             to R0, R1 into R1, 
                                                             and LR into PC (ret
                                                             urn)
-  250 000000EA         
-  251 000000EA         ;---------MDB_SendExpSendDiagStatus---------
-  252 000000EA         ; Manda el comando-exp Send Diagnostic status
-  253 000000EA         ; Input : R0, peripheral addres to send the SendDiagStat
-                       us comand
-  254 000000EA         ; Output: none
-  255 000000EA         ; Modifies: none, all used Register are pushed and poped
+  244 000000E2         
+  245 000000E2         ;---------MDB_SendExpIdentification---------
+  246 000000E2         ; Manda un el comando-exp  Identification
+  247 000000E2         ; Input : R0, peripheral addres to send the Identificati
+                       on command
+  248 000000E2         ; Output: none
+  249 000000E2         ; Modifies: none, all used Register are pushed and poped
                        
-  256 000000EA         MDB_SendExpSendDiagStatus
-  257 000000EA B507            PUSH             {R0, R1, R2, LR} ; save current
+  250 000000E2         MDB_SendExpIdentification
+  251 000000E2 B507            PUSH             {R0, R1, R2, LR} ; save current
                                                              values of R0, R1, 
                                                             R2, LR
-  258 000000EC 497F            LDR              R1,=Command ; R1 = &Command (po
+  252 000000E4 4990            LDR              R1,=Command ; R1 = &Command (po
                                                             inter)
-  259 000000EE F240 520F       MOV              R2,#COMMAND_EXP_SEND_DIAGNOSTIC
-_STATUS 
+  253 000000E6 F04F 020F       MOV              R2,#COMMAND_EXP_IDENTIFICATION 
                                                             ; R2 = COMMAND_EXP_
-                                                            SEND_DIAGNOSTIC_STA
-                                                            TUS
-  260 000000F2 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
-                                                            D_EXP_SEND_DIAGNOST
+                                                            IDENTIFICATION
+  254 000000EA 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
+                                                            D_EXP_IDENTIFICATIO
+                                                            N)
+  255 000000EC F04F 0202       MOV              R2,#2       ; R2 = 2 (number of
+                                                             command bytes to s
+                                                            end)
+  256 000000F0 F7FF FFFE       BL               MDB_SendAddress ; send the peri
+                                                            pheral address
+  257 000000F4 F7FF FFFE       BL               MDB_SendCommand ; send pool com
+                                                            mand with chk byte
+  258 000000F8 BD07            POP              {R0, R1, R2, PC} ; restore prev
+                                                            ious value of R0 in
+                                                            to R0, R1 into R1, 
+                                                            and LR into PC (ret
+                                                            urn)
+  259 000000FA         
+  260 000000FA         ;---------MDB_SendExpSendDiagStatus---------
+  261 000000FA         ; Manda el comando-exp Send Diagnostic status
+  262 000000FA         ; Input : R0, peripheral addres to send the SendDiagStat
+                       us comand
 
 
 
 ARM Macro Assembler    Page 10 
 
 
+  263 000000FA         ; Output: none
+  264 000000FA         ; Modifies: none, all used Register are pushed and poped
+                       
+  265 000000FA         MDB_SendExpSendDiagStatus
+  266 000000FA B507            PUSH             {R0, R1, R2, LR} ; save current
+                                                             values of R0, R1, 
+                                                            R2, LR
+  267 000000FC 498A            LDR              R1,=Command ; R1 = &Command (po
+                                                            inter)
+  268 000000FE F240 520F       MOV              R2,#COMMAND_EXP_SEND_DIAGNOSTIC
+_STATUS 
+                                                            ; R2 = COMMAND_EXP_
+                                                            SEND_DIAGNOSTIC_STA
+                                                            TUS
+  269 00000102 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
+                                                            D_EXP_SEND_DIAGNOST
                                                             IC_STATUS)
-  261 000000F4 F04F 0202       MOV              R2,#2       ; R2 = 1 (number of
+  270 00000104 F04F 0202       MOV              R2,#2       ; R2 = 1 (number of
                                                              command bytes to s
                                                             end)
-  262 000000F8 F7FF FFFE       BL               MDB_SendAddress ; send the peri
+  271 00000108 F7FF FFFE       BL               MDB_SendAddress ; send the peri
                                                             pheral address
-  263 000000FC F7FF FFFE       BL               MDB_SendCommand ; send pool com
+  272 0000010C F7FF FFFE       BL               MDB_SendCommand ; send pool com
                                                             mand with chk byte
-  264 00000100 BD07            POP              {R0, R1, R2, PC} ; restore prev
+  273 00000110 BD07            POP              {R0, R1, R2, PC} ; restore prev
                                                             ious value of R0 in
                                                             to R0, R1 into R1, 
                                                             and LR into PC (ret
                                                             urn)
-  265 00000102         
-  266 00000102         ;---------MDB_SendTubeStatus---------
-  267 00000102         ; Manda el comando Tube Status
-  268 00000102         ; Input : R0, peripheral addres to send the Tube Status 
+  274 00000112         
+  275 00000112         ;---------MDB_SendTubeStatus---------
+  276 00000112         ; Manda el comando Tube Status
+  277 00000112         ; Input : R0, peripheral addres to send the Tube Status 
                        comand
-  269 00000102         ; Output: none
-  270 00000102         ; Modifies: none, all used Register are pushed and poped
+  278 00000112         ; Output: none
+  279 00000112         ; Modifies: none, all used Register are pushed and poped
                        
-  271 00000102         MDB_SendTubeStatus
-  272 00000102 B507            PUSH             {R0, R1, R2, LR} ; save current
+  280 00000112         MDB_SendTubeStatus
+  281 00000112 B507            PUSH             {R0, R1, R2, LR} ; save current
                                                              values of R0, R1, 
                                                             R2, LR
-  273 00000104 4979            LDR              R1,=Command ; R1 = &Command (po
+  282 00000114 4984            LDR              R1,=Command ; R1 = &Command (po
                                                             inter)
-  274 00000106 F04F 020A       MOV              R2,#COMMAND_TUBE_STATUS ; R2 = 
+  283 00000116 F04F 020A       MOV              R2,#COMMAND_TUBE_STATUS ; R2 = 
                                                             COMMAND_TUBE_STATUS
                                                             
-  275 0000010A 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
+  284 0000011A 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
                                                             D_TUBE_STATUS)
-  276 0000010C F04F 0201       MOV              R2,#1       ; R2 = 1 (number of
+  285 0000011C F04F 0201       MOV              R2,#1       ; R2 = 1 (number of
                                                              command bytes to s
                                                             end)
-  277 00000110 F7FF FFFE       BL               MDB_SendAddress ; send the peri
+  286 00000120 F7FF FFFE       BL               MDB_SendAddress ; send the peri
                                                             pheral address
-  278 00000114 F7FF FFFE       BL               MDB_SendCommand ; send pool com
+  287 00000124 F7FF FFFE       BL               MDB_SendCommand ; send pool com
                                                             mand with chk byte
-  279 00000118 BD07            POP              {R0, R1, R2, PC} ; restore prev
+  288 00000128 BD07            POP              {R0, R1, R2, PC} ; restore prev
                                                             ious value of R0 in
                                                             to R0, R1 into R1, 
                                                             and LR into PC (ret
-                                                            urn)
-  280 0000011A         
-  281 0000011A         ;---------MDB_DispenseValue---------
-  282 0000011A         ; Send expansion command to request a dispense value
-  283 0000011A         ; and init sequence to verify dispense is done
-  284 0000011A         ; Input : R0, value to dispense
-  285 0000011A         ; Output: none
-  286 0000011A         ; Modifies: none, all used Register are pushed and poped
-                       
-  287 0000011A         MDB_DispenseValue
-  288 0000011A B507            PUSH             {R0, R1, R2, LR} ; save current
-                                                             values of R0, R1, 
-                                                            R2, LR
-  289 0000011C         init_dispense_value
-  290 0000011C 4973            LDR              R1,=Command ; R1 = &Command (po
-                                                            inter)
 
 
 
 ARM Macro Assembler    Page 11 
 
 
-  291 0000011E F240 220F       MOV              R2,#COMMAND_EXP_PAYOUT ; R2 = C
+                                                            urn)
+  289 0000012A         
+  290 0000012A         ;---------MDB_DispenseValue---------
+  291 0000012A         ; Send expansion command to request a dispense value
+  292 0000012A         ; and init sequence to verify dispense is done
+  293 0000012A         ; Input : R0, value to dispense
+  294 0000012A         ; Output: none
+  295 0000012A         ; Modifies: none, all used Register are pushed and poped
+                       
+  296 0000012A         MDB_DispenseValue
+  297 0000012A B507            PUSH             {R0, R1, R2, LR} ; save current
+                                                             values of R0, R1, 
+                                                            R2, LR
+  298 0000012C         init_dispense_value
+  299 0000012C 497E            LDR              R1,=Command ; R1 = &Command (po
+                                                            inter)
+  300 0000012E F240 220F       MOV              R2,#COMMAND_EXP_PAYOUT ; R2 = C
                                                             OMMAND_EXP_PAYOUT
-  292 00000122 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
+  301 00000132 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
                                                             D_EXP_PAYOUT)
-  293 00000124 7088            STRB             R0,[R1,#2]  ; [R1+1] = R0 (Valu
+  302 00000134 7088            STRB             R0,[R1,#2]  ; [R1+1] = R0 (Valu
                                                             e of coins to dispe
                                                             nse)
-  294 00000126 F04F 0203       MOV              R2,#3       ; R2 = 1 (number of
+  303 00000136 F04F 0203       MOV              R2,#3       ; R2 = 1 (number of
                                                              command bytes to s
                                                             end)
-  295 0000012A F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
+  304 0000013A F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
                                                             IN_CHANGER_ADDR
-  296 0000012E F7FF FFFE       BL               MDB_SendAddress ; send the peri
+  305 0000013E F7FF FFFE       BL               MDB_SendAddress ; send the peri
                                                             pheral address
-  297 00000132 F7FF FFFE       BL               MDB_SendCommand ; send command 
+  306 00000142 F7FF FFFE       BL               MDB_SendCommand ; send command 
                                                             with chk byte
-  298 00000136         DispenseValue_get_answer
-  299 00000136 486E            LDR              R0,=DataIn  ; R0 = &DataIn (poi
+  307 00000146         DispenseValue_get_answer
+  308 00000146 4879            LDR              R0,=DataIn  ; R0 = &DataIn (poi
                                                             nter)
-  300 00000138 F7FF FFFE       BL               MDB_GetAnswer ; getting answer
-  301 0000013C 486C            LDR              R0,=DataIn  ; R0 = &DataIn (poi
-                                                            nter)
-  302 0000013E 6801            LDR              R1, [R0]    ; R1 = [R0]
-  303 00000140 2900            CMP              R1,#0       ; R1 == 0 ? (ACK)?
-  304 00000142 D1EB            BNE              init_dispense_value ; if so, go
+  309 00000148 F7FF FFFE       BL               MDB_GetAnswer ; getting answer
+  310 0000014C 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  311 0000014E D0ED            BEQ              init_dispense_value ; if so, go
                                                              to init_dispense_v
                                                             alue
-  305 00000144         ; acknowledge, confirm sended command
-  306 00000144         payout_value_pool_loop
-  307 00000144 F04F 007D       MOV              R0,#125     ; R0 = 125
-  308 00000148 F7FF FFFE       BL               delay       ; delay 125ms
-  309 0000014C 4967            LDR              R1,=Command ; R1 = &Command (po
+  312 00000150 4876            LDR              R0,=DataIn  ; R0 = &DataIn (poi
+                                                            nter)
+  313 00000152 6801            LDR              R1, [R0]    ; R1 = [R0]
+  314 00000154 2900            CMP              R1,#0       ; R1 == 0 ? (ACK)?
+  315 00000156 D1E9            BNE              init_dispense_value ; if so, go
+                                                             to init_dispense_v
+                                                            alue
+  316 00000158         ; acknowledge, confirm sended command
+  317 00000158         payout_value_pool_loop
+  318 00000158 F04F 007D       MOV              R0,#125     ; R0 = 125
+  319 0000015C F7FF FFFE       BL               delay       ; delay 125ms
+  320 00000160         payout_send_value_pool
+  321 00000160 4971            LDR              R1,=Command ; R1 = &Command (po
                                                             inter)
-  310 0000014E F240 420F       MOV              R2,#COMMAND_EXP_PAYOUT_VALUE_PO
+  322 00000162 F240 420F       MOV              R2,#COMMAND_EXP_PAYOUT_VALUE_PO
 LL 
                                                             ; R2 = COMMAND_EXP_
                                                             PAYOUT_VALUE_POLL
-  311 00000152 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
-                                                            D_EXP_PAYOUT_VALUE_
-                                                            POLL)
-  312 00000154 F04F 0202       MOV              R2,#2       ; R2 = 2 (number of
-                                                             command bytes to s
-                                                            end)
-  313 00000158 F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
-                                                            IN_CHANGER_ADDR
-  314 0000015C F7FF FFFE       BL               MDB_SendAddress ; send the peri
-                                                            pheral address
-  315 00000160 F7FF FFFE       BL               MDB_SendCommand ; send command 
-                                                            with chk byte
-  316 00000164         payout_value_poll_get_answer
-  317 00000164 4862            LDR              R0,=DataIn  ; R0 = &DataIn (poi
-                                                            nter)
-  318 00000166 F7FF FFFE       BL               MDB_GetAnswer ; getting answer
-  319 0000016A 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
-                                                             fail)?
-  320 0000016C BF08 F7FF 
-              FFFE             BLEQ             MDB_SendRET ; if so, sen RET
-  321 00000172 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
-                                                             fail)?
 
 
 
 ARM Macro Assembler    Page 12 
 
 
-  322 00000174 D0F6            BEQ              payout_value_poll_get_answer ; 
+  323 00000166 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
+                                                            D_EXP_PAYOUT_VALUE_
+                                                            POLL)
+  324 00000168 F04F 0202       MOV              R2,#2       ; R2 = 2 (number of
+                                                             command bytes to s
+                                                            end)
+  325 0000016C F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
+                                                            IN_CHANGER_ADDR
+  326 00000170 F7FF FFFE       BL               MDB_SendAddress ; send the peri
+                                                            pheral address
+  327 00000174 F7FF FFFE       BL               MDB_SendCommand ; send command 
+                                                            with chk byte
+  328 00000178         payout_value_poll_get_answer
+  329 00000178 486C            LDR              R0,=DataIn  ; R0 = &DataIn (poi
+                                                            nter)
+  330 0000017A F7FF FFFE       BL               MDB_GetAnswer ; getting answer
+  331 0000017E 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  332 00000180 D0EE            BEQ              payout_send_value_pool ; if so,
+                                                             go to init_dispens
+                                                            e_value
+  333 00000182 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
+                                                             fail)?
+  334 00000184 BF08 F7FF 
+              FFFE             BLEQ             MDB_SendRET ; if so, sen RET
+  335 0000018A 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
+                                                             fail)?
+  336 0000018C D0F4            BEQ              payout_value_poll_get_answer ; 
                                                             if so, go to payout
                                                             _value_poll_get_ans
                                                             wer
-  323 00000176 2802            CMP              R0,#2       ; R0 == 2 ? (value 
+  337 0000018E 2802            CMP              R0,#2       ; R0 == 2 ? (value 
                                                             to report)?
-  324 00000178 BF08 F7FF 
+  338 00000190 BF08 F7FF 
               FFFE             BLEQ             MDB_SendACK ; if so, send ACK
-  325 0000017E 2802            CMP              R0,#2       ; R0 == 2 ? (value 
+  339 00000196 2802            CMP              R0,#2       ; R0 == 2 ? (value 
                                                             to report)?
-  326 00000180 D0E0            BEQ              payout_value_pool_loop ; if so,
+  340 00000198 D0DE            BEQ              payout_value_pool_loop ; if so,
                                                              go to payout_value
                                                             _pool_loop
-  327 00000182         ; acknowledge, reserved byte answer
-  328 00000182 485B            LDR              R0,=DataIn  ; R0 = &DataIn (poi
+  341 0000019A         ; acknowledge, reserved byte answer
+  342 0000019A 4864            LDR              R0,=DataIn  ; R0 = &DataIn (poi
                                                             nter)
-  329 00000184 6801            LDR              R1, [R0]    ; R1 = [R0]
-  330 00000186 2900            CMP              R1,#0       ; R1 = 0x00 (ACK)
-  331 00000188 D1DC            BNE              payout_value_pool_loop ; if not
+  343 0000019C 6801            LDR              R1, [R0]    ; R1 = [R0]
+  344 0000019E 2900            CMP              R1,#0       ; R1 = 0x00 (ACK)
+  345 000001A0 D1DA            BNE              payout_value_pool_loop ; if not
                                                             , go to payout_valu
                                                             e_pool_loop
-  332 0000018A         ; acknowledge, payout is complete
-  333 0000018A         payout_status_send_payout_status
-  334 0000018A 4958            LDR              R1,=Command ; R1 = &Command (po
+  346 000001A2         ; acknowledge, payout is complete
+  347 000001A2         payout_status_send_payout_status
+  348 000001A2 4961            LDR              R1,=Command ; R1 = &Command (po
                                                             inter)
-  335 0000018C F240 320F       MOV              R2,#COMMAND_EXP_PAYOUT_STATUS ;
+  349 000001A4 F240 320F       MOV              R2,#COMMAND_EXP_PAYOUT_STATUS ;
                                                              R2 = COMMAND_EXP_P
                                                             AYOUT_STATUS
-  336 00000190 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
+  350 000001A8 800A            STRH             R2,[R1]     ; [R1] = R2 (COMMAN
                                                             D_EXP_PAYOUT_VALUE_
                                                             POLL)
-  337 00000192 F04F 0202       MOV              R2,#2       ; R2 = 2 (number of
-                                                             command bytes to s
-                                                            end)
-  338 00000196 F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
-                                                            IN_CHANGER_ADDR
-  339 0000019A F7FF FFFE       BL               MDB_SendAddress ; send the peri
-                                                            pheral address
-  340 0000019E F7FF FFFE       BL               MDB_SendCommand ; send command 
-                                                            with chk byte
-  341 000001A2         payout_status_get_answer
-  342 000001A2 4853            LDR              R0,=DataIn  ; R0 = &DataIn (poi
-                                                            nter)
-  343 000001A4 F7FF FFFE       BL               MDB_GetAnswer ; getting answer
-  344 000001A8 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
-                                                             fail)?
-  345 000001AA BF08 F7FF 
-              FFFE             BLEQ             MDB_SendRET ; if so, sen RET
-  346 000001B0 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
-                                                             fail)?
-  347 000001B2 D0F6            BEQ              payout_status_get_answer ; if s
-                                                            o, go to payout_sta
-                                                            tus_get_answer
-  348 000001B4 2801            CMP              R0,#1       ; R0 == 1 ? (reserv
-                                                            ed byte as answer)?
-                                                            
-  349 000001B6 D0E8            BEQ              payout_status_send_payout_statu
-s 
-                                                            ; if so, go to payo
+  351 000001AA F04F 0202       MOV              R2,#2       ; R2 = 2 (number of
 
 
 
 ARM Macro Assembler    Page 13 
 
 
-                                                            ut_status_send_payo
-                                                            ut_status
-  350 000001B8         ; acknowledge received information
-  351 000001B8 F7FF FFFE       BL               MDB_SendACK ; sending ACK
-  352 000001BC         payout_status_send_tube_status
-  353 000001BC 494B            LDR              R1,=Command ; R1 = &Command (po
-                                                            inter)
-  354 000001BE F04F 020A       MOV              R2,#COMMAND_TUBE_STATUS ; R2 = 
-                                                            COMMAND_TUBE_STATUS
-                                                            
-  355 000001C2 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
-                                                            D_TUBE_STATUS)
-  356 000001C4 F04F 0201       MOV              R2,#1       ; R2 = 2 (number of
                                                              command bytes to s
                                                             end)
-  357 000001C8 F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
+  352 000001AE F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
                                                             IN_CHANGER_ADDR
-  358 000001CC F7FF FFFE       BL               MDB_SendAddress ; send the peri
+  353 000001B2 F7FF FFFE       BL               MDB_SendAddress ; send the peri
                                                             pheral address
-  359 000001D0 F7FF FFFE       BL               MDB_SendCommand ; send command 
+  354 000001B6 F7FF FFFE       BL               MDB_SendCommand ; send command 
                                                             with chk byte
-  360 000001D4         tube_status_get_answer
-  361 000001D4 4847            LDR              R0,=Tube_status_buf ; R0 = &Tub
+  355 000001BA         payout_status_get_answer
+  356 000001BA 485C            LDR              R0,=DataIn  ; R0 = &DataIn (poi
+                                                            nter)
+  357 000001BC F7FF FFFE       BL               MDB_GetAnswer ; getting answer
+  358 000001C0 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  359 000001C2 D0EE            BEQ              payout_status_send_payout_statu
+s 
+                                                            ; if so, go to payo
+                                                            ut_status_send_payo
+                                                            ut_status
+  360 000001C4 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
+                                                             fail)?
+  361 000001C6 BF08 F7FF 
+              FFFE             BLEQ             MDB_SendRET ; if so, sen RET
+  362 000001CC 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
+                                                             fail)?
+  363 000001CE D0F4            BEQ              payout_status_get_answer ; if s
+                                                            o, go to payout_sta
+                                                            tus_get_answer
+  364 000001D0 2801            CMP              R0,#1       ; R0 == 1 ? (reserv
+                                                            ed byte as answer)?
+                                                            
+  365 000001D2 D0E6            BEQ              payout_status_send_payout_statu
+s 
+                                                            ; if so, go to payo
+                                                            ut_status_send_payo
+                                                            ut_status
+  366 000001D4         ; acknowledge received information
+  367 000001D4 F7FF FFFE       BL               MDB_SendACK ; sending ACK
+  368 000001D8         payout_status_send_tube_status
+  369 000001D8 4953            LDR              R1,=Command ; R1 = &Command (po
+                                                            inter)
+  370 000001DA F04F 020A       MOV              R2,#COMMAND_TUBE_STATUS ; R2 = 
+                                                            COMMAND_TUBE_STATUS
+                                                            
+  371 000001DE 700A            STRB             R2,[R1]     ; [R1] = R2 (COMMAN
+                                                            D_TUBE_STATUS)
+  372 000001E0 F04F 0201       MOV              R2,#1       ; R2 = 2 (number of
+                                                             command bytes to s
+                                                            end)
+  373 000001E4 F04F 0008       MOV              R0,#COIN_CHANGER_ADDR ; R0 = CO
+                                                            IN_CHANGER_ADDR
+  374 000001E8 F7FF FFFE       BL               MDB_SendAddress ; send the peri
+                                                            pheral address
+  375 000001EC F7FF FFFE       BL               MDB_SendCommand ; send command 
+                                                            with chk byte
+  376 000001F0         tube_status_get_answer
+  377 000001F0 484F            LDR              R0,=Tube_status_buf ; R0 = &Tub
                                                             e_status_buf (point
                                                             er)
-  362 000001D6 F7FF FFFE       BL               MDB_GetAnswer ; getting answer
-  363 000001DA 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
-                                                             fail)?
-  364 000001DC BF08 F7FF 
-              FFFE             BLEQ             MDB_SendRET ; if so, sen RET
-  365 000001E2 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
-                                                             fail)?
-  366 000001E4 D0F6            BEQ              tube_status_get_answer ; if so,
-                                                             go to tube_status_
-                                                            get_answer
-  367 000001E6         ; acknowledge, received data
-  368 000001E6 F7FF FFFE       BL               MDB_SendACK ; sending ACK
-  369 000001EA         ; acknowledge, rutine of payout finished
-  370 000001EA BD07            POP              {R0, R1, R2, PC} ; restore prev
-                                                            ious value of R0 in
-                                                            to R0, R1 into R1, 
-                                                            and LR into PC (ret
-                                                            urn)
-  371 000001EC         
-  372 000001EC         ;---------MDB_InitCoinChanger---------
-  373 000001EC         ; Secuencia de inicializacion requerida para el Coin Cha
-                       nger
-  374 000001EC         ; Input : none
-  375 000001EC         ; Output: none
-  376 000001EC         ; Modifies: none, all used Register are pushed and poped
-                       
-  377 000001EC         MDB_InitCoinChanger
-  378 000001EC B507            PUSH             {R0, R1, R2, LR} ; save current
-                                                             values of R0, R1, 
-                                                            R2, LR
-  379 000001EE         ;reset all
-  380 000001EE         InitSendBusReset
-  381 000001EE F7FF FFFE       BL               MDB_SendBusReset
-  382 000001F2         ;wait after first pool
 
 
 
 ARM Macro Assembler    Page 14 
 
 
-  383 000001F2 4841            LDR              R0,=InitTimerSetupDone ; Addres
-                                                             to jump after Time
-                                                            r_SetupTime
-  384 000001F4 F7FF FFFE       BL               Timer_SetupTime ; Timer 200ms, 
-                                                            in: R0
-  385 000001F8         InitResetLoop
-  386 000001F8 E7FE            B                InitResetLoop ; loop for wait T
-                                                            imer_SetupTime inte
-                                                            rrupt
-  387 000001FA         InitTimerSetupDone
-  388 000001FA         ;send first pool to obtain "just reset" response
-  389 000001FA         InitSendPool
-  390 000001FA F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
+  378 000001F2 F7FF FFFE       BL               MDB_GetAnswer ; getting answer
+  379 000001F6 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  380 000001F8 D0EE            BEQ              payout_status_send_tube_status 
+                                                            ; if so, go to payo
+                                                            ut_status_send_tube
+                                                            _status
+  381 000001FA 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
+                                                             fail)?
+  382 000001FC BF08 F7FF 
+              FFFE             BLEQ             MDB_SendRET ; if so, sen RET
+  383 00000202 2800            CMP              R0,#0       ; R0 == 0 ? (chksum
+                                                             fail)?
+  384 00000204 D0F4            BEQ              tube_status_get_answer ; if so,
+                                                             go to tube_status_
+                                                            get_answer
+  385 00000206         ; acknowledge, received data
+  386 00000206 F7FF FFFE       BL               MDB_SendACK ; sending ACK
+  387 0000020A         ; acknowledge, rutine of payout finished
+  388 0000020A BD07            POP              {R0, R1, R2, PC} ; restore prev
+                                                            ious value of R0 in
+                                                            to R0, R1 into R1, 
+                                                            and LR into PC (ret
+                                                            urn)
+  389 0000020C         
+  390 0000020C         ;---------MDB_InitCoinChanger---------
+  391 0000020C         ; Secuencia de inicializacion requerida para el Coin Cha
+                       nger
+  392 0000020C         ; Input : none
+  393 0000020C         ; Output: none
+  394 0000020C         ; Modifies: none, all used Register are pushed and poped
+                       
+  395 0000020C         MDB_InitCoinChanger
+  396 0000020C B507            PUSH             {R0, R1, R2, LR} ; save current
+                                                             values of R0, R1, 
+                                                            R2, LR
+  397 0000020E         ;reset all
+  398 0000020E         InitSendBusReset
+  399 0000020E F7FF FFFE       BL               MDB_SendBusReset
+  400 00000212         ;wait after first pool
+  401 00000212         ;LDR R0,=InitTimerSetupDone  ; Addres to jump after Time
+                       r_SetupTime
+  402 00000212         ;BL Timer_SetupTime    ; Timer 200ms, in: R0
+  403 00000212         ;InitResetLoop
+  404 00000212         ;B InitResetLoop    ; loop for wait Timer_SetupTime inte
+                       rrupt
+  405 00000212         ;InitTimerSetupDone
+  406 00000212 F04F 00D2       MOV              R0, #210
+  407 00000216 F7FF FFFE       BL               delay
+  408 0000021A         ;send first pool to obtain "just reset" response
+  409 0000021A         InitSendPool
+  410 0000021A F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
                                                             OIN_CHANGER_ADDR
-  391 000001FE F7FF FFFE       BL               MDB_SendPool ; Send command poo
+  411 0000021E F7FF FFFE       BL               MDB_SendPool ; Send command poo
                                                             l to R0 (coin chang
                                                             er)
-  392 00000202         InitGetPool
-  393 00000202 483E            LDR              R0, =Pool_buf ; R0 = &Pool_buf 
+  412 00000222         InitGetPool
+  413 00000222 4844            LDR              R0, =Pool_buf ; R0 = &Pool_buf 
                                                             (pointer)
-  394 00000204 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
-                                                             peripheral
-  395 00000208 2802            CMP              R0,#2       ; R0 == 2? (receive
-                                                            d 2 bytes - JustRes
-                                                            et & Chk)
-  396 0000020A D1F0            BNE              InitSendBusReset ; if not, go t
-                                                            o InitNoResponsePoo
-                                                            lLoop
-  397 0000020C F04F 0100       MOV              R1,#0       ; clean register
-  398 00000210 4837            LDR              R0, =DataIn ; R0 = &DataIn (poi
-                                                            nter)
-  399 00000212 7801            LDRB             R1, [R0]    ; R1 = [R0]
-  400 00000214 290B            CMP              R1,#2_00001011 ; R1 == 00001011
-                                                            B (Changer was Rese
-                                                            t)
-  401 00000216 D1EA            BNE              InitSendBusReset ; if not, go t
-                                                            o InitSendBusReset
-  402 00000218 F7FF FFFE       BL               MDB_SendACK ; Sending ACK
-  403 0000021C         ;send first setup, to obtain changer level and configura
-                       tion information
-  404 0000021C         InitSendSetup
-  405 0000021C F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
-                                                            OIN_CHANGER_ADDR
-  406 00000220 F7FF FFFE       BL               MDB_SendSetup ; Send command se
-                                                            tup to R0
-  407 00000224         InitGetSetup
-  408 00000224 4836            LDR              R0, =Setup_buf ; R0 = &Setup_bu
-                                                            f (pointer)
-  409 00000226 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
-                                                             peripheral
-  410 0000022A 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
-                                                            Failed)
-  411 0000022C D102            BNE              InitSetupDone ; if not, go to I
-                                                            nitSetupDone
-  412 0000022E F7FF FFFE       BL               MDB_SendRET ; Sending RET
-  413 00000232 E7F7            B                InitGetSetup ; go to InitGetSet
-                                                            up, for getting ans
-                                                            wer again
-  414 00000234         InitSetupDone
 
 
 
 ARM Macro Assembler    Page 15 
 
 
-  415 00000234 F7FF FFFE       BL               MDB_SendACK ; Sending ACK
-  416 00000238         ;send expansion indentification, to obtain additional ch
-                       anger information and options
-  417 00000238         InitSendExpIdentification
-  418 00000238 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
+  414 00000224 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
+                                                             peripheral
+  415 00000228 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  416 0000022A D0F6            BEQ              InitSendPool ; if so, go to Ini
+                                                            tSendPool
+  417 0000022C 2802            CMP              R0,#2       ; R0 == 2? (receive
+                                                            d 2 bytes - JustRes
+                                                            et & Chk)
+  418 0000022E D1EE            BNE              InitSendBusReset ; if not, go t
+                                                            o InitNoResponsePoo
+                                                            lLoop
+  419 00000230 F04F 0100       MOV              R1,#0       ; clean register
+  420 00000234 483D            LDR              R0, =DataIn ; R0 = &DataIn (poi
+                                                            nter)
+  421 00000236 7801            LDRB             R1, [R0]    ; R1 = [R0]
+  422 00000238 290B            CMP              R1,#2_00001011 ; R1 == 00001011
+                                                            B (Changer was Rese
+                                                            t)
+  423 0000023A D1E8            BNE              InitSendBusReset ; if not, go t
+                                                            o InitSendBusReset
+  424 0000023C F7FF FFFE       BL               MDB_SendACK ; Sending ACK
+  425 00000240         ;send first setup, to obtain changer level and configura
+                       tion information
+  426 00000240         InitSendSetup
+  427 00000240 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
                                                             OIN_CHANGER_ADDR
-  419 0000023C F7FF FFFE       BL               MDB_SendExpIdentification ; Sen
+  428 00000244 F7FF FFFE       BL               MDB_SendSetup ; Send command se
+                                                            tup to R0
+  429 00000248         InitGetSetup
+  430 00000248 483B            LDR              R0, =Setup_buf ; R0 = &Setup_bu
+                                                            f (pointer)
+  431 0000024A F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
+                                                             peripheral
+  432 0000024E 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  433 00000250 D0F6            BEQ              InitSendSetup ; if so, go to In
+                                                            itSendSetup
+  434 00000252 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
+                                                            Failed)
+  435 00000254 D102            BNE              InitSetupDone ; if not, go to I
+                                                            nitSetupDone
+  436 00000256 F7FF FFFE       BL               MDB_SendRET ; Sending RET
+  437 0000025A E7F5            B                InitGetSetup ; go to InitGetSet
+                                                            up, for getting ans
+                                                            wer again
+  438 0000025C         InitSetupDone
+  439 0000025C F7FF FFFE       BL               MDB_SendACK ; Sending ACK
+  440 00000260         ;send expansion indentification, to obtain additional ch
+                       anger information and options
+  441 00000260         InitSendExpIdentification
+  442 00000260 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
+                                                            OIN_CHANGER_ADDR
+  443 00000264 F7FF FFFE       BL               MDB_SendExpIdentification ; Sen
                                                             d expansion command
                                                              Identification to 
                                                             R0
-  420 00000240         InitGetExpIdentification
-  421 00000240 4830            LDR              R0, =Identification_buf ; R0 = 
-                                                            &Identification_buf
-                                                             (pointer)
-  422 00000242 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
-                                                             peripheral
-  423 00000246 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
-                                                            Failed)
-  424 00000248 D102            BNE              InitExpIdentificationDone ; if 
-                                                            not, go to InitExpI
-                                                            dentificationDone
-  425 0000024A F7FF FFFE       BL               MDB_SendRET ; Sending RET
-  426 0000024E E7F7            B                InitGetExpIdentification ; go t
-                                                            o InitGetIdentifica
-                                                            tion, for getting a
-                                                            nswer again
-  427 00000250         InitExpIdentificationDone
-  428 00000250 F7FF FFFE       BL               MDB_SendACK ; Sending ACK
-  429 00000254         ;send Feature Enable, To enable desired options
-  430 00000254         InitSendExpFeatureEnable
-  431 00000254 4925            LDR              R1, =Command ; R1 = &Command (p
-                                                            ointer)
-  432 00000256 F240 100F       MOV              R0, #COMMAND_EXP_FEATURE_ENEABL
-E 
-                                                            ; R0 = COMMAND_EXP_
-                                                            FEATURE_ENEABLE
-  433 0000025A 7008            STRB             R0, [R1]    ; [R1] = R0 (upgrad
-                                                            e command buffer)
-  434 0000025C 4A29            LDR              R2, =Identification_buf ; R2 = 
-                                                            &Identification_buf
-                                                             (pointer)
-  435 0000025E F8D2 001D       LDR              R0, [R2,#29] ; R0 = [R2+29] (fe
-                                                            atures availables)
-  436 00000262 F8C1 0001       STR              R0, [R1,#1] ; [R1+1] = R0 (acti
-                                                            vate all features)
-  437 00000266 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
-                                                            OIN_CHANGER_ADDR
-  438 0000026A F04F 0205       MOV              R2, #5      ; R2 = 5 (number of
-                                                             command/data bytes
-                                                             to send)
-  439 0000026E F7FF FFFE       BL               MDB_SendCommand ; envia a R0, R
-                                                            2 comandos en &R1
-  440 00000272         InitGetExpFeatureEnable
-  441 00000272 481F            LDR              R0, =DataIn ; R0 = &DataIn (poi
-                                                            nter)
-  442 00000274 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
-                                                             peripheral
-  443 00000278 481D            LDR              R0, =DataIn ; R0 = &DataIn (poi
-                                                            nter)
+  444 00000268         InitGetExpIdentification
+  445 00000268 4834            LDR              R0, =Identification_buf ; R0 = 
 
 
 
 ARM Macro Assembler    Page 16 
 
 
-  444 0000027A 6801            LDR              R1, [R0]    ; R1 = [R0] (answer
+                                                            &Identification_buf
+                                                             (pointer)
+  446 0000026A F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
+                                                             peripheral
+  447 0000026E 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  448 00000270 D0F6            BEQ              InitSendExpIdentification ; if 
+                                                            so, go to InitSendE
+                                                            xpIdentification
+  449 00000272 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
+                                                            Failed)
+  450 00000274 D102            BNE              InitExpIdentificationDone ; if 
+                                                            not, go to InitExpI
+                                                            dentificationDone
+  451 00000276 F7FF FFFE       BL               MDB_SendRET ; Sending RET
+  452 0000027A E7F5            B                InitGetExpIdentification ; go t
+                                                            o InitGetIdentifica
+                                                            tion, for getting a
+                                                            nswer again
+  453 0000027C         InitExpIdentificationDone
+  454 0000027C F7FF FFFE       BL               MDB_SendACK ; Sending ACK
+  455 00000280         ;send Feature Enable, To enable desired options
+  456 00000280         InitSendExpFeatureEnable
+  457 00000280 4929            LDR              R1, =Command ; R1 = &Command (p
+                                                            ointer)
+  458 00000282 F240 100F       MOV              R0, #COMMAND_EXP_FEATURE_ENEABL
+E 
+                                                            ; R0 = COMMAND_EXP_
+                                                            FEATURE_ENEABLE
+  459 00000286 7008            STRB             R0, [R1]    ; [R1] = R0 (upgrad
+                                                            e command buffer)
+  460 00000288 4A2C            LDR              R2, =Identification_buf ; R2 = 
+                                                            &Identification_buf
+                                                             (pointer)
+  461 0000028A F8D2 001D       LDR              R0, [R2,#29] ; R0 = [R2+29] (fe
+                                                            atures availables)
+  462 0000028E F8C1 0001       STR              R0, [R1,#1] ; [R1+1] = R0 (acti
+                                                            vate all features)
+  463 00000292 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
+                                                            OIN_CHANGER_ADDR
+  464 00000296 F04F 0205       MOV              R2, #5      ; R2 = 5 (number of
+                                                             command/data bytes
+                                                             to send)
+  465 0000029A F7FF FFFE       BL               MDB_SendCommand ; envia a R0, R
+                                                            2 comandos en &R1
+  466 0000029E         InitGetExpFeatureEnable
+  467 0000029E 4823            LDR              R0, =DataIn ; R0 = &DataIn (poi
+                                                            nter)
+  468 000002A0 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
+                                                             peripheral
+  469 000002A4 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  470 000002A6 D0EB            BEQ              InitSendExpFeatureEnable ; if s
+                                                            o, go to InitSendEx
+                                                            pFeatureEnable
+  471 000002A8 4820            LDR              R0, =DataIn ; R0 = &DataIn (poi
+                                                            nter)
+  472 000002AA 6801            LDR              R1, [R0]    ; R1 = [R0] (answer
                                                             )
-  445 0000027C 2900            CMP              R1, #0      ; R1 == 00H ? (R1 =
-                                                            = ACK?)
-  446 0000027E D1E9            BNE              InitSendExpFeatureEnable ; if n
-                                                            ot, go to InitSendE
-                                                            xpFeatureEnable
-  447 00000280         ;send expansion SEND DIAGNOSTIC STATUS, to request the c
-                       hanger to report its current state of operation
-  448 00000280         InitSendExpSendDiagStatus
-  449 00000280 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
-                                                            OIN_CHANGER_ADDR
-  450 00000284 F7FF FF31       BL               MDB_SendExpSendDiagStatus ; Sen
-                                                            d expansion command
-                                                             send diagnostic st
-                                                            atus to R0
-  451 00000288         InitGetExpSendDiagStatus
-  452 00000288 481F            LDR              R0, =Send_diag_status_buf ; R0 
-                                                            = &Send_diag_status
-                                                            _buf (pointer)
-  453 0000028A F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
-                                                             peripheral
-  454 0000028E 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
-                                                            Failed)
-  455 00000290 D102            BNE              InitExpSendDiagStatusDone ; if 
-                                                            not, go to InitExpS
-                                                            endDiagStatusDone
-  456 00000292 F7FF FFFE       BL               MDB_SendRET ; Sending RET
-  457 00000296 E7F7            B                InitGetExpSendDiagStatus ; go t
-                                                            o InitGetExpSendDia
-                                                            gStatus, for gettin
-                                                            g answer again
-  458 00000298         InitExpSendDiagStatusDone
-  459 00000298 F7FF FFFE       BL               MDB_SendACK ; Sending ACK
-  460 0000029C         ;wait before first TUBE STATUS
-  461 0000029C F04F 00FA       MOV              R0, #250
-  462 000002A0 F7FF FFFE       BL               delay
-  463 000002A4         ;send TUBE STATUS, to obtain tube status / change inform
-                       ation
-  464 000002A4         InitSendTubeStatus
-  465 000002A4 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
-                                                            OIN_CHANGER_ADDR
-  466 000002A8 F7FF FF2B       BL               MDB_SendTubeStatus ; Send comma
-                                                            nd Send Tube Status
-                                                             to R0
-  467 000002AC         InitGetTubeStatus
-  468 000002AC 4811            LDR              R0, =Tube_status_buf ; R0 = &Tu
-                                                            be_status_buf (poin
-                                                            ter)
-  469 000002AE F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
-                                                             peripheral
-  470 000002B2 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
-                                                            Failed)
-  471 000002B4 D102            BNE              InitTubeStatusDone ; if not, go
-                                                             to InitTubeStatusD
-                                                            one
-  472 000002B6 F7FF FFFE       BL               MDB_SendRET ; Sending RET
-  473 000002BA E7F7            B                InitGetTubeStatus ; go to InitG
-                                                            etTubeStatus, for g
 
 
 
 ARM Macro Assembler    Page 17 
 
 
-                                                            etting answer again
-                                                            
-  474 000002BC         InitTubeStatusDone
-  475 000002BC F7FF FFFE       BL               MDB_SendACK ; Sending ACK
-  476 000002C0         ;send Coin type, to enable desired coin acceptance and d
-                       isable manual coin payout if desired
-  477 000002C0         InitSendCoinType
-  478 000002C0 490A            LDR              R1, =Command ; R1 = &Command (p
-                                                            ointer)
-  479 000002C2 F04F 000C       MOV              R0, #COMMAND_COIN_TYPE ; R0 = C
-                                                            OMMAND_COIN_TYPE
-  480 000002C6 7008            STRB             R0, [R1]    ; [R1] = R0 (upgrad
-                                                            e command buffer)
-  481 000002C8 F04F 30FF       LDR              R0,=0xFFFFFFFF ; enable ALL ace
-                                                            pted coins, and all
-                                                             coins to manual di
-                                                            spense
-  482 000002CC F8C1 0001       STR              R0, [R1,#1] ; [R1+1] = R0 (upgr
-                                                            ade command buffer)
-                                                            
-  483 000002D0 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
-                                                            OIN_CHANGER_ADDR
-  484 000002D4 F04F 0205       MOV              R2, #5      ; R2 = 5 (number of
-                                                             command/data bytes
-                                                             to send)
-  485 000002D8 F7FF FFFE       BL               MDB_SendCommand ; envia a R0, R
-                                                            2 comandos en &R1
-  486 000002DC         InitGetCoinType
-  487 000002DC 4804            LDR              R0, =DataIn ; R0 = &DataIn (poi
-                                                            nter)
-  488 000002DE F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
-                                                             peripheral
-  489 000002E2 4803            LDR              R0, =DataIn ; R0 = &DataIn (poi
-                                                            nter)
-  490 000002E4 6801            LDR              R1, [R0]    ; R1 = [R0] (answer
-                                                            )
-  491 000002E6 2900            CMP              R1, #0x00   ; R1 == 00H ? (R1 =
+  473 000002AC 2900            CMP              R1, #0      ; R1 == 00H ? (R1 =
                                                             = ACK?)
-  492 000002E8 D1EA            BNE              InitSendCoinType ; if not, go t
-                                                            o InitSendExpFeatur
-                                                            eEnable
-  493 000002EA         
-  494 000002EA BD07            POP              {R0, R1, R2, PC} ; restore prev
-                                                            ious value of R0 in
-                                                            to R0, R1 into R1, 
-                                                            R2 into R2 and LR i
-                                                            nto PC (return)
-  495 000002EC         
-  496 000002EC         
-  497 000002EC                 ALIGN                        ; make sure the end
-                                                             of this section is
-                                                             aligned
-  498 000002EC                 END                          ; end of file
-              00000000 
-              00000000 
-              00000000 
-              00000000 
-              00000000 
-              00000000 
+  474 000002AE D1E7            BNE              InitSendExpFeatureEnable ; if n
+                                                            ot, go to InitSendE
+                                                            xpFeatureEnable
+  475 000002B0         ;send expansion SEND DIAGNOSTIC STATUS, to request the c
+                       hanger to report its current state of operation
+  476 000002B0         InitSendExpSendDiagStatus
+  477 000002B0 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
+                                                            OIN_CHANGER_ADDR
+  478 000002B4 F7FF FF21       BL               MDB_SendExpSendDiagStatus ; Sen
+                                                            d expansion command
+                                                             send diagnostic st
+                                                            atus to R0
+  479 000002B8         InitGetExpSendDiagStatus
+  480 000002B8 4821            LDR              R0, =Send_diag_status_buf ; R0 
+                                                            = &Send_diag_status
+                                                            _buf (pointer)
+  481 000002BA F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
+                                                             peripheral
+  482 000002BE 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  483 000002C0 D0F6            BEQ              InitSendExpSendDiagStatus ; if 
+                                                            so, go to InitSendE
+                                                            xpSendDiagStatus
+  484 000002C2 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
+                                                            Failed)
+  485 000002C4 D102            BNE              InitExpSendDiagStatusDone ; if 
+                                                            not, go to InitExpS
+                                                            endDiagStatusDone
+  486 000002C6 F7FF FFFE       BL               MDB_SendRET ; Sending RET
+  487 000002CA E7F5            B                InitGetExpSendDiagStatus ; go t
+                                                            o InitGetExpSendDia
+                                                            gStatus, for gettin
+                                                            g answer again
+  488 000002CC         InitExpSendDiagStatusDone
+  489 000002CC F7FF FFFE       BL               MDB_SendACK ; Sending ACK
+  490 000002D0         ;wait before first TUBE STATUS
+  491 000002D0 F04F 00FA       MOV              R0, #250
+  492 000002D4 F7FF FFFE       BL               delay
+  493 000002D8         ;send TUBE STATUS, to obtain tube status / change inform
+                       ation
+  494 000002D8         InitSendTubeStatus
+  495 000002D8 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
+                                                            OIN_CHANGER_ADDR
+  496 000002DC F7FF FF19       BL               MDB_SendTubeStatus ; Send comma
+                                                            nd Send Tube Status
+                                                             to R0
+  497 000002E0         InitGetTubeStatus
+  498 000002E0 4813            LDR              R0, =Tube_status_buf ; R0 = &Tu
+                                                            be_status_buf (poin
+                                                            ter)
+  499 000002E2 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
+                                                             peripheral
+  500 000002E6 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  501 000002E8 D0F6            BEQ              InitSendTubeStatus ; if so, go 
+                                                            to InitSendTubeStat
+                                                            us
 
 
 
 ARM Macro Assembler    Page 18 
 
 
+  502 000002EA 2800            CMP              R0, #0      ; R0 == 0? (Chksum 
+                                                            Failed)
+  503 000002EC D102            BNE              InitTubeStatusDone ; if not, go
+                                                             to InitTubeStatusD
+                                                            one
+  504 000002EE F7FF FFFE       BL               MDB_SendRET ; Sending RET
+  505 000002F2 E7F5            B                InitGetTubeStatus ; go to InitG
+                                                            etTubeStatus, for g
+                                                            etting answer again
+                                                            
+  506 000002F4         InitTubeStatusDone
+  507 000002F4 F7FF FFFE       BL               MDB_SendACK ; Sending ACK
+  508 000002F8         ;send Coin type, to enable desired coin acceptance and d
+                       isable manual coin payout if desired
+  509 000002F8         InitSendCoinType
+  510 000002F8 490B            LDR              R1, =Command ; R1 = &Command (p
+                                                            ointer)
+  511 000002FA F04F 000C       MOV              R0, #COMMAND_COIN_TYPE ; R0 = C
+                                                            OMMAND_COIN_TYPE
+  512 000002FE 7008            STRB             R0, [R1]    ; [R1] = R0 (upgrad
+                                                            e command buffer)
+  513 00000300 F04F 30FF       LDR              R0,=0xFFFFFFFF ; enable ALL ace
+                                                            pted coins, and all
+                                                             coins to manual di
+                                                            spense
+  514 00000304 F8C1 0001       STR              R0, [R1,#1] ; [R1+1] = R0 (upgr
+                                                            ade command buffer)
+                                                            
+  515 00000308 F04F 0008       MOV              R0, #COIN_CHANGER_ADDR ; R0 = C
+                                                            OIN_CHANGER_ADDR
+  516 0000030C F04F 0205       MOV              R2, #5      ; R2 = 5 (number of
+                                                             command/data bytes
+                                                             to send)
+  517 00000310 F7FF FFFE       BL               MDB_SendCommand ; envia a R0, R
+                                                            2 comandos en &R1
+  518 00000314         InitGetCoinType
+  519 00000314 4805            LDR              R0, =DataIn ; R0 = &DataIn (poi
+                                                            nter)
+  520 00000316 F7FF FFFE       BL               MDB_GetAnswer ; Get answer from
+                                                             peripheral
+  521 0000031A 2901            CMP              R1, #1      ; R1 == 1 ? (respon
+                                                            se time out)?
+  522 0000031C D0EC            BEQ              InitSendCoinType ; if so, go to
+                                                             InitSendCoinType
+  523 0000031E 4803            LDR              R0, =DataIn ; R0 = &DataIn (poi
+                                                            nter)
+  524 00000320 6801            LDR              R1, [R0]    ; R1 = [R0] (answer
+                                                            )
+  525 00000322 2900            CMP              R1, #0x00   ; R1 == 00H ? (R1 =
+                                                            = ACK?)
+  526 00000324 D1E8            BNE              InitSendCoinType ; if not, go t
+                                                            o InitSendExpFeatur
+                                                            eEnable
+  527 00000326         
+  528 00000326 BD07            POP              {R0, R1, R2, PC} ; restore prev
+                                                            ious value of R0 in
+                                                            to R0, R1 into R1, 
+                                                            R2 into R2 and LR i
+                                                            nto PC (return)
+
+
+
+ARM Macro Assembler    Page 19 
+
+
+  529 00000328         
+  530 00000328         
+  531 00000328                 ALIGN                        ; make sure the end
+                                                             of this section is
+                                                             aligned
+  532 00000328                 END                          ; end of file
+              00000000 
+              00000000 
+              00000000 
+              00000000 
+              00000000 
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
@@ -1130,17 +1206,17 @@ Symbol: Command
       At line 53 in file mdb.s
    Uses
       At line 61 in file mdb.s
-      At line 213 in file mdb.s
-      At line 228 in file mdb.s
-      At line 243 in file mdb.s
-      At line 258 in file mdb.s
-      At line 273 in file mdb.s
-      At line 290 in file mdb.s
-      At line 309 in file mdb.s
-      At line 334 in file mdb.s
-      At line 353 in file mdb.s
-      At line 431 in file mdb.s
-      At line 478 in file mdb.s
+      At line 222 in file mdb.s
+      At line 237 in file mdb.s
+      At line 252 in file mdb.s
+      At line 267 in file mdb.s
+      At line 282 in file mdb.s
+      At line 299 in file mdb.s
+      At line 321 in file mdb.s
+      At line 348 in file mdb.s
+      At line 369 in file mdb.s
+      At line 457 in file mdb.s
+      At line 510 in file mdb.s
 
 DATA 00000000
 
@@ -1157,16 +1233,16 @@ Symbol: DataIn
       At line 54 in file mdb.s
    Uses
       At line 62 in file mdb.s
-      At line 299 in file mdb.s
-      At line 301 in file mdb.s
-      At line 317 in file mdb.s
-      At line 328 in file mdb.s
+      At line 308 in file mdb.s
+      At line 312 in file mdb.s
+      At line 329 in file mdb.s
       At line 342 in file mdb.s
-      At line 398 in file mdb.s
-      At line 441 in file mdb.s
-      At line 443 in file mdb.s
-      At line 487 in file mdb.s
-      At line 489 in file mdb.s
+      At line 356 in file mdb.s
+      At line 420 in file mdb.s
+      At line 467 in file mdb.s
+      At line 471 in file mdb.s
+      At line 519 in file mdb.s
+      At line 523 in file mdb.s
 
 Identification_buf 00000084
 
@@ -1175,8 +1251,8 @@ Symbol: Identification_buf
       At line 58 in file mdb.s
    Uses
       At line 66 in file mdb.s
-      At line 421 in file mdb.s
-      At line 434 in file mdb.s
+      At line 445 in file mdb.s
+      At line 460 in file mdb.s
 
 Payout_status_buf 000000A6
 
@@ -1199,7 +1275,7 @@ Symbol: Pool_buf
       At line 57 in file mdb.s
    Uses
       At line 65 in file mdb.s
-      At line 393 in file mdb.s
+      At line 413 in file mdb.s
 
 Send_diag_status_buf 000000B7
 
@@ -1208,7 +1284,7 @@ Symbol: Send_diag_status_buf
       At line 60 in file mdb.s
    Uses
       At line 68 in file mdb.s
-      At line 452 in file mdb.s
+      At line 480 in file mdb.s
 
 Setup_buf 00000048
 
@@ -1217,7 +1293,7 @@ Symbol: Setup_buf
       At line 55 in file mdb.s
    Uses
       At line 63 in file mdb.s
-      At line 408 in file mdb.s
+      At line 430 in file mdb.s
 
 Tube_status_buf 00000060
 
@@ -1226,8 +1302,8 @@ Symbol: Tube_status_buf
       At line 56 in file mdb.s
    Uses
       At line 64 in file mdb.s
-      At line 361 in file mdb.s
-      At line 468 in file mdb.s
+      At line 377 in file mdb.s
+      At line 498 in file mdb.s
 
 9 symbols
 
@@ -1244,55 +1320,55 @@ Symbol: .text
    Uses
       None
 Comment: .text unused
-DispenseValue_get_answer 00000136
+DispenseValue_get_answer 00000146
 
 Symbol: DispenseValue_get_answer
    Definitions
-      At line 298 in file mdb.s
+      At line 307 in file mdb.s
    Uses
       None
 Comment: DispenseValue_get_answer unused
-InitExpIdentificationDone 00000250
+InitExpIdentificationDone 0000027C
 
 Symbol: InitExpIdentificationDone
    Definitions
-      At line 427 in file mdb.s
+      At line 453 in file mdb.s
    Uses
-      At line 424 in file mdb.s
+      At line 450 in file mdb.s
 Comment: InitExpIdentificationDone used once
-InitExpSendDiagStatusDone 00000298
+InitExpSendDiagStatusDone 000002CC
 
 Symbol: InitExpSendDiagStatusDone
    Definitions
-      At line 458 in file mdb.s
+      At line 488 in file mdb.s
    Uses
-      At line 455 in file mdb.s
+      At line 485 in file mdb.s
 Comment: InitExpSendDiagStatusDone used once
-InitGetCoinType 000002DC
+InitGetCoinType 00000314
 
 Symbol: InitGetCoinType
    Definitions
-      At line 486 in file mdb.s
+      At line 518 in file mdb.s
    Uses
       None
 Comment: InitGetCoinType unused
-InitGetExpFeatureEnable 00000272
+InitGetExpFeatureEnable 0000029E
 
 Symbol: InitGetExpFeatureEnable
    Definitions
-      At line 440 in file mdb.s
+      At line 466 in file mdb.s
    Uses
       None
 Comment: InitGetExpFeatureEnable unused
-InitGetExpIdentification 00000240
+InitGetExpIdentification 00000268
 
 Symbol: InitGetExpIdentification
    Definitions
-      At line 420 in file mdb.s
+      At line 444 in file mdb.s
    Uses
-      At line 426 in file mdb.s
+      At line 452 in file mdb.s
 Comment: InitGetExpIdentification used once
-InitGetExpSendDiagStatus 00000288
+InitGetExpSendDiagStatus 000002B8
 
 Symbol: InitGetExpSendDiagStatus
 
@@ -1302,175 +1378,161 @@ ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
    Definitions
-      At line 451 in file mdb.s
+      At line 479 in file mdb.s
    Uses
-      At line 457 in file mdb.s
+      At line 487 in file mdb.s
 Comment: InitGetExpSendDiagStatus used once
-InitGetPool 00000202
+InitGetPool 00000222
 
 Symbol: InitGetPool
    Definitions
-      At line 392 in file mdb.s
+      At line 412 in file mdb.s
    Uses
       None
 Comment: InitGetPool unused
-InitGetSetup 00000224
+InitGetSetup 00000248
 
 Symbol: InitGetSetup
    Definitions
-      At line 407 in file mdb.s
+      At line 429 in file mdb.s
    Uses
-      At line 413 in file mdb.s
+      At line 437 in file mdb.s
 Comment: InitGetSetup used once
-InitGetTubeStatus 000002AC
+InitGetTubeStatus 000002E0
 
 Symbol: InitGetTubeStatus
    Definitions
-      At line 467 in file mdb.s
+      At line 497 in file mdb.s
    Uses
-      At line 473 in file mdb.s
+      At line 505 in file mdb.s
 Comment: InitGetTubeStatus used once
-InitResetLoop 000001F8
-
-Symbol: InitResetLoop
-   Definitions
-      At line 385 in file mdb.s
-   Uses
-      At line 386 in file mdb.s
-Comment: InitResetLoop used once
-InitSendBusReset 000001EE
+InitSendBusReset 0000020E
 
 Symbol: InitSendBusReset
    Definitions
-      At line 380 in file mdb.s
+      At line 398 in file mdb.s
    Uses
-      At line 396 in file mdb.s
-      At line 401 in file mdb.s
+      At line 418 in file mdb.s
+      At line 423 in file mdb.s
 
-InitSendCoinType 000002C0
+InitSendCoinType 000002F8
 
 Symbol: InitSendCoinType
    Definitions
-      At line 477 in file mdb.s
+      At line 509 in file mdb.s
    Uses
-      At line 492 in file mdb.s
-Comment: InitSendCoinType used once
-InitSendExpFeatureEnable 00000254
+      At line 522 in file mdb.s
+      At line 526 in file mdb.s
+
+InitSendExpFeatureEnable 00000280
 
 Symbol: InitSendExpFeatureEnable
    Definitions
-      At line 430 in file mdb.s
+      At line 456 in file mdb.s
+   Uses
+      At line 470 in file mdb.s
+      At line 474 in file mdb.s
+
+InitSendExpIdentification 00000260
+
+Symbol: InitSendExpIdentification
 
 
 
 ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 Relocatable symbols
 
-   Uses
-      At line 446 in file mdb.s
-Comment: InitSendExpFeatureEnable used once
-InitSendExpIdentification 00000238
-
-Symbol: InitSendExpIdentification
    Definitions
-      At line 417 in file mdb.s
+      At line 441 in file mdb.s
    Uses
-      None
-Comment: InitSendExpIdentification unused
-InitSendExpSendDiagStatus 00000280
+      At line 448 in file mdb.s
+Comment: InitSendExpIdentification used once
+InitSendExpSendDiagStatus 000002B0
 
 Symbol: InitSendExpSendDiagStatus
    Definitions
-      At line 448 in file mdb.s
+      At line 476 in file mdb.s
    Uses
-      None
-Comment: InitSendExpSendDiagStatus unused
-InitSendPool 000001FA
+      At line 483 in file mdb.s
+Comment: InitSendExpSendDiagStatus used once
+InitSendPool 0000021A
 
 Symbol: InitSendPool
    Definitions
-      At line 389 in file mdb.s
+      At line 409 in file mdb.s
    Uses
-      None
-Comment: InitSendPool unused
-InitSendSetup 0000021C
+      At line 416 in file mdb.s
+Comment: InitSendPool used once
+InitSendSetup 00000240
 
 Symbol: InitSendSetup
    Definitions
-      At line 404 in file mdb.s
+      At line 426 in file mdb.s
    Uses
-      None
-Comment: InitSendSetup unused
-InitSendTubeStatus 000002A4
+      At line 433 in file mdb.s
+Comment: InitSendSetup used once
+InitSendTubeStatus 000002D8
 
 Symbol: InitSendTubeStatus
    Definitions
-      At line 464 in file mdb.s
+      At line 494 in file mdb.s
    Uses
-      None
-Comment: InitSendTubeStatus unused
-InitSetupDone 00000234
+      At line 501 in file mdb.s
+Comment: InitSendTubeStatus used once
+InitSetupDone 0000025C
 
 Symbol: InitSetupDone
    Definitions
-      At line 414 in file mdb.s
+      At line 438 in file mdb.s
    Uses
-      At line 411 in file mdb.s
+      At line 435 in file mdb.s
 Comment: InitSetupDone used once
-InitTimerSetupDone 000001FA
+InitTubeStatusDone 000002F4
 
-Symbol: InitTimerSetupDone
+Symbol: InitTubeStatusDone
    Definitions
-      At line 387 in file mdb.s
+      At line 506 in file mdb.s
    Uses
-      At line 383 in file mdb.s
-Comment: InitTimerSetupDone used once
+      At line 503 in file mdb.s
+Comment: InitTubeStatusDone used once
+MDB_DispenseValue 0000012A
+
+Symbol: MDB_DispenseValue
+   Definitions
+      At line 296 in file mdb.s
+   Uses
 
 
 
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Relocatable symbols
 
-InitTubeStatusDone 000002BC
-
-Symbol: InitTubeStatusDone
-   Definitions
-      At line 474 in file mdb.s
-   Uses
-      At line 471 in file mdb.s
-Comment: InitTubeStatusDone used once
-MDB_DispenseValue 0000011A
-
-Symbol: MDB_DispenseValue
-   Definitions
-      At line 287 in file mdb.s
-   Uses
       At line 81 in file mdb.s
 Comment: MDB_DispenseValue used once
 MDB_GetAnswer 0000005E
 
 Symbol: MDB_GetAnswer
    Definitions
-      At line 166 in file mdb.s
+      At line 167 in file mdb.s
    Uses
       At line 75 in file mdb.s
-      At line 300 in file mdb.s
-      At line 318 in file mdb.s
-      At line 343 in file mdb.s
-      At line 362 in file mdb.s
-      At line 394 in file mdb.s
-      At line 409 in file mdb.s
-      At line 422 in file mdb.s
-      At line 442 in file mdb.s
-      At line 453 in file mdb.s
-      At line 469 in file mdb.s
-      At line 488 in file mdb.s
+      At line 309 in file mdb.s
+      At line 330 in file mdb.s
+      At line 357 in file mdb.s
+      At line 378 in file mdb.s
+      At line 414 in file mdb.s
+      At line 431 in file mdb.s
+      At line 446 in file mdb.s
+      At line 468 in file mdb.s
+      At line 481 in file mdb.s
+      At line 499 in file mdb.s
+      At line 520 in file mdb.s
 
-MDB_InitCoinChanger 000001EC
+MDB_InitCoinChanger 0000020C
 
 Symbol: MDB_InitCoinChanger
    Definitions
-      At line 377 in file mdb.s
+      At line 395 in file mdb.s
    Uses
       At line 77 in file mdb.s
 Comment: MDB_InitCoinChanger used once
@@ -1481,20 +1543,14 @@ Symbol: MDB_SendACK
       At line 131 in file mdb.s
    Uses
       At line 72 in file mdb.s
-      At line 324 in file mdb.s
-      At line 351 in file mdb.s
-      At line 368 in file mdb.s
-      At line 402 in file mdb.s
-      At line 415 in file mdb.s
-      At line 428 in file mdb.s
-      At line 459 in file mdb.s
-      At line 475 in file mdb.s
-
-
-
-
-ARM Macro Assembler    Page 5 Alphabetic symbol ordering
-Relocatable symbols
+      At line 338 in file mdb.s
+      At line 367 in file mdb.s
+      At line 386 in file mdb.s
+      At line 424 in file mdb.s
+      At line 439 in file mdb.s
+      At line 454 in file mdb.s
+      At line 489 in file mdb.s
+      At line 507 in file mdb.s
 
 MDB_SendAddress 00000000
 
@@ -1503,24 +1559,30 @@ Symbol: MDB_SendAddress
       At line 92 in file mdb.s
    Uses
       At line 70 in file mdb.s
-      At line 217 in file mdb.s
-      At line 232 in file mdb.s
-      At line 247 in file mdb.s
-      At line 262 in file mdb.s
-      At line 277 in file mdb.s
-      At line 296 in file mdb.s
-      At line 314 in file mdb.s
-      At line 339 in file mdb.s
-      At line 358 in file mdb.s
+      At line 226 in file mdb.s
+      At line 241 in file mdb.s
+      At line 256 in file mdb.s
+      At line 271 in file mdb.s
+      At line 286 in file mdb.s
+      At line 305 in file mdb.s
+      At line 326 in file mdb.s
 
-MDB_SendBusReset 00000090
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 353 in file mdb.s
+      At line 374 in file mdb.s
+
+MDB_SendBusReset 0000009E
 
 Symbol: MDB_SendBusReset
    Definitions
-      At line 196 in file mdb.s
+      At line 203 in file mdb.s
    Uses
       At line 76 in file mdb.s
-      At line 381 in file mdb.s
+      At line 399 in file mdb.s
 
 MDB_SendCommand 00000010
 
@@ -1529,40 +1591,34 @@ Symbol: MDB_SendCommand
       At line 104 in file mdb.s
    Uses
       At line 71 in file mdb.s
-      At line 218 in file mdb.s
-      At line 233 in file mdb.s
-      At line 248 in file mdb.s
-      At line 263 in file mdb.s
-      At line 278 in file mdb.s
-      At line 297 in file mdb.s
-      At line 315 in file mdb.s
-      At line 340 in file mdb.s
-      At line 359 in file mdb.s
-      At line 439 in file mdb.s
-      At line 485 in file mdb.s
+      At line 227 in file mdb.s
+      At line 242 in file mdb.s
+      At line 257 in file mdb.s
+      At line 272 in file mdb.s
+      At line 287 in file mdb.s
+      At line 306 in file mdb.s
+      At line 327 in file mdb.s
+      At line 354 in file mdb.s
+      At line 375 in file mdb.s
+      At line 465 in file mdb.s
+      At line 517 in file mdb.s
 
-MDB_SendExpIdentification 000000D2
+MDB_SendExpIdentification 000000E2
 
 Symbol: MDB_SendExpIdentification
    Definitions
-      At line 241 in file mdb.s
+      At line 250 in file mdb.s
    Uses
       At line 80 in file mdb.s
-      At line 419 in file mdb.s
+      At line 443 in file mdb.s
 
-MDB_SendExpSendDiagStatus 000000EA
+MDB_SendExpSendDiagStatus 000000FA
 
 Symbol: MDB_SendExpSendDiagStatus
    Definitions
-      At line 256 in file mdb.s
-
-
-
-ARM Macro Assembler    Page 6 Alphabetic symbol ordering
-Relocatable symbols
-
+      At line 265 in file mdb.s
    Uses
-      At line 450 in file mdb.s
+      At line 478 in file mdb.s
 Comment: MDB_SendExpSendDiagStatus used once
 MDB_SendNAK 00000052
 
@@ -1572,14 +1628,20 @@ Symbol: MDB_SendNAK
    Uses
       At line 74 in file mdb.s
 Comment: MDB_SendNAK used once
-MDB_SendPool 000000A2
+MDB_SendPool 000000B2
 
 Symbol: MDB_SendPool
+
+
+
+ARM Macro Assembler    Page 6 Alphabetic symbol ordering
+Relocatable symbols
+
    Definitions
-      At line 211 in file mdb.s
+      At line 220 in file mdb.s
    Uses
       At line 78 in file mdb.s
-      At line 391 in file mdb.s
+      At line 411 in file mdb.s
 
 MDB_SendRET 00000046
 
@@ -1588,69 +1650,78 @@ Symbol: MDB_SendRET
       At line 142 in file mdb.s
    Uses
       At line 73 in file mdb.s
-      At line 320 in file mdb.s
-      At line 345 in file mdb.s
-      At line 364 in file mdb.s
-      At line 412 in file mdb.s
-      At line 425 in file mdb.s
-      At line 456 in file mdb.s
-      At line 472 in file mdb.s
+      At line 334 in file mdb.s
+      At line 361 in file mdb.s
+      At line 382 in file mdb.s
+      At line 436 in file mdb.s
+      At line 451 in file mdb.s
+      At line 486 in file mdb.s
+      At line 504 in file mdb.s
 
-MDB_SendSetup 000000BA
+MDB_SendSetup 000000CA
 
 Symbol: MDB_SendSetup
    Definitions
-      At line 226 in file mdb.s
+      At line 235 in file mdb.s
    Uses
       At line 79 in file mdb.s
-      At line 406 in file mdb.s
+      At line 428 in file mdb.s
 
-MDB_SendTubeStatus 00000102
+MDB_SendTubeStatus 00000112
 
 Symbol: MDB_SendTubeStatus
    Definitions
-      At line 271 in file mdb.s
+      At line 280 in file mdb.s
    Uses
-      At line 466 in file mdb.s
+      At line 496 in file mdb.s
 Comment: MDB_SendTubeStatus used once
-getAnswerDone 0000008E
+getAnswerDone 00000092
 
 Symbol: getAnswerDone
    Definitions
-      At line 187 in file mdb.s
+      At line 190 in file mdb.s
    Uses
-      At line 184 in file mdb.s
+      At line 187 in file mdb.s
+Comment: getAnswerDone used once
+getAnswerEnd 00000084
+
+Symbol: getAnswerEnd
+   Definitions
+      At line 183 in file mdb.s
+   Uses
+      At line 180 in file mdb.s
+Comment: getAnswerEnd used once
+getAnswerLoop 0000006E
+
+Symbol: getAnswerLoop
+   Definitions
+      At line 173 in file mdb.s
 
 
 
 ARM Macro Assembler    Page 7 Alphabetic symbol ordering
 Relocatable symbols
 
-Comment: getAnswerDone used once
-getAnswerEnd 00000080
-
-Symbol: getAnswerEnd
-   Definitions
-      At line 180 in file mdb.s
    Uses
-      At line 177 in file mdb.s
-Comment: getAnswerEnd used once
-getAnswerLoop 0000006E
-
-Symbol: getAnswerLoop
-   Definitions
-      At line 172 in file mdb.s
-   Uses
-      At line 179 in file mdb.s
+      At line 182 in file mdb.s
 Comment: getAnswerLoop used once
-init_dispense_value 0000011C
+getAnswer_no_response 00000094
+
+Symbol: getAnswer_no_response
+   Definitions
+      At line 193 in file mdb.s
+   Uses
+      At line 176 in file mdb.s
+Comment: getAnswer_no_response used once
+init_dispense_value 0000012C
 
 Symbol: init_dispense_value
    Definitions
-      At line 289 in file mdb.s
+      At line 298 in file mdb.s
    Uses
-      At line 304 in file mdb.s
-Comment: init_dispense_value used once
+      At line 311 in file mdb.s
+      At line 315 in file mdb.s
+
 outCommandDone 00000032
 
 Symbol: outCommandDone
@@ -1667,78 +1738,79 @@ Symbol: outCommandLoop
    Uses
       At line 118 in file mdb.s
 Comment: outCommandLoop used once
-payout_status_get_answer 000001A2
+payout_send_value_pool 00000160
+
+Symbol: payout_send_value_pool
+   Definitions
+      At line 320 in file mdb.s
+   Uses
+      At line 332 in file mdb.s
+Comment: payout_send_value_pool used once
+payout_status_get_answer 000001BA
 
 Symbol: payout_status_get_answer
    Definitions
-      At line 341 in file mdb.s
+      At line 355 in file mdb.s
    Uses
-      At line 347 in file mdb.s
+      At line 363 in file mdb.s
 Comment: payout_status_get_answer used once
-payout_status_send_payout_status 0000018A
+payout_status_send_payout_status 000001A2
 
 Symbol: payout_status_send_payout_status
    Definitions
-      At line 333 in file mdb.s
+      At line 347 in file mdb.s
    Uses
-      At line 349 in file mdb.s
-Comment: payout_status_send_payout_status used once
-payout_status_send_tube_status 000001BC
-
+      At line 359 in file mdb.s
 
 
 
 ARM Macro Assembler    Page 8 Alphabetic symbol ordering
 Relocatable symbols
 
+      At line 365 in file mdb.s
+
+payout_status_send_tube_status 000001D8
+
 Symbol: payout_status_send_tube_status
    Definitions
-      At line 352 in file mdb.s
+      At line 368 in file mdb.s
    Uses
-      None
-Comment: payout_status_send_tube_status unused
-payout_value_poll_get_answer 00000164
+      At line 380 in file mdb.s
+Comment: payout_status_send_tube_status used once
+payout_value_poll_get_answer 00000178
 
 Symbol: payout_value_poll_get_answer
    Definitions
-      At line 316 in file mdb.s
+      At line 328 in file mdb.s
    Uses
-      At line 322 in file mdb.s
+      At line 336 in file mdb.s
 Comment: payout_value_poll_get_answer used once
-payout_value_pool_loop 00000144
+payout_value_pool_loop 00000158
 
 Symbol: payout_value_pool_loop
    Definitions
-      At line 306 in file mdb.s
+      At line 317 in file mdb.s
    Uses
-      At line 326 in file mdb.s
-      At line 331 in file mdb.s
+      At line 340 in file mdb.s
+      At line 345 in file mdb.s
 
-sendBusResetDone 0000009C
+sendBusResetDone 000000AC
 
 Symbol: sendBusResetDone
    Definitions
-      At line 202 in file mdb.s
+      At line 211 in file mdb.s
    Uses
       None
 Comment: sendBusResetDone unused
-sendBusResetLoop 0000009A
-
-Symbol: sendBusResetLoop
-   Definitions
-      At line 200 in file mdb.s
-   Uses
-      At line 201 in file mdb.s
-Comment: sendBusResetLoop used once
-tube_status_get_answer 000001D4
+tube_status_get_answer 000001F0
 
 Symbol: tube_status_get_answer
    Definitions
-      At line 360 in file mdb.s
+      At line 376 in file mdb.s
    Uses
-      At line 366 in file mdb.s
+      At line 384 in file mdb.s
 Comment: tube_status_get_answer used once
-51 symbols
+50 symbols
 
 
 
@@ -1760,17 +1832,17 @@ Symbol: COIN_CHANGER_ADDR
    Definitions
       At line 8 in file mdb.s
    Uses
-      At line 295 in file mdb.s
-      At line 313 in file mdb.s
-      At line 338 in file mdb.s
-      At line 357 in file mdb.s
-      At line 390 in file mdb.s
-      At line 405 in file mdb.s
-      At line 418 in file mdb.s
-      At line 437 in file mdb.s
-      At line 449 in file mdb.s
-      At line 465 in file mdb.s
-      At line 483 in file mdb.s
+      At line 304 in file mdb.s
+      At line 325 in file mdb.s
+      At line 352 in file mdb.s
+      At line 373 in file mdb.s
+      At line 410 in file mdb.s
+      At line 427 in file mdb.s
+      At line 442 in file mdb.s
+      At line 463 in file mdb.s
+      At line 477 in file mdb.s
+      At line 495 in file mdb.s
+      At line 515 in file mdb.s
 
 COMMAND_COIN_TYPE 0000000C
 
@@ -1778,7 +1850,7 @@ Symbol: COMMAND_COIN_TYPE
    Definitions
       At line 13 in file mdb.s
    Uses
-      At line 479 in file mdb.s
+      At line 511 in file mdb.s
 Comment: COMMAND_COIN_TYPE used once
 COMMAND_DISPENSE 0000000D
 
@@ -1802,7 +1874,7 @@ Symbol: COMMAND_EXP_FEATURE_ENEABLE
    Definitions
       At line 17 in file mdb.s
    Uses
-      At line 432 in file mdb.s
+      At line 458 in file mdb.s
 Comment: COMMAND_EXP_FEATURE_ENEABLE used once
 
 
@@ -1816,7 +1888,7 @@ Symbol: COMMAND_EXP_IDENTIFICATION
    Definitions
       At line 16 in file mdb.s
    Uses
-      At line 244 in file mdb.s
+      At line 253 in file mdb.s
 Comment: COMMAND_EXP_IDENTIFICATION used once
 COMMAND_EXP_PAYOUT 0000020F
 
@@ -1824,7 +1896,7 @@ Symbol: COMMAND_EXP_PAYOUT
    Definitions
       At line 18 in file mdb.s
    Uses
-      At line 291 in file mdb.s
+      At line 300 in file mdb.s
 Comment: COMMAND_EXP_PAYOUT used once
 COMMAND_EXP_PAYOUT_STATUS 0000030F
 
@@ -1832,7 +1904,7 @@ Symbol: COMMAND_EXP_PAYOUT_STATUS
    Definitions
       At line 19 in file mdb.s
    Uses
-      At line 335 in file mdb.s
+      At line 349 in file mdb.s
 Comment: COMMAND_EXP_PAYOUT_STATUS used once
 COMMAND_EXP_PAYOUT_VALUE_POLL 0000040F
 
@@ -1840,7 +1912,7 @@ Symbol: COMMAND_EXP_PAYOUT_VALUE_POLL
    Definitions
       At line 20 in file mdb.s
    Uses
-      At line 310 in file mdb.s
+      At line 322 in file mdb.s
 Comment: COMMAND_EXP_PAYOUT_VALUE_POLL used once
 COMMAND_EXP_SEND_DIAGNOSTIC_STATUS 0000050F
 
@@ -1848,7 +1920,7 @@ Symbol: COMMAND_EXP_SEND_DIAGNOSTIC_STATUS
    Definitions
       At line 21 in file mdb.s
    Uses
-      At line 259 in file mdb.s
+      At line 268 in file mdb.s
 Comment: COMMAND_EXP_SEND_DIAGNOSTIC_STATUS used once
 COMMAND_POLL 0000000B
 
@@ -1856,7 +1928,7 @@ Symbol: COMMAND_POLL
    Definitions
       At line 12 in file mdb.s
    Uses
-      At line 214 in file mdb.s
+      At line 223 in file mdb.s
 Comment: COMMAND_POLL used once
 COMMAND_RESET 00000008
 
@@ -1878,7 +1950,7 @@ Absolute symbols
    Definitions
       At line 10 in file mdb.s
    Uses
-      At line 229 in file mdb.s
+      At line 238 in file mdb.s
 Comment: COMMAND_SETUP used once
 COMMAND_TUBE_STATUS 0000000A
 
@@ -1886,8 +1958,8 @@ Symbol: COMMAND_TUBE_STATUS
    Definitions
       At line 11 in file mdb.s
    Uses
-      At line 274 in file mdb.s
-      At line 354 in file mdb.s
+      At line 283 in file mdb.s
+      At line 370 in file mdb.s
 
 15 symbols
 
@@ -1902,8 +1974,8 @@ Symbol: Timer_BreakTime
    Definitions
       At line 42 in file mdb.s
    Uses
-      At line 199 in file mdb.s
-Comment: Timer_BreakTime used once
+      None
+Comment: Timer_BreakTime unused
 Timer_NoResponseTime 00000000
 
 Symbol: Timer_NoResponseTime
@@ -1950,8 +2022,8 @@ Symbol: Timer_SetupTime
    Definitions
       At line 43 in file mdb.s
    Uses
-      At line 384 in file mdb.s
-Comment: Timer_SetupTime used once
+      None
+Comment: Timer_SetupTime unused
 UART0_Handler 00000000
 
 Symbol: UART0_Handler
@@ -1980,7 +2052,7 @@ Symbol: UART_InChar
    Definitions
       At line 25 in file mdb.s
    Uses
-      At line 173 in file mdb.s
+      At line 174 in file mdb.s
 Comment: UART_InChar used once
 UART_InString 00000000
 
@@ -2071,7 +2143,7 @@ Symbol: UART_SendBreak
    Definitions
       At line 36 in file mdb.s
    Uses
-      At line 198 in file mdb.s
+      At line 205 in file mdb.s
 Comment: UART_SendBreak used once
 UART_SendBreak_Disable 00000000
 
@@ -2079,7 +2151,7 @@ Symbol: UART_SendBreak_Disable
    Definitions
       At line 37 in file mdb.s
    Uses
-      At line 203 in file mdb.s
+      At line 212 in file mdb.s
 Comment: UART_SendBreak_Disable used once
 delay 00000000
 
@@ -2093,8 +2165,10 @@ External symbols
 
       At line 49 in file mdb.s
    Uses
-      At line 308 in file mdb.s
-      At line 462 in file mdb.s
+      At line 210 in file mdb.s
+      At line 319 in file mdb.s
+      At line 407 in file mdb.s
+      At line 492 in file mdb.s
 
 22 symbols
-433 symbols in table
+432 symbols in table

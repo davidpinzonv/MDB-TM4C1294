@@ -5,9 +5,9 @@ Component: ARM Compiler 5.06 update 4 (build 422) Tool: armlink [4d35d2]
 Section Cross References
 
     fifo.o(.text) refers to fifo.o(DATA) for RxFifo
-    mdb.o(DATA) refers (Special) to gptimer.o(.text) for Timer_NoResponseTime
+    mdb.o(DATA) refers (Special) to gptimer.o(.text) for Timer_BreakTime
     mdb.o(DATA) refers (Special) to uartints.o(.text) for UART0_Handler
-    mdb.o(.text) refers (Special) to gptimer.o(.text) for Timer_NoResponseTime
+    mdb.o(.text) refers (Special) to gptimer.o(.text) for Timer_BreakTime
     mdb.o(.text) refers (Special) to uartints.o(.text) for UART0_Handler
     mdb.o(.text) refers to systick.o(.text) for delay
     mdb.o(.text) refers to mdb.o(DATA) for Command
@@ -17,6 +17,7 @@ Section Cross References
     startup.o(RESET) refers to systick.o(.text) for systick_interrupt
     startup.o(RESET) refers to portd.o(.text) for PORTD_Handler
     uartints.o(.text) refers (Special) to gptimer.o(.text) for Timer_BreakTime
+    uartints.o(.text) refers (Special) to systick.o(.text) for delay
     uartints.o(.text) refers to startup.o(.text) for DisableInterrupts
     uartints.o(.text) refers to fifo.o(.text) for RxFifo_Init
     vmc_mdb_main.o(.text) refers to pll.o(.text) for PLL_Init
@@ -59,23 +60,22 @@ Image Symbol Table
     $v0                                      0x00000208   Number         0  startup.o(RESET)
     .text                                    0x00000228   Section      268  fifo.o(.text)
     $v0                                      0x00000228   Number         0  fifo.o(.text)
-    .text                                    0x00000334   Section      780  mdb.o(.text)
+    .text                                    0x00000334   Section      836  mdb.o(.text)
     $v0                                      0x00000334   Number         0  mdb.o(.text)
-    InitTimerSetupDone                       0x0000052f   Thumb Code     0  mdb.o(.text)
-    .text                                    0x00000640   Section      372  pll.o(.text)
-    $v0                                      0x00000640   Number         0  pll.o(.text)
-    .text                                    0x000007b4   Section       28  startup.o(.text)
-    $v0                                      0x000007b4   Number         0  startup.o(.text)
-    .text                                    0x000007d0   Section     1088  uartints.o(.text)
-    $v0                                      0x000007d0   Number         0  uartints.o(.text)
-    .text                                    0x00000c10   Section      420  vmc_mdb_main.o(.text)
-    $v0                                      0x00000c10   Number         0  vmc_mdb_main.o(.text)
-    .text                                    0x00000db4   Section       52  systick.o(.text)
-    $v0                                      0x00000db4   Number         0  systick.o(.text)
-    .text                                    0x00000de8   Section       32  gptimer.o(.text)
-    $v0                                      0x00000de8   Number         0  gptimer.o(.text)
-    .text                                    0x00000e08   Section      532  portd.o(.text)
-    $v0                                      0x00000e08   Number         0  portd.o(.text)
+    .text                                    0x00000678   Section      372  pll.o(.text)
+    $v0                                      0x00000678   Number         0  pll.o(.text)
+    .text                                    0x000007ec   Section       28  startup.o(.text)
+    $v0                                      0x000007ec   Number         0  startup.o(.text)
+    .text                                    0x00000808   Section     1116  uartints.o(.text)
+    $v0                                      0x00000808   Number         0  uartints.o(.text)
+    .text                                    0x00000c64   Section      420  vmc_mdb_main.o(.text)
+    $v0                                      0x00000c64   Number         0  vmc_mdb_main.o(.text)
+    .text                                    0x00000e08   Section      172  systick.o(.text)
+    $v0                                      0x00000e08   Number         0  systick.o(.text)
+    .text                                    0x00000eb4   Section       32  gptimer.o(.text)
+    $v0                                      0x00000eb4   Number         0  gptimer.o(.text)
+    .text                                    0x00000ed4   Section      532  portd.o(.text)
+    $v0                                      0x00000ed4   Number         0  portd.o(.text)
     DATA                                     0x20000000   Section       48  fifo.o(DATA)
     RxPutPt                                  0x20000000   Data           4  fifo.o(DATA)
     RxGetPt                                  0x20000004   Data           4  fifo.o(DATA)
@@ -215,46 +215,48 @@ Image Symbol Table
     MDB_SendRET                              0x0000037b   Thumb Code     0  mdb.o(.text)
     MDB_SendNAK                              0x00000387   Thumb Code     0  mdb.o(.text)
     MDB_GetAnswer                            0x00000393   Thumb Code     0  mdb.o(.text)
-    MDB_SendBusReset                         0x000003c5   Thumb Code     0  mdb.o(.text)
-    MDB_SendPool                             0x000003d7   Thumb Code     0  mdb.o(.text)
-    MDB_SendSetup                            0x000003ef   Thumb Code     0  mdb.o(.text)
-    MDB_SendExpIdentification                0x00000407   Thumb Code     0  mdb.o(.text)
-    MDB_DispenseValue                        0x0000044f   Thumb Code     0  mdb.o(.text)
-    MDB_InitCoinChanger                      0x00000521   Thumb Code     0  mdb.o(.text)
-    PLL_Init                                 0x00000641   Thumb Code     0  pll.o(.text)
-    DisableInterrupts                        0x000007b5   Thumb Code     0  startup.o(.text)
-    EnableInterrupts                         0x000007b9   Thumb Code     0  startup.o(.text)
-    StartCritical                            0x000007bd   Thumb Code     0  startup.o(.text)
-    EndCritical                              0x000007c5   Thumb Code     0  startup.o(.text)
-    WaitForInterrupt                         0x000007cb   Thumb Code     0  startup.o(.text)
-    UART_Init                                0x000007d1   Thumb Code     0  uartints.o(.text)
-    UART_InChar                              0x00000909   Thumb Code     0  uartints.o(.text)
-    UART_OutChar                             0x0000091b   Thumb Code     0  uartints.o(.text)
-    UART0_Handler                            0x00000941   Thumb Code     0  uartints.o(.text)
-    UART_OutString                           0x000009b9   Thumb Code     0  uartints.o(.text)
-    UART_InUDec                              0x000009cf   Thumb Code     0  uartints.o(.text)
-    UART_OutUDec                             0x00000a1f   Thumb Code     0  uartints.o(.text)
-    UART_InUHex                              0x00000a51   Thumb Code     0  uartints.o(.text)
-    UART_OutUHex                             0x00000ae9   Thumb Code     0  uartints.o(.text)
-    UART_InString                            0x00000b37   Thumb Code     0  uartints.o(.text)
-    UART_HighStickParity                     0x00000b7d   Thumb Code     0  uartints.o(.text)
-    UART_LowStickParity                      0x00000b8b   Thumb Code     0  uartints.o(.text)
-    UART_SendBreak                           0x00000b99   Thumb Code     0  uartints.o(.text)
-    UART_SendBreak_Disable                   0x00000ba7   Thumb Code     0  uartints.o(.text)
-    Start                                    0x00000c11   Thumb Code     0  vmc_mdb_main.o(.text)
-    delay                                    0x00000db5   Thumb Code     0  systick.o(.text)
-    systick_interrupt                        0x00000ddb   Thumb Code     0  systick.o(.text)
-    Timer_ResponseTime                       0x00000ded   Thumb Code     0  gptimer.o(.text)
-    Timer_ResponseTime_stop                  0x00000df1   Thumb Code     0  gptimer.o(.text)
-    Timer_BreakTime                          0x00000df5   Thumb Code     0  gptimer.o(.text)
-    Timer_SetupTime                          0x00000df9   Thumb Code     0  gptimer.o(.text)
-    Timer_PollingTime                        0x00000dfd   Thumb Code     0  gptimer.o(.text)
-    Timer_NoResponseTime                     0x00000e01   Thumb Code     0  gptimer.o(.text)
-    Timer_NoResponseTime_stop                0x00000e05   Thumb Code     0  gptimer.o(.text)
-    InitPortD                                0x00000e09   Thumb Code     0  portd.o(.text)
-    PORTD_Handler                            0x00000e85   Thumb Code     0  portd.o(.text)
-    PortD_clearInterrupt                     0x00000f55   Thumb Code     0  portd.o(.text)
-    PortD_detectInterrupt                    0x00000f63   Thumb Code     0  portd.o(.text)
+    MDB_SendBusReset                         0x000003d3   Thumb Code     0  mdb.o(.text)
+    MDB_SendPool                             0x000003e7   Thumb Code     0  mdb.o(.text)
+    MDB_SendSetup                            0x000003ff   Thumb Code     0  mdb.o(.text)
+    MDB_SendExpIdentification                0x00000417   Thumb Code     0  mdb.o(.text)
+    MDB_DispenseValue                        0x0000045f   Thumb Code     0  mdb.o(.text)
+    MDB_InitCoinChanger                      0x00000541   Thumb Code     0  mdb.o(.text)
+    PLL_Init                                 0x00000679   Thumb Code     0  pll.o(.text)
+    DisableInterrupts                        0x000007ed   Thumb Code     0  startup.o(.text)
+    EnableInterrupts                         0x000007f1   Thumb Code     0  startup.o(.text)
+    StartCritical                            0x000007f5   Thumb Code     0  startup.o(.text)
+    EndCritical                              0x000007fd   Thumb Code     0  startup.o(.text)
+    WaitForInterrupt                         0x00000803   Thumb Code     0  startup.o(.text)
+    UART_Init                                0x00000809   Thumb Code     0  uartints.o(.text)
+    UART_InChar                              0x00000941   Thumb Code     0  uartints.o(.text)
+    UART_OutChar                             0x0000096d   Thumb Code     0  uartints.o(.text)
+    UART0_Handler                            0x00000993   Thumb Code     0  uartints.o(.text)
+    UART_OutString                           0x00000a0b   Thumb Code     0  uartints.o(.text)
+    UART_InUDec                              0x00000a21   Thumb Code     0  uartints.o(.text)
+    UART_OutUDec                             0x00000a71   Thumb Code     0  uartints.o(.text)
+    UART_InUHex                              0x00000aa3   Thumb Code     0  uartints.o(.text)
+    UART_OutUHex                             0x00000b3b   Thumb Code     0  uartints.o(.text)
+    UART_InString                            0x00000b89   Thumb Code     0  uartints.o(.text)
+    UART_HighStickParity                     0x00000bcf   Thumb Code     0  uartints.o(.text)
+    UART_LowStickParity                      0x00000bdd   Thumb Code     0  uartints.o(.text)
+    UART_SendBreak                           0x00000beb   Thumb Code     0  uartints.o(.text)
+    UART_SendBreak_Disable                   0x00000bf9   Thumb Code     0  uartints.o(.text)
+    Start                                    0x00000c65   Thumb Code     0  vmc_mdb_main.o(.text)
+    delay                                    0x00000e09   Thumb Code     0  systick.o(.text)
+    SysTick_Init_Count                       0x00000e45   Thumb Code     0  systick.o(.text)
+    SysTick_Check_Count                      0x00000e71   Thumb Code     0  systick.o(.text)
+    systick_interrupt                        0x00000e8d   Thumb Code     0  systick.o(.text)
+    Timer_ResponseTime                       0x00000eb9   Thumb Code     0  gptimer.o(.text)
+    Timer_ResponseTime_stop                  0x00000ebd   Thumb Code     0  gptimer.o(.text)
+    Timer_BreakTime                          0x00000ec1   Thumb Code     0  gptimer.o(.text)
+    Timer_SetupTime                          0x00000ec5   Thumb Code     0  gptimer.o(.text)
+    Timer_PollingTime                        0x00000ec9   Thumb Code     0  gptimer.o(.text)
+    Timer_NoResponseTime                     0x00000ecd   Thumb Code     0  gptimer.o(.text)
+    Timer_NoResponseTime_stop                0x00000ed1   Thumb Code     0  gptimer.o(.text)
+    InitPortD                                0x00000ed5   Thumb Code     0  portd.o(.text)
+    PORTD_Handler                            0x00000f51   Thumb Code     0  portd.o(.text)
+    PortD_clearInterrupt                     0x00001021   Thumb Code     0  portd.o(.text)
+    PortD_detectInterrupt                    0x0000102f   Thumb Code     0  portd.o(.text)
     Command                                  0x20000030   Data          36  mdb.o(DATA)
     DataIn                                   0x20000054   Data          36  mdb.o(DATA)
     Setup_buf                                0x20000078   Data          24  mdb.o(DATA)
@@ -275,22 +277,22 @@ Memory Map of the image
 
   Image Entry point : 0x00000209
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x0000112c, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000011f8, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x0000101c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x000010e8, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000228   Code   RO           16  * RESET               startup.o
     0x00000228   0x0000010c   Code   RO            2    .text               fifo.o
-    0x00000334   0x0000030c   Code   RO            8    .text               mdb.o
-    0x00000640   0x00000174   Code   RO           11    .text               pll.o
-    0x000007b4   0x0000001c   Code   RO           17    .text               startup.o
-    0x000007d0   0x00000440   Code   RO           23    .text               uartints.o
-    0x00000c10   0x000001a4   Code   RO           27    .text               vmc_mdb_main.o
-    0x00000db4   0x00000034   Code   RO           30    .text               systick.o
-    0x00000de8   0x00000020   Code   RO           33    .text               gptimer.o
-    0x00000e08   0x00000214   Code   RO           37    .text               portd.o
+    0x00000334   0x00000344   Code   RO            8    .text               mdb.o
+    0x00000678   0x00000174   Code   RO           11    .text               pll.o
+    0x000007ec   0x0000001c   Code   RO           17    .text               startup.o
+    0x00000808   0x0000045c   Code   RO           23    .text               uartints.o
+    0x00000c64   0x000001a4   Code   RO           27    .text               vmc_mdb_main.o
+    0x00000e08   0x000000ac   Code   RO           30    .text               systick.o
+    0x00000eb4   0x00000020   Code   RO           33    .text               gptimer.o
+    0x00000ed4   0x00000214   Code   RO           37    .text               portd.o
 
 
     Execution Region ER_RW (Base: 0x20000000, Size: 0x00000110, Max: 0xffffffff, ABSOLUTE)
@@ -320,16 +322,16 @@ Image component sizes
 
        268         32          0         48          0        376   fifo.o
         32          0          0          0          0        252   gptimer.o
-       780         32          0        200          0        508   mdb.o
+       836         28          0        200          0        536   mdb.o
        372         76          0          0          0        344   pll.o
        532         82          0          1          0        412   portd.o
        580        524          0          0       1024       1072   startup.o
-        52         12          0          0          0        252   systick.o
-      1088         92          0          0          0        636   uartints.o
+       172         12          0          0          0        304   systick.o
+      1116         94          0          0          0        644   uartints.o
        420         22          0         18          0        400   vmc_mdb_main.o
 
     ----------------------------------------------------------------------
-      4124        872          0        272       1024       4252   Object Totals
+      4328        870          0        272       1024       4340   Object Totals
          0          0          0          0          0          0   (incl. Generated)
          0          0          0          5          0          0   (incl. Padding)
 
@@ -344,15 +346,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      4124        872          0        272       1024       4252   Grand Totals
-      4124        872          0        272       1024       4252   ELF Image Totals
-      4124        872          0        272          0          0   ROM Totals
+      4328        870          0        272       1024       4340   Grand Totals
+      4328        870          0        272       1024       4340   ELF Image Totals
+      4328        870          0        272          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 4124 (   4.03kB)
+    Total RO  Size (Code + RO Data)                 4328 (   4.23kB)
     Total RW  Size (RW Data + ZI Data)              1296 (   1.27kB)
-    Total ROM Size (Code + RO Data + RW Data)       4396 (   4.29kB)
+    Total ROM Size (Code + RO Data + RW Data)       4600 (   4.49kB)
 
 ==============================================================================
 

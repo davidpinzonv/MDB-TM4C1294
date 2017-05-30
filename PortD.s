@@ -130,7 +130,7 @@ GPIOJinitloop
 	
 	; enable interrupt 3 in NVIC
     LDR R1, =NVIC_EN0_R             ; R1 = &NVIC_EN0_R (pointer)
-    LDR R0, =NVIC_EN0_INT3          ; R0 = NVIC_EN0_INT5 (zeros written to enable register have no effect)
+    LDR R0, =NVIC_EN0_INT3          ; R0 = NVIC_EN0_INT3 (zeros written to enable register have no effect)
     STR R0, [R1]                    ; [R1] = R0
 	
 	; clear D4-D7

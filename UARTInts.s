@@ -26,27 +26,30 @@
 ;For more information about my classes, my research, and my books, see
 ;http://users.ece.utexas.edu/~valvano/
 
-; U0Rx (VCP receive) connected to PA0
-; U0Tx (VCP transmit) connected to PA1
+; U7Rx (VCP receive) connected to PC4
+; U7Tx (VCP transmit) connected to PC5
 ; Note: Connected LaunchPad JP4 and JP5 inserted parallel with long side of board.
 
-NVIC_EN0_INT5      EQU 0x00000020   ; Interrupt 5 enable
-NVIC_EN0_R         EQU 0xE000E100   ; IRQ 0 to 31 Set Enable Register
-NVIC_PRI1_R        EQU 0xE000E404   ; IRQ 4 to 7 Priority Register
-GPIO_PORTA_AFSEL_R EQU 0x40058420
-GPIO_PORTA_PUR_R   EQU 0x40058510
-GPIO_PORTA_DEN_R   EQU 0x4005851C
-GPIO_PORTA_AMSEL_R EQU 0x40058528
-GPIO_PORTA_PCTL_R  EQU 0x4005852C	
-UART0_DR_R         EQU 0x4000C000
-UART0_FR_R         EQU 0x4000C018
+NVIC_EN1_R         EQU 0xE000E104   ; IRQ 32 to 63 Set Enable Register
+NVIC_EN0_INT60	   EQU 0x10000000	; Interrupt 60 enable (UART7)
+NVIC_PRI15_R       EQU 0xE000E43C   ; IRQ 60 to 63 Priority Register
+
+GPIO_PORTC_GPIODIR_R EQU 0x4005A400
+GPIO_PORTC_AFSEL_R EQU 0x4005A420
+GPIO_PORTC_PUR_R   EQU 0x4005A510
+GPIO_PORTC_DEN_R   EQU 0x4005A51C
+GPIO_PORTC_AMSEL_R EQU 0x4005A528
+GPIO_PORTC_PCTL_R  EQU 0x4005A52C
+
+UART7_DR_R         EQU 0x40013000
+UART7_FR_R         EQU 0x40013018
 UART_FR_RXFF       EQU 0x00000040   ; UART Receive FIFO Full
 UART_FR_TXFF       EQU 0x00000020   ; UART Transmit FIFO Full
 UART_FR_RXFE       EQU 0x00000010   ; UART Receive FIFO Empty
-UART0_IBRD_R       EQU 0x4000C024
-UART0_FBRD_R       EQU 0x4000C028
+UART7_IBRD_R       EQU 0x40013024
+UART7_FBRD_R       EQU 0x40013028
 	
-UART0_LCRH_R       EQU 0x4000C02C
+UART7_LCRH_R       EQU 0x4001302C
 UART_LCRH_SPS	   EQU 0x00000080	; UART Stick Parity
 UART_LCRH_WLEN_8   EQU 0x00000060   ; 8 bit word length
 UART_LCRH_FEN      EQU 0x00000010   ; UART Enable FIFOs
@@ -54,33 +57,33 @@ UART_LCRH_EPS	   EQU 0x00000004	; UART Even parity Select
 UART_LCRH_PEN	   EQU 0x00000002	; UART Parity Enable
 UART_LCRH_BRK	   EQU 0x00000001	; UART Send Break
 	
-UART0_CTL_R        EQU 0x4000C030
+UART7_CTL_R        EQU 0x40013030
 UART_CTL_HSE       EQU 0x00000020   ; High-Speed Enable
 UART_CTL_UARTEN    EQU 0x00000001   ; UART Enable
 	
-UART0_IFLS_R       EQU 0x4000C034
+UART7_IFLS_R       EQU 0x40013034
 UART_IFLS_RX1_8    EQU 0x00000000   ; RX FIFO >= 1/8 full
 UART_IFLS_TX1_8    EQU 0x00000000   ; TX FIFO <= 1/8 full
 	
-UART0_IM_R         EQU 0x4000C038
+UART7_IM_R         EQU 0x40013038
 UART_IM_PEIM	   EQU 0x00000100	; UART Parity Error Interrupt Mask
 UART_IM_RTIM       EQU 0x00000040   ; UART Receive Time-Out Interrupt Mask
 UART_IM_TXIM       EQU 0x00000020   ; UART Transmit Interrupt Mask
 UART_IM_RXIM       EQU 0x00000010   ; UART Receive Interrupt Mask
 
-UART0_RIS_R        EQU 0x4000C03C
+UART7_RIS_R        EQU 0x4001303C
 UART_RIS_PERIS	   EQU 0x00000100	; UART Parity Error Interrupt Status
 UART_RIS_RTRIS     EQU 0x00000040   ; UART Receive Time-Out Raw Interrupt Status
 UART_RIS_TXRIS     EQU 0x00000020   ; UART Transmit Raw Interrupt Status
 UART_RIS_RXRIS     EQU 0x00000010   ; UART Receive Raw Interrupt Status
 
-UART0_ICR_R        EQU 0x4000C044
+UART7_ICR_R        EQU 0x40013044
 UART_ICR_PEIC	   EQU 0x00000100	; UART Parity Error Interrupt Clear
 UART_ICR_RTIC      EQU 0x00000040   ; Receive Time-Out Interrupt Clear
 UART_ICR_TXIC      EQU 0x00000020   ; Transmit Interrupt Clear
 UART_ICR_RXIC      EQU 0x00000010   ; Receive Interrupt Clear
 
-UART0_CC_R         EQU 0x4000CFC8
+UART7_CC_R         EQU 0x40013FC8
 UART_CC_CS_M       EQU 0x0000000F   ; UART Baud Clock Source
 UART_CC_CS_SYSCLK  EQU 0x00000000   ; System clock (based on clock source and divisor factor)
 UART_CC_CS_PIOSC   EQU 0x00000005   ; PIOSC
@@ -90,15 +93,15 @@ SYSCTL_ALTCLKCFG_ALTCLK_M     EQU 0x0000000F   ; Alternate Clock Source
 SYSCTL_ALTCLKCFG_ALTCLK_PIOSC EQU 0x00000000   ; PIOSC
 
 SYSCTL_RCGCGPIO_R  EQU 0x400FE608
-SYSCTL_RCGCGPIO_R0 EQU 0x00000001   ; GPIO Port A Run Mode Clock
+SYSCTL_RCGCGPIO_R2 EQU 0x00000004   ; GPIO Port C Run Mode Clock
                                     ; Gating Control
 SYSCTL_RCGCUART_R  EQU 0x400FE618
-SYSCTL_RCGCUART_R0 EQU 0x00000001   ; UART Module 0 Run Mode Clock
+SYSCTL_RCGCUART_R7 EQU 0x00000080   ; UART Module 7 Run Mode Clock
                                     ; Gating Control
 SYSCTL_PRGPIO_R    EQU 0x400FEA08
-SYSCTL_PRGPIO_R0   EQU 0x00000001   ; GPIO Port A Peripheral Ready
+SYSCTL_PRGPIO_R2   EQU 0x00000004   ; GPIO Port C Peripheral Ready
 SYSCTL_PRUART_R    EQU 0x400FEA18
-SYSCTL_PRUART_R0   EQU 0x00000001   ; UART Module 0 Peripheral Ready
+SYSCTL_PRUART_R7   EQU 0x00000080   ; UART Module 7 Peripheral Ready
 
         IMPORT   DisableInterrupts  ; Disable interrupts
         IMPORT   EnableInterrupts   ; Enable interrupts
@@ -177,12 +180,12 @@ UART_Init
     ; activate clock for UART0
     LDR R1, =SYSCTL_RCGCUART_R      ; R1 = &SYSCTL_RCGCUART_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #SYSCTL_RCGCUART_R0 ; R0 = R0|SYSCTL_RCGCUART_R0
+    ORR R0, R0, #SYSCTL_RCGCUART_R7 ; R0 = R0|SYSCTL_RCGCUART_R7
     STR R0, [R1]                    ; [R1] = R0
     ; activate clock for port A
     LDR R1, =SYSCTL_RCGCGPIO_R      ; R1 = &SYSCTL_RCGCGPIO_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #SYSCTL_RCGCGPIO_R0 ; R0 = R0|SYSCTL_RCGCGPIO_R0
+    ORR R0, R0, #SYSCTL_RCGCGPIO_R2 ; R0 = R0|SYSCTL_RCGCGPIO_R2
     STR R0, [R1]                    ; [R1] = R0
     ; initialize empty FIFOs
     BL  RxFifo_Init
@@ -191,22 +194,22 @@ UART_Init
     LDR R1, =SYSCTL_PRUART_R        ; R1 = &SYSCTL_PRUART_R
 UART0initloop
     LDR R0, [R1]                    ; R0 = [R1] (value)
-    ANDS R0, R0, #SYSCTL_PRUART_R0  ; R0 = R0&SYSCTL_PRUART_R0
+    ANDS R0, R0, #SYSCTL_PRUART_R7  ; R0 = R0&SYSCTL_PRUART_R7
     BEQ UART0initloop               ; if(R0 == 0), keep polling
     ; disable UART
-    LDR R1, =UART0_CTL_R            ; R1 = &UART0_CTL_R
+    LDR R1, =UART7_CTL_R            ; R1 = &UART7_CTL_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #UART_CTL_UARTEN    ; R0 = R0&~UART_CTL_UARTEN (disable UART)
     STR R0, [R1]                    ; [R1] = R0
     ; set the baud rate (equations on p845 of datasheet)
-    LDR R1, =UART0_IBRD_R           ; R1 = &UART0_IBRD_R
+    LDR R1, =UART7_IBRD_R           ; R1 = &UART7_IBRD_R
     MOV R0, #104					; R0 = IBRD = int(16,000,000 / (16 * 9,600)) = int(104.166)
     STR R0, [R1]                    ; [R1] = R0
-    LDR R1, =UART0_FBRD_R           ; R1 = &UART0_FBRD_R
+    LDR R1, =UART7_FBRD_R           ; R1 = &UART7_FBRD_R
     MOV R0, #11                     ; R0 = FBRD = round(0.166 * 64 + 0.5) = 11
     STR R0, [R1]                    ; [R1] = R0
     ; configure Line Control Register settings
-    LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
+    LDR R1, =UART7_LCRH_R           ; R1 = &UART7_LCRH_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #0xFF               ; R0 = R0&~0xFF (clear all fields)
                                     ; 8 bit word length, LOW stick parity, one stop bit, FIFOs
@@ -217,7 +220,7 @@ UART0initloop
 	
     STR R0, [R1]                    ; [R1] = R0
     ; configure Interrupt FIFO Level Select Register settings
-    LDR R1, =UART0_IFLS_R           ; R1 = &UART0_IFLS_R
+    LDR R1, =UART7_IFLS_R           ; R1 = &UART7_IFLS_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #0x3F               ; R0 = R0&~0x3F (clear TX and RX interrupt FIFO level fields)
                                     ; configure interrupt for TX FIFO <= 1/8 full
@@ -229,13 +232,13 @@ UART0initloop
     ; RX FIFO interrupt; when RX FIFO >= 2 elements (>= 1/8 full, configured above)
     ; RX time-out interrupt: receive FIFO not empty and no more data received in next 32-bit timeframe
     ;               (this causes an interrupt after each keystroke, rather than every other keystroke)
-    LDR R1, =UART0_IM_R             ; R1 = &UART0_IM_R
+    LDR R1, =UART7_IM_R             ; R1 = &UART7_IM_R
     LDR R0, [R1]                    ; R0 = [R1]
                                     ; enable TX and RX FIFO interrupts, RX time-out interrupt and Parity interrupt
     ORR R0, R0, #(UART_IM_RXIM+UART_IM_TXIM+UART_IM_RTIM+UART_IM_PEIM)
     STR R0, [R1]                    ; [R1] = R0
     ; UART gets its clock from the alternate clock source as defined by SYSCTL_ALTCLKCFG_R
-    LDR R1, =UART0_CC_R             ; R1 = &UART0_CC_R
+    LDR R1, =UART7_CC_R             ; R1 = &UART7_CC_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #UART_CC_CS_M       ; R0 = R0&~UART_CC_CS_M (clear clock source field)
     ADD R0, R0, #UART_CC_CS_PIOSC   ; R0 = R0+UART_CC_CS_PIOSC (configure for alternate clock source for UART0)
@@ -249,50 +252,55 @@ UART0initloop
     ADD R0, R0, #SYSCTL_ALTCLKCFG_ALTCLK_PIOSC
     STR R0, [R1]                    ; [R1] = R0
     ; enable UART
-    LDR R1, =UART0_CTL_R            ; R1 = &UART0_CTL_R
+    LDR R1, =UART7_CTL_R            ; R1 = &UART7_CTL_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #UART_CTL_HSE       ; R0 = R0&~UART_CTL_HSE (high-speed disable; divide clock by 16 rather than 8 (default))
     ORR R0, R0, #UART_CTL_UARTEN    ; R0 = R0|UART_CTL_UARTEN (enable UART)
     STR R0, [R1]                    ; [R1] = R0
     ; allow time for clock to stabilize
     LDR R1, =SYSCTL_PRGPIO_R        ; R1 = &SYSCTL_PRGPIO_R
-GPIOAinitloop
+GPIOCinitloop
     LDR R0, [R1]                    ; R0 = [R1] (value)
-    ANDS R0, R0, #SYSCTL_PRGPIO_R0  ; R0 = R0&SYSCTL_PRGPIO_R0
-    BEQ GPIOAinitloop               ; if(R0 == 0), keep polling
-    ; enable alternate function
-    LDR R1, =GPIO_PORTA_AFSEL_R     ; R1 = &GPIO_PORTA_AFSEL_R
+    ANDS R0, R0, #SYSCTL_PRGPIO_R2  ; R0 = R0&SYSCTL_PRGPIO_R2
+    BEQ GPIOCinitloop               ; if(R0 == 0), keep polling
+    ; set out pin Tx (PC5)
+	LDR R1, =GPIO_PORTC_GPIODIR_R    ; R1 = &GPIO_PORTC_GPIODIR_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #0x03               ; R0 = R0|0x03 (enable alt funct on PA1-0)
+    ORR R0, R0, #0x20               ; R0 = R0|0x03 (set out PC4)
     STR R0, [R1]                    ; [R1] = R0
-	; activa resistencia pull-up in RX (PA0)
-	LDR R1, =GPIO_PORTA_PUR_R		; R1 = &GPIO_PORTA_PUR_R
-	ORR R0, #0x01					; set bit 0 (enable pull-up res in PA0)
+	; enable alternate function
+    LDR R1, =GPIO_PORTC_AFSEL_R     ; R1 = &GPIO_PORTC_AFSEL_R
+    LDR R0, [R1]                    ; R0 = [R1]
+    ORR R0, R0, #0x30               ; R0 = R0|0x03 (enable alt funct on PC4-5)
+    STR R0, [R1]                    ; [R1] = R0
+	; activa resistencia pull-up in RX (PC5)
+	LDR R1, =GPIO_PORTC_PUR_R		; R1 = &GPIO_PORTC_PUR_R
+	ORR R0, #0x10					; set bit 0 (enable pull-up res in PC4)
 	STR R0, [R1]
     ; enable digital port
-    LDR R1, =GPIO_PORTA_DEN_R       ; R1 = &GPIO_PORTA_DEN_R
+    LDR R1, =GPIO_PORTC_DEN_R       ; R1 = &GPIO_PORTC_DEN_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #0x03               ; R0 = R0|0x03 (enable digital I/O on PA1-0)
+    ORR R0, R0, #0x30               ; R0 = R0|0x03 (enable digital I/O on PA1-0)
     STR R0, [R1]                    ; [R1] = R0
 	; configure as UART
-    LDR R1, =GPIO_PORTA_PCTL_R      ; R1 = &GPIO_PORTA_PCTL_R
+    LDR R1, =GPIO_PORTC_PCTL_R      ; R1 = &GPIO_PORTC_PCTL_R
     LDR R0, [R1]                    ; R0 = [R1]
-    BIC R0, R0, #0x000000FF         ; R0 = R0&~0x000000FF (clear port control field for PA1-0)
-    ADD R0, R0, #0x00000011         ; R0 = R0+0x00000011 (configure PA1-0 as UART)
+    BIC R0, R0, #0x0000FF00         ; R0 = R0&~0x000000FF (clear port control field for PC4-5)
+    ADD R0, R0, #0x00001100         ; R0 = R0+0x00000011 (configure PC4-5 as UART)
     STR R0, [R1]                    ; [R1] = R0
     ; disable analog functionality
-    LDR R1, =GPIO_PORTA_AMSEL_R     ; R1 = &GPIO_PORTA_AMSEL_R
+    LDR R1, =GPIO_PORTC_AMSEL_R     ; R1 = &GPIO_PORTC_AMSEL_R
     MOV R0, #0                      ; R0 = 0 (disable analog functionality on PA)
     STR R0, [R1]                    ; [R1] = R0
     ; set the priority of the UART interrupt
-    LDR R1, =NVIC_PRI1_R            ; R1 = &NVIC_PRI1_R
+    LDR R1, =NVIC_PRI15_R            ; R1 = &NVIC_PRI15_R
     LDR R0, [R1]                    ; R0 = [R1]
-    BIC R0, R0, #0x0000FF00         ; R0 = R0&~0xFFFF00FF (clear NVIC priority field for UART0 interrupt)
-    ADD R0, R0, #0x00004000         ; R0 = R0+0x00004000 (UART0 = priority 2; stored in bits 13-15)
+    BIC R0, R0, #0x000000FF         ; R0 = R0&~0xFFFFFF00 (clear NVIC priority field for UART7 interrupt)
+    ADD R0, R0, #0x00000040         ; R0 = R0+0x00000040 (UART7 = priority 2; stored in bits 5-7)
     STR R0, [R1]                    ; [R1] = R0
     ; enable interrupt 5 in NVIC
-    LDR R1, =NVIC_EN0_R             ; R1 = &NVIC_EN0_R
-    LDR R0, =NVIC_EN0_INT5          ; R0 = NVIC_EN0_INT5 (zeros written to enable register have no effect)
+    LDR R1, =NVIC_EN1_R             ; R1 = &NVIC_EN1_R
+    LDR R0, =NVIC_EN0_INT60          ; R0 = NVIC_EN0_INT60 (zeros written to enable register have no effect)
     STR R0, [R1]                    ; [R1] = R0
     BL  EnableInterrupts            ; enable all interrupts (end of critical section)
     POP {PC}                        ; restore previous value of LR into PC (return)
@@ -305,18 +313,18 @@ copyHardwareToSoftware
     PUSH {LR}                       ; save current value of LR
 h2sloop
     ; repeat the loop while (hardware receive FIFO not empty) and (software receive FIFO not full)
-    LDR R1, =UART0_FR_R             ; R1 = &UART0_FR_R
+    LDR R1, =UART7_FR_R             ; R1 = &UART7_FR_R
     LDR R0, [R1]                    ; R0 = [R1]
     AND R0, R0, #UART_FR_RXFE       ; R0 = R0&UART_FR_RXFE
-    CMP R0, #UART_FR_RXFE           ; is R0 (UART0_FR_R&UART_FR_RXFE) == UART_FR_RXFE? (is hardware receive FIFO empty?)
+    CMP R0, #UART_FR_RXFE           ; is R0 (UART7_FR_R&UART_FR_RXFE) == UART_FR_RXFE? (is hardware receive FIFO empty?)
     BEQ h2sdone                     ; if so, skip to 'h2sdone'
     BL  RxFifo_Size
     CMP R0, #(FIFOSIZE - 1)         ; is R0 (RxFifo_Size()) == (FIFOSIZE - 1)? (is software receive FIFO full?)
     BEQ h2sdone                     ; if so, skip to 'h2sdone'
     ; read a character from the hardware FIFO
-    LDR R1, =UART0_DR_R             ; R1 = &UART0_DR_R
+    LDR R1, =UART7_DR_R             ; R1 = &UART7_DR_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ; store R0 (UART0_DR_R) in software receive FIFO
+    ; store R0 (UART7_DR_R) in software receive FIFO
     BL  RxFifo_Put
     B   h2sloop                     ; unconditional branch to 'h2sloop'
 h2sdone
@@ -330,10 +338,10 @@ copySoftwareToHardware
     PUSH {LR}                       ; save current value of LR
 s2hloop
     ; repeat the loop while (hardware transmit FIFO not full) and (software transmit FIFO not empty)
-    LDR R1, =UART0_FR_R             ; R1 = &UART0_FR_R
+    LDR R1, =UART7_FR_R             ; R1 = &UART7_FR_R
     LDR R0, [R1]                    ; R0 = [R1]
     AND R0, R0, #UART_FR_TXFF       ; R0 = R0&UART_FR_TXFF
-    CMP R0, #UART_FR_TXFF           ; is R0 (UART0_FR_R&UART_FR_TXFF) == UART_FR_TXFF? (is hardware transmit FIFO full?)
+    CMP R0, #UART_FR_TXFF           ; is R0 (UART7_FR_R&UART_FR_TXFF) == UART_FR_TXFF? (is hardware transmit FIFO full?)
     BEQ s2hdone                     ; if so, skip to 's2hdone'
     BL  TxFifo_Size
     CMP R0, #0                      ; is R0 (TxFifo_Size()) == 0? (is software transmit FIFO empty?)
@@ -344,7 +352,7 @@ s2hloop
     BL  TxFifo_Get                  ; get from software transmit FIFO into pointer R0
     POP {R0}                        ; pop data into R0
     ; store R0 (data from TxFifo_Get()) in hardware transmit FIFO
-    LDR R1, =UART0_DR_R             ; R1 = &UART0_DR_R
+    LDR R1, =UART7_DR_R             ; R1 = &UART7_DR_R
     STR R0, [R1]                    ; [R1] = R0
     B   s2hloop                     ; unconditional branch to 'h2sloop'
 s2hdone
@@ -406,7 +414,7 @@ outCharLoop
     BL  TxFifo_Put                  ; store R0 (output character) in software transmit FIFO
     CMP R0, #FIFOFAIL               ; is R0 (TxFifo_Put()) == FIFOFAIL (value returned when FIFO full)?
     BEQ outCharLoop                 ; if so, skip to 'outCharLoop' (spin until space in software transmit FIFO)
-    LDR R4, =UART0_IM_R             ; R4 = &UART0_IM_R
+    LDR R4, =UART7_IM_R             ; R4 = &UART7_IM_R
     LDR R0, [R4]                    ; R0 = [R4]
     BIC R0, R0, #UART_IM_TXIM       ; R0 = R0&~UART_IM_TXIM (disable TX FIFO interrupt)
     STR R0, [R4]                    ; [R4] = R0
@@ -426,13 +434,13 @@ UART0_Handler
     PUSH {LR}                       ; save current value of LR
     ; check the flags to determine which interrupt condition occurred
 handlerCheck0
-    LDR R1, =UART0_RIS_R            ; R1 = &UART0_RIS_R
+    LDR R1, =UART7_RIS_R            ; R1 = &UART7_RIS_R
     LDR R0, [R1]                    ; R0 = [R1]
     AND R0, R0, #UART_RIS_TXRIS     ; R0 = R0&UART_RIS_TXRIS
-    CMP R0, #UART_RIS_TXRIS         ; is R0 (UART0_RIS_R&UART_RIS_TXRIS) == UART_RIS_TXRIS? (does hardware TX FIFO have <= 2 items?)
+    CMP R0, #UART_RIS_TXRIS         ; is R0 (UART7_RIS_R&UART_RIS_TXRIS) == UART_RIS_TXRIS? (does hardware TX FIFO have <= 2 items?)
     BNE handlerCheck1               ; if not, skip to 'handlerCheck1' and check the next flag
     ; acknowledge TX FIFO interrupt
-    LDR R1, =UART0_ICR_R            ; R1 = &UART0_ICR_R
+    LDR R1, =UART7_ICR_R            ; R1 = &UART7_ICR_R
     LDR R0, =UART_ICR_TXIC          ; R0 = UART_ICR_TXIC (zeros written to interrupt clear register have no effect)
     STR R0, [R1]                    ; [R1] = R0
     ; copy from software TX FIFO to hardware TX FIFO
@@ -442,42 +450,42 @@ handlerCheck0
     BL  TxFifo_Size
     CMP R0, #0                      ; is R0 (TxFifo_Size()) == 0? (is software transmit FIFO empty?)
     BNE handlerCheck1               ; if not, skip to 'handlerCheck1'
-    LDR R1, =UART0_IM_R             ; R1 = &UART0_IM_R
+    LDR R1, =UART7_IM_R             ; R1 = &UART7_IM_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #UART_IM_TXIM       ; R0 = R0&~UART_IM_TXIM (disable TX FIFO interrupt)
     STR R0, [R1]                    ; [R1] = R0
 handlerCheck1
-    LDR R1, =UART0_RIS_R            ; R1 = &UART0_RIS_R
+    LDR R1, =UART7_RIS_R            ; R1 = &UART7_RIS_R
     LDR R0, [R1]                    ; R0 = [R1]
     AND R0, R0, #UART_RIS_RXRIS     ; R0 = R0&UART_RIS_RXRIS
-    CMP R0, #UART_RIS_RXRIS         ; is R0 (UART0_RIS_R&UART_RIS_RXRIS) == UART_RIS_RXRIS? (does hardware RX FIFO have >= 2 items?)
+    CMP R0, #UART_RIS_RXRIS         ; is R0 (UART7_RIS_R&UART_RIS_RXRIS) == UART_RIS_RXRIS? (does hardware RX FIFO have >= 2 items?)
     BNE handlerCheck2               ; if not, skip to 'handlerCheck2' and check the next flag
     ; acknowledge RX FIFO interrupt
-    LDR R1, =UART0_ICR_R            ; R1 = &UART0_ICR_R
+    LDR R1, =UART7_ICR_R            ; R1 = &UART7_ICR_R
     LDR R0, =UART_ICR_RXIC          ; R0 = UART_ICR_RXIC (zeros written to interrupt clear register have no effect)
     STR R0, [R1]                    ; [R1] = R0
     ; copy from hardware RX FIFO to software RX FIFO
     BL  copyHardwareToSoftware      ; private helper subroutine
 handlerCheck2
-    LDR R1, =UART0_RIS_R            ; R1 = &UART0_RIS_R
+    LDR R1, =UART7_RIS_R            ; R1 = &UART7_RIS_R
     LDR R0, [R1]                    ; R0 = [R1]
     AND R0, R0, #UART_RIS_RTRIS     ; R0 = R0&UART_RIS_RTRIS
-    CMP R0, #UART_RIS_RTRIS         ; is R0 (UART0_RIS_R&UART_RIS_RTRIS) == UART_RIS_RTRIS? (did the receiver timeout?)
+    CMP R0, #UART_RIS_RTRIS         ; is R0 (UART7_RIS_R&UART_RIS_RTRIS) == UART_RIS_RTRIS? (did the receiver timeout?)
     BNE handlerCheck3                 ; if not, skip to 'handlerDone'
     ; acknowledge receiver timeout interrupt
-    LDR R1, =UART0_ICR_R            ; R1 = &UART0_ICR_R
+    LDR R1, =UART7_ICR_R            ; R1 = &UART7_ICR_R
     LDR R0, =UART_ICR_RTIC          ; R0 = UART_ICR_RTIC (zeros written to interrupt clear register have no effect)
     STR R0, [R1]                    ; [R1] = R0
     ; copy from hardware RX FIFO to software RX FIFO
     BL  copyHardwareToSoftware      ; private helper subroutine
 handlerCheck3
-	LDR R1, =UART0_RIS_R            ; R1 = &UART0_RIS_R
+	LDR R1, =UART7_RIS_R            ; R1 = &UART7_RIS_R
     LDR R0, [R1]                    ; R0 = [R1]
     AND R0, R0, #UART_RIS_PERIS     ; R0 = R0&UART_RIS_PERIS
-    CMP R0, #UART_RIS_PERIS         ; is R0 (UART0_RIS_R&UART_RIS_PERIS) == UART_RIS_PERIS? (did the parity error?)
+    CMP R0, #UART_RIS_PERIS         ; is R0 (UART7_RIS_R&UART_RIS_PERIS) == UART_RIS_PERIS? (did the parity error?)
     BNE handlerDone                 ; if not, skip to 'handlerDone'
 	; acknowledge parity error interrupt
-	LDR R1, =UART0_ICR_R            ; R1 = &UART0_ICR_R
+	LDR R1, =UART7_ICR_R            ; R1 = &UART7_ICR_R
     LDR R0, =UART_ICR_PEIC          ; R0 = UART_ICR_PEIC (zeros written to interrupt clear register have no effect)
     STR R0, [R1]                    ; [R1] = R0
 	;update personal flag R5
@@ -775,7 +783,7 @@ inStringDone
 ; para que el bit de paridad envie 1
 UART_HighStickParity
 	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR
-	LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
+	LDR R1, =UART7_LCRH_R           ; R1 = &UART7_LCRH_R
     LDR R0, [R1]                    ; R0 = [R1]
 	BIC R0, R0, #UART_LCRH_EPS		; HIGH Stick Parity
     STR R0, [R1]                    ; [R1] = R0
@@ -786,7 +794,7 @@ UART_HighStickParity
 ; para que el bit de paridad envie 0
 UART_LowStickParity
 	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR
-	LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
+	LDR R1, =UART7_LCRH_R           ; R1 = &UART7_LCRH_R
     LDR R0, [R1]                    ; R0 = [R1]
 	ORR R0, R0, #UART_LCRH_EPS		; LOW Stick Parity
     STR R0, [R1]                    ; [R1] = R0
@@ -796,7 +804,7 @@ UART_LowStickParity
 ; Activa el SendBreak bit de la Uart
 UART_SendBreak
 	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR
-	LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
+	LDR R1, =UART7_LCRH_R           ; R1 = &UART7_LCRH_R
     LDR R0, [R1]                    ; R0 = [R1]
 	ORR R0, R0, #UART_LCRH_BRK		; Send Break Enable
     STR R0, [R1]                    ; [R1] = R0
@@ -806,7 +814,7 @@ UART_SendBreak
 ; Desactiva el SendBreak bit de la Uart
 UART_SendBreak_Disable
 	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR
-	LDR R1, =UART0_LCRH_R           ; R1 = &UART0_LCRH_R
+	LDR R1, =UART7_LCRH_R           ; R1 = &UART7_LCRH_R
     LDR R0, [R1]                    ; R0 = [R1]
 	BIC R0, R0, #UART_LCRH_BRK		; Send Break Disable
     STR R0, [R1]                    ; [R1] = R0

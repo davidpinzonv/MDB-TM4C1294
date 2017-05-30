@@ -130,6 +130,11 @@ FIFOFAIL    EQU  0         ; return value on failure
 		IMPORT Timer_PollingTime
 		IMPORT Timer_NoResponseTime
 		IMPORT Timer_NoResponseTime_stop
+			
+;functions from Systick.s
+		IMPORT delay
+		IMPORT SysTick_Init_Count
+		IMPORT SysTick_Check_Count
 
 ; standard ASCII symbols
 CR                 EQU 0x0D
@@ -361,13 +366,22 @@ s2hdone
 ;  main program.
 UART_InChar
     MOV R0, #0                      ; initialize local variable
-    PUSH {R0, LR}                   ; save current value of LR and allocate local variable
+    PUSH {R0,R2,LR}          	   ; save current value of LR and allocate local variable
+	MOV R0,#5						; R0 = 5
+	BL	SysTick_Init_Count			; init count
 inCharLoop
+	BL	SysTick_Check_Count
+	CMP R0,#1						; R0 == 1? (time response)?
+	BEQ	inChar_time_response_out	; if no, no response, go to inChar_time_response_out
     MOV R0, SP                      ; R0 = SP (R0 points to local variable)
     BL  RxFifo_Get                  ; get from software receive FIFO into pointer R0
     CMP R0, #FIFOFAIL               ; is R0 (RxFifo_Get()) == FIFOFAIL (value returned when FIFO empty)?
     BEQ inCharLoop                  ; if so, skip to 'inCharLoop' (spin until receive a character)
-    POP {R0, PC}                    ; pop data into R0 and restore LR into PC (return)
+    POP {R0,R2, PC}             	; pop data into R0 and restore LR into PC (return)
+inChar_time_response_out
+	MOV R0,#0						; R0 = 0 (no data)
+	MOV R1,#1						; R1 = 1 response time, out
+	POP {R0,R2, PC}             	; pop data into R0 and restore LR into PC (return)
 
 ;------------UART_OutChar------------
 ; output ASCII character to UART
@@ -385,7 +399,7 @@ inCharLoop
 ;  use UART I/O functions within a critical section of your
 ;  main program.
 UART_OutChar
-    PUSH {R4, LR}                   ; save current value of R4 and LR
+    PUSH {R2,R3,R4, R5,LR}                   ; save current value of R4 and LR
     MOV R4, R0                      ; R4 = R0 (save the output character)
 outCharLoop
     MOV R0, R4                      ; R0 = R4 (recall the output character)
@@ -400,7 +414,7 @@ outCharLoop
     LDR R0, [R4]                    ; R0 = [R4]
     ORR R0, R0, #UART_IM_TXIM       ; R0 = R0|UART_IM_TXIM (enable TX FIFO interrupt)
     STR R0, [R4]                    ; [R4] = R0
-    POP {R4, PC}                    ; restore previous value of R4 into R4 and LR into PC (return)
+    POP {R2,R3,R4,  R5, PC}                    ; restore previous value of R4 into R4 and LR into PC (return)
 
 ;------------UART0_Handler------------
 ; at least one of three things has happened:

@@ -90,11 +90,11 @@ Send_diag_status_buf SPACE	17
 ; Input : R0 8-bit address
 ; Output: none
 MDB_SendAddress
-	PUSH {R0, R1, LR}          	; save current value of R0, R1 and LR
+	PUSH {R0, R1, R2, R3, LR}          	; save current value of R0, R1 and LR
 	BL	UART_HighStickParity	; set high stick parity
-	BL	UART_OutChar				; note: modifies R0 and R1
+	BL	UART_OutChar				; note: modifies R0, R2
 	BL	UART_LowStickParity			; set to low stick parity
-	POP {R0, R1, PC}           	; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
+	POP {R0, R1, R2, R3, PC}           	; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
 	
 ;-----------MDB_SendCommand-----------
 ; Envia comando/datos a un periferico
@@ -161,16 +161,19 @@ MDB_SendNAK
 ; se debe tener activado LOW Stick Parity, o se cicla la funcion
 ; Input : R0 pointer to DataIn buffer
 ; Output: R0 number of data bytes getted, included chk(if apply), 0 if chksum failed
+;		  R1 time response out 1 if no response, 0 if good response
 ; Modifies: R0, all used Register are pushed and poped
 ; DataIn buffer upgraded.
 MDB_GetAnswer
-	PUSH {R1, R2, R3, R4, R5, LR}	; save current value of R0, R1, R2, R3, R4, R5 and LR
+	PUSH {R2, R3, R4, R5, LR}	; save current value of R0, R1, R2, R3, R4, R5 and LR
 	MOV R3, R0						; R3 = R0 (save the DataIn pointer buffer)	
 	MOV R2, #0						; initialize counter, contador de datos recibidos
 	MOV R4, #0						; initialize chksum
 	MOV R5, #0						; personal flag for Stick Parity Interrup
 getAnswerLoop						; stay in loop util interruption by stick parity detected	
 	BL	UART_InChar					; get byte from UART
+	CMP	R1,#1						; R1 == 1? (time response out)?
+	BEQ getAnswer_no_response
 	STRB R0, [R3]                   ; [R3] = R0 (store 8 least significant bits of R0 into location pointed to by R4)
     ADD R3, R3, #1                  ; R4 = R4 + 1 (bufferPt = bufferPt + 1)
 	CMP R5, #1						; R5 = 1 ? (R5 modified by Stick Parity Interrupt Handler)
@@ -186,7 +189,11 @@ getAnswerEnd
 	MOVNE R0, #0					; R0 = 0 (chksum failed)
 getAnswerDone
 									; restore previous value of R0 into R0, R1 into R1, R2 into R2
-	POP {R1, R2, R3, R4, R5, PC}	; R3 into R3, R4 into R4, R5, into R5 and LR into PC (return)
+	POP {R2, R3, R4, R5, PC}	; R3 into R3, R4 into R4, R5, into R5 and LR into PC (return)
+getAnswer_no_response
+	MOV R0, #0					; R0 = 0 (no answer)
+	MOV R1, #1					; R0 = 1 (response time out)
+	POP {R2, R3, R4, R5, PC}	; R3 into R3, R4 into R4, R5, into R5 and LR into PC (return)
 	
 ;---------MDB_SendBusReset---------
 ; Manda un bus reset a los perifericos
@@ -196,9 +203,11 @@ getAnswerDone
 MDB_SendBusReset
 	PUSH {R0, R1, LR}				; save current values of R0, R1, LR
 	BL	UART_SendBreak				; send break
-	BL	Timer_BreakTime				; start Timer_BreakTime (100ms)
-sendBusResetLoop
-	B	sendBusResetLoop
+	;BL	Timer_BreakTime				; start Timer_BreakTime (100ms)
+;sendBusResetLoop
+	;B	sendBusResetLoop
+	MOV R0, #150
+	BL delay						; delay of 150ms (R0)
 sendBusResetDone
 	BL	UART_SendBreak_Disable		; stop break
 	POP	{R0, R1, PC}				; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
@@ -298,6 +307,8 @@ init_dispense_value
 DispenseValue_get_answer
 	LDR R0,=DataIn					; R0 = &DataIn (pointer)
 	BL	MDB_GetAnswer				; getting answer
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ init_dispense_value			; if so, go to init_dispense_value
 	LDR R0,=DataIn					; R0 = &DataIn (pointer)
 	LDR R1, [R0]					; R1 = [R0]
 	CMP R1,#0						; R1 == 0 ? (ACK)?
@@ -306,6 +317,7 @@ DispenseValue_get_answer
 payout_value_pool_loop
 	MOV	R0,#125						; R0 = 125
 	BL	delay						; delay 125ms
+payout_send_value_pool
 	LDR	R1,=Command					; R1 = &Command (pointer)
 	MOV R2,#COMMAND_EXP_PAYOUT_VALUE_POLL; R2 = COMMAND_EXP_PAYOUT_VALUE_POLL
 	STRH R2,[R1]					; [R1] = R2 (COMMAND_EXP_PAYOUT_VALUE_POLL)
@@ -316,6 +328,8 @@ payout_value_pool_loop
 payout_value_poll_get_answer
 	LDR R0,=DataIn					; R0 = &DataIn (pointer)
 	BL	MDB_GetAnswer				; getting answer
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ payout_send_value_pool			; if so, go to init_dispense_value
 	CMP R0,#0						; R0 == 0 ? (chksum fail)?
 	BLEQ MDB_SendRET				; if so, sen RET
 	CMP R0,#0						; R0 == 0 ? (chksum fail)?
@@ -341,6 +355,8 @@ payout_status_send_payout_status
 payout_status_get_answer
 	LDR R0,=DataIn					; R0 = &DataIn (pointer)
 	BL	MDB_GetAnswer				; getting answer
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ payout_status_send_payout_status; if so, go to payout_status_send_payout_status
 	CMP R0,#0						; R0 == 0 ? (chksum fail)?
 	BLEQ MDB_SendRET				; if so, sen RET
 	CMP R0,#0						; R0 == 0 ? (chksum fail)?
@@ -360,6 +376,8 @@ payout_status_send_tube_status
 tube_status_get_answer
 	LDR R0,=Tube_status_buf			; R0 = &Tube_status_buf (pointer)
 	BL	MDB_GetAnswer				; getting answer
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ payout_status_send_tube_status; if so, go to payout_status_send_tube_status
 	CMP R0,#0						; R0 == 0 ? (chksum fail)?
 	BLEQ MDB_SendRET				; if so, sen RET
 	CMP R0,#0						; R0 == 0 ? (chksum fail)?
@@ -380,11 +398,13 @@ MDB_InitCoinChanger
 InitSendBusReset
 	BL	MDB_SendBusReset
 	;wait after first pool
-	LDR R0,=InitTimerSetupDone		; Addres to jump after Timer_SetupTime
-	BL	Timer_SetupTime 			; Timer 200ms, in: R0
-InitResetLoop
-	B	InitResetLoop				; loop for wait Timer_SetupTime interrupt
-InitTimerSetupDone
+	;LDR R0,=InitTimerSetupDone		; Addres to jump after Timer_SetupTime
+	;BL	Timer_SetupTime 			; Timer 200ms, in: R0
+;InitResetLoop
+	;B	InitResetLoop				; loop for wait Timer_SetupTime interrupt
+;InitTimerSetupDone
+	MOV R0, #210
+	BL	delay
 	;send first pool to obtain "just reset" response
 InitSendPool
 	MOV R0, #COIN_CHANGER_ADDR		; R0 = COIN_CHANGER_ADDR
@@ -392,6 +412,8 @@ InitSendPool
 InitGetPool
 	LDR R0, =Pool_buf				; R0 = &Pool_buf (pointer)
 	BL	MDB_GetAnswer				; Get answer from peripheral
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ InitSendPool				; if so, go to InitSendPool
 	CMP	R0,#2						; R0 == 2? (received 2 bytes - JustReset & Chk)
 	BNE	InitSendBusReset			; if not, go to InitNoResponsePoolLoop
 	MOV R1,#0						; clean register
@@ -407,6 +429,8 @@ InitSendSetup
 InitGetSetup
 	LDR R0, =Setup_buf				; R0 = &Setup_buf (pointer)
 	BL	MDB_GetAnswer				; Get answer from peripheral
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ InitSendSetup				; if so, go to InitSendSetup
 	CMP R0, #0						; R0 == 0? (Chksum Failed)
 	BNE	InitSetupDone				; if not, go to InitSetupDone
 	BL	MDB_SendRET					; Sending RET
@@ -420,6 +444,8 @@ InitSendExpIdentification
 InitGetExpIdentification
 	LDR R0, =Identification_buf		; R0 = &Identification_buf (pointer)
 	BL	MDB_GetAnswer				; Get answer from peripheral
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ InitSendExpIdentification	; if so, go to InitSendExpIdentification
 	CMP R0, #0						; R0 == 0? (Chksum Failed)
 	BNE	InitExpIdentificationDone	; if not, go to InitExpIdentificationDone
 	BL	MDB_SendRET					; Sending RET
@@ -440,6 +466,8 @@ InitSendExpFeatureEnable
 InitGetExpFeatureEnable
 	LDR R0, =DataIn					; R0 = &DataIn (pointer)
 	BL	MDB_GetAnswer				; Get answer from peripheral
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ InitSendExpFeatureEnable	; if so, go to InitSendExpFeatureEnable
 	LDR R0, =DataIn					; R0 = &DataIn (pointer)
 	LDR R1, [R0]					; R1 = [R0] (answer)
 	CMP R1, #0						; R1 == 00H ? (R1 == ACK?)
@@ -451,6 +479,8 @@ InitSendExpSendDiagStatus
 InitGetExpSendDiagStatus
 	LDR R0, =Send_diag_status_buf	; R0 = &Send_diag_status_buf (pointer)
 	BL	MDB_GetAnswer				; Get answer from peripheral
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ InitSendExpSendDiagStatus	; if so, go to InitSendExpSendDiagStatus
 	CMP R0, #0						; R0 == 0? (Chksum Failed)
 	BNE	InitExpSendDiagStatusDone	; if not, go to InitExpSendDiagStatusDone
 	BL	MDB_SendRET					; Sending RET
@@ -467,6 +497,8 @@ InitSendTubeStatus
 InitGetTubeStatus
 	LDR R0, =Tube_status_buf		; R0 = &Tube_status_buf (pointer)
 	BL	MDB_GetAnswer				; Get answer from peripheral
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ InitSendTubeStatus			; if so, go to InitSendTubeStatus
 	CMP R0, #0						; R0 == 0? (Chksum Failed)
 	BNE	InitTubeStatusDone			; if not, go to InitTubeStatusDone
 	BL	MDB_SendRET					; Sending RET
@@ -486,6 +518,8 @@ InitSendCoinType
 InitGetCoinType
 	LDR R0, =DataIn					; R0 = &DataIn (pointer)
 	BL	MDB_GetAnswer				; Get answer from peripheral
+	CMP	R1, #1						; R1 == 1 ? (response time out)?
+	BEQ InitSendCoinType			; if so, go to InitSendCoinType
 	LDR R0, =DataIn					; R0 = &DataIn (pointer)
 	LDR R1, [R0]					; R1 = [R0] (answer)
 	CMP R1, #0x00					; R1 == 00H ? (R1 == ACK?)

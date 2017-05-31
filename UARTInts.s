@@ -1,7 +1,7 @@
 ; Modified by Josue Pinzon Vivas May 24, 2017
 ; UARTInts.s
 ; Runs on TM4C1294
-; Use UART0 to implement bidirectional data transfer to and from a
+; Use UART7 to implement bidirectional data transfer to and from a
 ; computer running HyperTerminal.  This time, interrupts and FIFOs
 ; are used.
 ; This file is named "UARTInts" because it is the UART with interrupts.
@@ -30,8 +30,8 @@
 ; U7Tx (VCP transmit) connected to PC5
 ; Note: Connected LaunchPad JP4 and JP5 inserted parallel with long side of board.
 
+NVIC_EN0_INT60     EQU 0x10000000   ; Interrupt 60 enable
 NVIC_EN1_R         EQU 0xE000E104   ; IRQ 32 to 63 Set Enable Register
-NVIC_EN0_INT60	   EQU 0x10000000	; Interrupt 60 enable (UART7)
 NVIC_PRI15_R       EQU 0xE000E43C   ; IRQ 60 to 63 Priority Register
 
 GPIO_PORTC_GPIODIR_R EQU 0x4005A400
@@ -93,15 +93,15 @@ SYSCTL_ALTCLKCFG_ALTCLK_M     EQU 0x0000000F   ; Alternate Clock Source
 SYSCTL_ALTCLKCFG_ALTCLK_PIOSC EQU 0x00000000   ; PIOSC
 
 SYSCTL_RCGCGPIO_R  EQU 0x400FE608
-SYSCTL_RCGCGPIO_R2 EQU 0x00000004   ; GPIO Port C Run Mode Clock
+SYSCTL_RCGCGPIO_R0 EQU 0x00000004   ; GPIO Port C Run Mode Clock
                                     ; Gating Control
 SYSCTL_RCGCUART_R  EQU 0x400FE618
-SYSCTL_RCGCUART_R7 EQU 0x00000080   ; UART Module 7 Run Mode Clock
+SYSCTL_RCGCUART_R0 EQU 0x00000080   ; UART Module 7 Run Mode Clock
                                     ; Gating Control
 SYSCTL_PRGPIO_R    EQU 0x400FEA08
-SYSCTL_PRGPIO_R2   EQU 0x00000004   ; GPIO Port C Peripheral Ready
+SYSCTL_PRGPIO_R0   EQU 0x00000004   ; GPIO Port C Peripheral Ready
 SYSCTL_PRUART_R    EQU 0x400FEA18
-SYSCTL_PRUART_R7   EQU 0x00000080   ; UART Module 7 Peripheral Ready
+SYSCTL_PRUART_R0   EQU 0x00000080   ; UART Module 7 Peripheral Ready
 
         IMPORT   DisableInterrupts  ; Disable interrupts
         IMPORT   EnableInterrupts   ; Enable interrupts
@@ -152,7 +152,7 @@ DEL                EQU 0x7F
         EXPORT UART_Init
         EXPORT UART_InChar
         EXPORT UART_OutChar
-        EXPORT UART0_Handler
+        EXPORT UART7_Handler
         EXPORT UART_OutString
         EXPORT UART_InUDec
         EXPORT UART_OutUDec
@@ -167,7 +167,7 @@ DEL                EQU 0x7F
         PRESERVE8
 
 ;------------UART_Init------------
-; Initialize UART0 for 9,600 baud rate (clock from 16 MHz PIOSC),
+; Initialize UART7 for 9,600 baud rate (clock from 16 MHz PIOSC),
 ; 8 bit word length, stick parity, one stop bit, FIFOs enabled, interrupt
 ; after >= 2 characters received or <= 2 characters to transmit or timeout
 ; Rx with pull-up
@@ -177,25 +177,25 @@ DEL                EQU 0x7F
 UART_Init
     PUSH {LR}                       ; save current value of LR
     BL  DisableInterrupts           ; disable all interrupts (critical section)
-    ; activate clock for UART0
+    ; activate clock for UART7
     LDR R1, =SYSCTL_RCGCUART_R      ; R1 = &SYSCTL_RCGCUART_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #SYSCTL_RCGCUART_R7 ; R0 = R0|SYSCTL_RCGCUART_R7
+    ORR R0, R0, #SYSCTL_RCGCUART_R0 ; R0 = R0|SYSCTL_RCGCUART_R0
     STR R0, [R1]                    ; [R1] = R0
     ; activate clock for port A
     LDR R1, =SYSCTL_RCGCGPIO_R      ; R1 = &SYSCTL_RCGCGPIO_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #SYSCTL_RCGCGPIO_R2 ; R0 = R0|SYSCTL_RCGCGPIO_R2
+    ORR R0, R0, #SYSCTL_RCGCGPIO_R0 ; R0 = R0|SYSCTL_RCGCGPIO_R0
     STR R0, [R1]                    ; [R1] = R0
     ; initialize empty FIFOs
     BL  RxFifo_Init
     BL  TxFifo_Init
     ; allow time for clock to stabilize
     LDR R1, =SYSCTL_PRUART_R        ; R1 = &SYSCTL_PRUART_R
-UART0initloop
+UART7initloop
     LDR R0, [R1]                    ; R0 = [R1] (value)
-    ANDS R0, R0, #SYSCTL_PRUART_R7  ; R0 = R0&SYSCTL_PRUART_R7
-    BEQ UART0initloop               ; if(R0 == 0), keep polling
+    ANDS R0, R0, #SYSCTL_PRUART_R0  ; R0 = R0&SYSCTL_PRUART_R0
+    BEQ UART7initloop               ; if(R0 == 0), keep polling
     ; disable UART
     LDR R1, =UART7_CTL_R            ; R1 = &UART7_CTL_R
     LDR R0, [R1]                    ; R0 = [R1]
@@ -241,7 +241,7 @@ UART0initloop
     LDR R1, =UART7_CC_R             ; R1 = &UART7_CC_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #UART_CC_CS_M       ; R0 = R0&~UART_CC_CS_M (clear clock source field)
-    ADD R0, R0, #UART_CC_CS_PIOSC   ; R0 = R0+UART_CC_CS_PIOSC (configure for alternate clock source for UART0)
+    ADD R0, R0, #UART_CC_CS_PIOSC   ; R0 = R0+UART_CC_CS_PIOSC (configure for alternate clock source for UART7)
     STR R0, [R1]                    ; [R1] = R0
     ; the alternate clock source is the PIOSC (default)
     LDR R1, =SYSCTL_ALTCLKCFG_R     ; R1 = &SYSCTL_ALTCLKCFG_R
@@ -261,32 +261,27 @@ UART0initloop
     LDR R1, =SYSCTL_PRGPIO_R        ; R1 = &SYSCTL_PRGPIO_R
 GPIOCinitloop
     LDR R0, [R1]                    ; R0 = [R1] (value)
-    ANDS R0, R0, #SYSCTL_PRGPIO_R2  ; R0 = R0&SYSCTL_PRGPIO_R2
+    ANDS R0, R0, #SYSCTL_PRGPIO_R0  ; R0 = R0&SYSCTL_PRGPIO_R0
     BEQ GPIOCinitloop               ; if(R0 == 0), keep polling
-    ; set out pin Tx (PC5)
-	LDR R1, =GPIO_PORTC_GPIODIR_R    ; R1 = &GPIO_PORTC_GPIODIR_R
-    LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #0x20               ; R0 = R0|0x03 (set out PC4)
-    STR R0, [R1]                    ; [R1] = R0
-	; enable alternate function
+    ; enable alternate function
     LDR R1, =GPIO_PORTC_AFSEL_R     ; R1 = &GPIO_PORTC_AFSEL_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #0x30               ; R0 = R0|0x03 (enable alt funct on PC4-5)
+    ORR R0, R0, #0x03               ; R0 = R0|0x03 (enable alt funct on PA1-0)
     STR R0, [R1]                    ; [R1] = R0
-	; activa resistencia pull-up in RX (PC5)
+	; activa resistencia pull-up in RX (PA0)
 	LDR R1, =GPIO_PORTC_PUR_R		; R1 = &GPIO_PORTC_PUR_R
-	ORR R0, #0x10					; set bit 0 (enable pull-up res in PC4)
+	ORR R0, #0x01					; set bit 0 (enable pull-up res in PA0)
 	STR R0, [R1]
     ; enable digital port
     LDR R1, =GPIO_PORTC_DEN_R       ; R1 = &GPIO_PORTC_DEN_R
     LDR R0, [R1]                    ; R0 = [R1]
-    ORR R0, R0, #0x30               ; R0 = R0|0x03 (enable digital I/O on PA1-0)
+    ORR R0, R0, #0x03               ; R0 = R0|0x03 (enable digital I/O on PA1-0)
     STR R0, [R1]                    ; [R1] = R0
 	; configure as UART
     LDR R1, =GPIO_PORTC_PCTL_R      ; R1 = &GPIO_PORTC_PCTL_R
     LDR R0, [R1]                    ; R0 = [R1]
-    BIC R0, R0, #0x0000FF00         ; R0 = R0&~0x000000FF (clear port control field for PC4-5)
-    ADD R0, R0, #0x00001100         ; R0 = R0+0x00000011 (configure PC4-5 as UART)
+    BIC R0, R0, #0x000000FF         ; R0 = R0&~0x000000FF (clear port control field for PA1-0)
+    ADD R0, R0, #0x00000011         ; R0 = R0+0x00000011 (configure PA1-0 as UART)
     STR R0, [R1]                    ; [R1] = R0
     ; disable analog functionality
     LDR R1, =GPIO_PORTC_AMSEL_R     ; R1 = &GPIO_PORTC_AMSEL_R
@@ -295,8 +290,8 @@ GPIOCinitloop
     ; set the priority of the UART interrupt
     LDR R1, =NVIC_PRI15_R            ; R1 = &NVIC_PRI15_R
     LDR R0, [R1]                    ; R0 = [R1]
-    BIC R0, R0, #0x000000FF         ; R0 = R0&~0xFFFFFF00 (clear NVIC priority field for UART7 interrupt)
-    ADD R0, R0, #0x00000040         ; R0 = R0+0x00000040 (UART7 = priority 2; stored in bits 5-7)
+    BIC R0, R0, #0x0000FF00         ; R0 = R0&~0xFFFF00FF (clear NVIC priority field for UART7 interrupt)
+    ADD R0, R0, #0x00004000         ; R0 = R0+0x00004000 (UART7 = priority 2; stored in bits 13-15)
     STR R0, [R1]                    ; [R1] = R0
     ; enable interrupt 5 in NVIC
     LDR R1, =NVIC_EN1_R             ; R1 = &NVIC_EN1_R
@@ -363,12 +358,12 @@ s2hdone
 ; spin if RxFifo is empty
 ; Input: none
 ; Output: R0  character in from UART
-; Very Important: The UART0 interrupt handler automatically
+; Very Important: The UART7 interrupt handler automatically
 ;  empties the hardware receive FIFO into the software FIFO as
-;  the hardware gets data.  If the UART0 interrupt is
+;  the hardware gets data.  If the UART7 interrupt is
 ;  disabled, the software receive FIFO may become empty, and
 ;  this function will stall forever.
-;  Ensure that the UART0 module is initialized and its
+;  Ensure that the UART7 module is initialized and its
 ;  interrupt is enabled before calling this function.  Do not
 ;  use UART I/O functions within a critical section of your
 ;  main program.
@@ -397,12 +392,12 @@ inChar_time_response_out
 ; Input: R0  character out to UART
 ; Output: none
 ; Modifies: R0, R1
-; Very Important: The UART0 interrupt handler automatically
+; Very Important: The UART7 interrupt handler automatically
 ;  empties the software transmit FIFO into the hardware FIFO as
-;  the hardware sends data.  If the UART0 interrupt is
+;  the hardware sends data.  If the UART7 interrupt is
 ;  disabled, the software transmit FIFO may become full, and
 ;  this function will stall forever.
-;  Ensure that the UART0 module is initialized and its
+;  Ensure that the UART7 module is initialized and its
 ;  interrupt is enabled before calling this function.  Do not
 ;  use UART I/O functions within a critical section of your
 ;  main program.
@@ -424,13 +419,13 @@ outCharLoop
     STR R0, [R4]                    ; [R4] = R0
     POP {R2,R3,R4,  R5, PC}                    ; restore previous value of R4 into R4 and LR into PC (return)
 
-;------------UART0_Handler------------
+;------------UART7_Handler------------
 ; at least one of three things has happened:
 ; hardware TX FIFO goes from 3 to 2 or less items
 ; hardware RX FIFO goes from 1 to 2 or more items
 ; UART receiver has timed out
 ; received byte with stick parity bit in HIGH
-UART0_Handler
+UART7_Handler
     PUSH {LR}                       ; save current value of LR
     ; check the flags to determine which interrupt condition occurred
 handlerCheck0
@@ -779,7 +774,7 @@ inStringDone
     POP {R4, R5, R6, PC}            ; restore previous value of R4 into R4, R5 into R5, R6 into R6, and LR into PC (return)
 
 ;------------UART_HighStickParity------------
-; Configura el SPS, EPS y PEN del UART0
+; Configura el SPS, EPS y PEN del UART7
 ; para que el bit de paridad envie 1
 UART_HighStickParity
 	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR
@@ -790,7 +785,7 @@ UART_HighStickParity
 	POP {R0, R1, PC}            ; restore previous value of R0 into R0, R1 into R1, and LR into PC (return)
 
 ;------------UART_LowStickParity------------
-; Configura el SPS, EPS y PEN del UART0
+; Configura el SPS, EPS y PEN del UART7
 ; para que el bit de paridad envie 0
 UART_LowStickParity
 	PUSH {R0, R1, LR}           ; save current value of R0, R1 and LR

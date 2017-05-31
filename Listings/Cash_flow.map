@@ -6,13 +6,15 @@ Section Cross References
 
     fifo.o(.text) refers to fifo.o(DATA) for RxFifo
     mdb.o(DATA) refers (Special) to gptimer.o(.text) for Timer_BreakTime
-    mdb.o(DATA) refers (Special) to uartints.o(.text) for UART0_Handler
+    mdb.o(DATA) refers (Special) to startup.o(RESET) for UART0_Handler
+    mdb.o(DATA) refers (Special) to uartints.o(.text) for UART_InString
     mdb.o(.text) refers (Special) to gptimer.o(.text) for Timer_BreakTime
-    mdb.o(.text) refers (Special) to uartints.o(.text) for UART0_Handler
+    mdb.o(.text) refers (Special) to startup.o(RESET) for UART0_Handler
+    mdb.o(.text) refers (Special) to uartints.o(.text) for UART_InString
     mdb.o(.text) refers to systick.o(.text) for delay
     mdb.o(.text) refers to mdb.o(DATA) for Command
     startup.o(RESET) refers to startup.o(STACK) for StackMem
-    startup.o(RESET) refers to uartints.o(.text) for UART0_Handler
+    startup.o(RESET) refers to uartints.o(.text) for UART7_Handler
     startup.o(RESET) refers to vmc_mdb_main.o(.text) for Start
     startup.o(RESET) refers to systick.o(.text) for systick_interrupt
     startup.o(RESET) refers to portd.o(.text) for PORTD_Handler
@@ -189,13 +191,13 @@ Image Symbol Table
     Timer6B_Handler                          0x00000221   Thumb Code     0  startup.o(RESET)
     Timer7A_Handler                          0x00000221   Thumb Code     0  startup.o(RESET)
     Timer7B_Handler                          0x00000221   Thumb Code     0  startup.o(RESET)
+    UART0_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
     UART1_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
     UART2_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
     UART3_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
     UART4_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
     UART5_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
     UART6_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
-    UART7_Handler                            0x00000221   Thumb Code     0  startup.o(RESET)
     USB0_Handler                             0x00000221   Thumb Code     0  startup.o(RESET)
     WDT_Handler                              0x00000221   Thumb Code     0  startup.o(RESET)
     uDMA_Error                               0x00000221   Thumb Code     0  startup.o(RESET)
@@ -230,7 +232,7 @@ Image Symbol Table
     UART_Init                                0x00000809   Thumb Code     0  uartints.o(.text)
     UART_InChar                              0x00000941   Thumb Code     0  uartints.o(.text)
     UART_OutChar                             0x0000096d   Thumb Code     0  uartints.o(.text)
-    UART0_Handler                            0x00000993   Thumb Code     0  uartints.o(.text)
+    UART7_Handler                            0x00000993   Thumb Code     0  uartints.o(.text)
     UART_OutString                           0x00000a0b   Thumb Code     0  uartints.o(.text)
     UART_InUDec                              0x00000a21   Thumb Code     0  uartints.o(.text)
     UART_OutUDec                             0x00000a71   Thumb Code     0  uartints.o(.text)

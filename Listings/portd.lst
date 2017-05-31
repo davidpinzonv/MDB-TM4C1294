@@ -135,7 +135,7 @@ ARM Macro Assembler    Page 3
 
 
    46 00000000 E000E100 
-                       NVIC_EN1_R
+                       NVIC_EN0_R
                                EQU              0xE000E100  ; Interrupt 0 to 31
                                                              Set Enable Registe
                                                             r
@@ -295,13 +295,13 @@ ARM Macro Assembler    Page 5
   129 00000068 6008            STR              R0,[R1]     ; [R1] = R0
   130 0000006A         
   131 0000006A         ; enable interrupt 3 in NVIC
-  132 0000006A 4960            LDR              R1, =NVIC_EN1_R ; R1 = &NVIC_EN
-                                                            1_R (pointer)
+  132 0000006A 4960            LDR              R1, =NVIC_EN0_R ; R1 = &NVIC_EN
+                                                            0_R (pointer)
   133 0000006C F04F 0008       LDR              R0, =NVIC_EN0_INT3 ; R0 = NVIC_
-                                                            EN0_INT60 (zeros wr
-                                                            itten to enable reg
-                                                            ister have no effec
-                                                            t)
+                                                            EN0_INT3 (zeros wri
+                                                            tten to enable regi
+                                                            ster have no effect
+                                                            )
   134 00000070 6008            STR              R0, [R1]    ; [R1] = R0
   135 00000072         
   136 00000072         ; clear D4-D7
@@ -991,14 +991,14 @@ Symbol: NVIC_EN0_INT3
    Uses
       At line 133 in file PortD.s
 Comment: NVIC_EN0_INT3 used once
-NVIC_EN1_R E000E100
+NVIC_EN0_R E000E100
 
-Symbol: NVIC_EN1_R
+Symbol: NVIC_EN0_R
    Definitions
       At line 46 in file PortD.s
    Uses
       At line 132 in file PortD.s
-Comment: NVIC_EN1_R used once
+Comment: NVIC_EN0_R used once
 SYSCTL_PRGPIO_R 400FEA08
 
 Symbol: SYSCTL_PRGPIO_R

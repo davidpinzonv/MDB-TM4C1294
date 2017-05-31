@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\Cash_flow.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\Cash_flow.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Tue May 30 17:30:46 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Tue May 30 20:02:45 2017
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -42,7 +42,7 @@ Functions with no stack information
  <LI><a href="#[82]">UART_Init</a>
  <LI><a href="#[78]">UART_InChar</a>
  <LI><a href="#[71]">UART_OutChar</a>
- <LI><a href="#[f]">UART0_Handler</a>
+ <LI><a href="#[46]">UART7_Handler</a>
  <LI><a href="#[8f]">UART_OutString</a>
  <LI><a href="#[90]">UART_InUDec</a>
  <LI><a href="#[91]">UART_OutUDec</a>
@@ -182,14 +182,14 @@ Function Pointers
  <LI><a href="#[64]">Timer6B_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[65]">Timer7A_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[66]">Timer7B_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
- <LI><a href="#[f]">UART0_Handler</a> from uartints.o(.text) referenced from startup.o(RESET)
+ <LI><a href="#[f]">UART0_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[10]">UART1_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[2b]">UART2_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[42]">UART3_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[43]">UART4_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[44]">UART5_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[45]">UART6_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
- <LI><a href="#[46]">UART7_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
+ <LI><a href="#[46]">UART7_Handler</a> from uartints.o(.text) referenced from startup.o(RESET)
  <LI><a href="#[34]">USB0_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[5]">UsageFault_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[1c]">WDT_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
@@ -521,6 +521,9 @@ Global Symbols
 <P><STRONG><a name="[66]"></a>Timer7B_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
+<P><STRONG><a name="[f]"></a>UART0_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
 <P><STRONG><a name="[10]"></a>UART1_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
@@ -537,9 +540,6 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
 <P><STRONG><a name="[45]"></a>UART6_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
-<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
-</UL>
-<P><STRONG><a name="[46]"></a>UART7_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
 <P><STRONG><a name="[34]"></a>USB0_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
@@ -588,7 +588,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[89]"></a>TxFifo_Size</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fifo.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Handler
+<BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART7_Handler
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 </UL>
 
@@ -754,7 +754,7 @@ Global Symbols
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MDB_SendAddress
 </UL>
 
-<P><STRONG><a name="[f]"></a>UART0_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
+<P><STRONG><a name="[46]"></a>UART7_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, uartints.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxFifo_Size
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)

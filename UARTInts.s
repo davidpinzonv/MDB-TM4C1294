@@ -212,8 +212,8 @@ UART7initloop
     LDR R1, =UART7_LCRH_R           ; R1 = &UART7_LCRH_R
     LDR R0, [R1]                    ; R0 = [R1]
     BIC R0, R0, #0xFF               ; R0 = R0&~0xFF (clear all fields)
-                                    ; 8 bit word length, LOW stick parity, one stop bit, FIFOs
-    ADD R0, R0, #(UART_LCRH_WLEN_8+UART_LCRH_FEN+UART_LCRH_PEN+UART_LCRH_EPS+UART_LCRH_SPS)
+                                    ; 8 bit word length, LOW stick parity, one stop bit, FIFOs disable
+    ADD R0, R0, #(UART_LCRH_WLEN_8+UART_LCRH_PEN+UART_LCRH_EPS+UART_LCRH_SPS)
 	; importante:
 	; Puede ser que haya que desactivar FIFO
 	;

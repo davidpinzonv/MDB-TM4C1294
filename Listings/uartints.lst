@@ -485,9 +485,9 @@ ARM Macro Assembler    Page 8
   214 0000004A F020 00FF       BIC              R0, R0, #0xFF ; R0 = R0&~0xFF (
                                                             clear all fields)
   215 0000004E         ; 8 bit word length, LOW stick parity, one stop bit, FIF
-                       Os
-  216 0000004E F100 00F6       ADD              R0, R0, #(UART_LCRH_WLEN_8+UART
-_LCRH_FEN+UART_LCRH_PEN+UART_LCRH_EPS+UART_LCRH_SPS)
+                       Os disable
+  216 0000004E F100 00E6       ADD              R0, R0, #(UART_LCRH_WLEN_8+UART
+_LCRH_PEN+UART_LCRH_EPS+UART_LCRH_SPS)
   217 00000052         ; importante:
   218 00000052         ; Puede ser que haya que desactivar FIFO
   219 00000052         ;
@@ -2863,8 +2863,8 @@ Symbol: UART_LCRH_FEN
    Definitions
       At line 55 in file UARTInts.s
    Uses
-      At line 216 in file UARTInts.s
-Comment: UART_LCRH_FEN used once
+      None
+Comment: UART_LCRH_FEN unused
 UART_LCRH_PEN 00000002
 
 Symbol: UART_LCRH_PEN
